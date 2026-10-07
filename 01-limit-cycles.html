@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>제7장 극한 주기 궤도: 정의, 예제, 닫힌 궤도 기각하기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
+  --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --hl-pink:rgba(232,67,147,.22); --hl-green:rgba(70,200,95,.28); --hl-cyan:rgba(60,180,230,.22);
+  --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --math:'STIX Two Text','Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+    --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+  --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;gap:18px;align-items:center;overflow-x:auto}
+.bar-in .t{font-family:var(--serif);font-weight:700;white-space:nowrap;margin-right:auto}
+.bar-in a{color:var(--ink);text-decoration:none;white-space:nowrap;font-size:.92rem;padding:4px 2px;border-bottom:2px solid transparent}
+.bar-in a:hover{border-bottom-color:var(--pink)}
+.bar-in a b{font-family:var(--math);font-weight:600;color:var(--pink);margin-right:4px}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:40px 20px 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.12;margin:0 0 6px;letter-spacing:-.01em}
+.hero h1 .en{display:block;font-family:var(--math);font-style:italic;font-weight:400;font-size:.5em;color:var(--muted);margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:1.05rem;max-width:34em;margin:18px 0}
+.credit{font-size:.88rem;color:var(--muted);border-left:3px solid var(--green);padding:4px 0 4px 12px;max-width:36em}
+.credit strong{color:var(--ink);font-weight:500}
+.hero-fig{position:relative}
+#hero{width:100%;aspect-ratio:1/1;display:block;cursor:crosshair;touch-action:manipulation}
+.hero-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* sections */
+.sec{max-width:1180px;margin:0 auto;padding:56px 20px 8px}
+.sec-h{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.sec-h .no{font-family:var(--math);font-size:2.4rem;font-weight:600;color:var(--pink);line-height:1}
+.sec-h h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);margin:0;line-height:1.25}
+.sec-h h2 span{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted);font-size:.72em;margin-left:6px}
+.sec > .intro{max-width:46em;margin:6px 0 10px}
+h3{font-family:var(--serif);font-size:1.32rem;margin:40px 0 8px;line-height:1.35}
+h3 .en{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start;margin-top:16px}
+.row.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.row.flip > .txt{order:2}
+.txt p{margin:0 0 14px}
+.txt ul{margin:0 0 14px;padding-left:1.2em}
+.txt li{margin-bottom:6px}
+.en{font-family:var(--math);font-style:italic}
+.hl{background:linear-gradient(transparent 58%,var(--hl-green) 58%)}
+.hlp{background:linear-gradient(transparent 58%,var(--hl-pink) 58%)}
+.hlc{background:linear-gradient(transparent 58%,var(--hl-cyan) 58%)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap;font-size:1.06em}
+.m sup,.m sub{font-style:normal;font-size:.72em}
+.eq{font-family:var(--math);font-size:1.22rem;margin:10px 0 16px;padding:8px 16px;display:inline-block;border:2px solid var(--pink);border-radius:5px;background:var(--panel);line-height:1.6}
+.eq i{font-style:italic}
+.eq.plain{border-color:var(--rule)}
+.pen{font-weight:500;font-size:.95rem;line-height:1.6;color:var(--pink);margin:4px 0 16px;display:block;border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pen::before{content:'강의노트 메모';display:block;font-size:.75rem;font-weight:400;color:var(--muted)}
+.no-wrap{white-space:nowrap}
+.pen.g{color:var(--green)} .pen.c{color:var(--cyan)}
+.box{border:2px solid var(--green);border-radius:6px;padding:12px 16px;margin:12px 0 16px;background:var(--panel)}
+.box.amber{border-color:var(--amber)}
+.box.pink{border-color:var(--pink)}
+.box p:last-child{margin-bottom:0}
+.box .lbl{font-weight:700;margin-right:6px}
+
+/* demo panel */
+.demo{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.demo canvas{width:100%;display:block;touch-action:manipulation}
+.demo canvas.pp{cursor:crosshair}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.92rem}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--hl-cyan)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);background:var(--pink)}
+label.sl{display:inline-flex;align-items:center;gap:8px}
+label.sl output{font-family:var(--math);min-width:3.2em;font-size:1.05rem}
+input[type=range]{accent-color:var(--pink);width:180px;max-width:42vw}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:4px 8px}
+.hint{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.read{font-size:.92rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.read b{font-family:var(--math);font-weight:600}
+.verdict{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:.93rem;border:1px solid var(--rule)}
+.verdict.ok{border-color:var(--green);background:var(--hl-green)}
+.verdict.no{border-color:var(--pink);background:var(--hl-pink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{font-size:.86rem;text-align:center;margin:4px 0 0}
+.cap .amp{font-family:var(--math);font-weight:600}
+.sub{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+footer{max-width:1180px;margin:40px auto 0;padding:24px 20px 40px;border-top:2px solid var(--ink);font-size:.9rem;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:60em}
+footer strong{color:var(--ink);font-weight:500}
+.refs{max-width:52em;padding-left:1.4em;margin:12px 0 0;font-size:.95rem}
+.refs li{margin-bottom:10px}
+.refs i{font-family:var(--math)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero-fig{order:-1}
+  .row,.row.flip{grid-template-columns:1fr;gap:18px}
+  .row.flip > .txt{order:0}
+  body{font-size:16px}
+}
+@media (max-width:520px){
+  .two{grid-template-columns:1fr}
+  .bar-in .t{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="섹션 이동">
+  <div class="bar-in">
+    <a class="t" href="index.html" style="border:0;color:var(--ink)">극한 주기 궤도</a>
+    <a href="#s70"><b>7.0</b>극한 주기 궤도</a>
+    <a href="#s71"><b>7.1</b>예제</a>
+    <a href="#s72"><b>7.2</b>닫힌 궤도 기각하기</a>
+    <a href="#refs">참고문헌</a>
+    <a href="index.html">전체 목록</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>제7장 극한 주기 궤도<span class="en">Limit Cycles</span></h1>
+    <p class="lead">스스로 지속되는 진동은 어디서 오는가? 극한 주기 궤도의 정의와 안정성, 두 가지 대표 예제, 그리고 닫힌 궤도가 <em>없음</em>을 보이는 세 가지 방법을 직접 만져 보며 따라가는 데모입니다. 모든 위상 평면(phase plane)은 클릭하거나 탭하면 그 지점에서 궤적(trajectory)이 출발합니다.</p>
+    <p class="credit">이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트(한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>, 7~8장 강의)를 기반으로 합니다.</p>
+  </div>
+  <figure class="hero-fig" style="margin:0">
+    <canvas id="hero" aria-label="단위 원으로 모여드는 입자들의 애니메이션. 클릭하면 입자가 추가됩니다."></canvas>
+    <figcaption><span class="m">ṙ = r(1 − r²), θ̇ = 1</span>. 안쪽(파랑)과 바깥쪽(분홍)에서 출발한 입자가 모두 같은 원으로 모입니다. 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ 7.0 ============ -->
+<section class="sec" id="s70">
+  <div class="sec-h"><span class="no">7.0</span><h2>극한 주기 궤도란<span>limit cycle</span></h2></div>
+  <p class="intro"><span class="hlp">극한 주기 궤도(limit cycle)</span>는 <b>고립된(isolated) 닫힌 궤적(closed trajectory)</b>이다. “닫힌”은 제자리로 돌아온다(cycle)는 뜻이고, “고립된”은 인접한 궤적들은 닫히지 않았다는 뜻이다. 인접한 궤적들은 나선형으로 극한 주기 궤도를 향하거나 극한 주기 궤도로부터 멀어진다.</p>
+
+  <div class="row">
+    <div class="txt">
+      <h3 style="margin-top:8px">닫힌 궤도 자체의 안정성 <span class="en">(stability)</span></h3>
+      <p>고정점에 안정성이 있듯, 닫힌 궤도에도 안정성이 있다. 오른쪽 데모에서 세 가지 경우를 바꿔 가며 궤적을 뿌려 보자.</p>
+      <ul>
+        <li><b>안정적(stable)</b>: 인접한 궤적을 모두 끌어당긴다(attracting).</li>
+        <li><b>불안정(unstable)</b>: 인접한 궤적을 모두 밀어낸다.</li>
+        <li><b>준안정적(half-stable)</b>: 접근하는 방향에 따라 다르다. 한쪽에서는 끌려오고 다른 쪽에서는 밀려난다.</li>
+      </ul>
+      <p>과학적으로 중요한 것은 <span class="hl">안정적인 극한 주기 궤도</span>다. 외부에서 주기적으로 밀어 주지 않아도 진동이 유지되는 <b>스스로 지속 가능한 진동(self-sustained oscillation)</b>의 모형이 되기 때문이다.</p>
+      <span class="pen g">외부에서 주기적으로 가하는 힘 없이 진동 가능</span>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="극한 주기 궤도의 종류">
+          <button data-k="stable" aria-pressed="true">안정적</button>
+          <button data-k="unstable" aria-pressed="false">불안정</button>
+          <button data-k="half" aria-pressed="false">준안정적</button>
+        </div>
+        <button class="btn" id="typesClear">지우기</button>
+      </div>
+      <canvas id="types" class="pp" aria-label="극한 주기 궤도의 세 가지 종류를 보여주는 위상 평면"></canvas>
+      <p class="hint" id="typesEq"></p>
+    </div>
+  </div>
+
+  <div class="row flip">
+    <div class="txt">
+      <h3>왜 안정해야 하는가, 그리고 왜 비선형인가</h3>
+      <p>심장박동, 박동원 신경세포(pacemaker neuron)의 주기적 발화, 인체의 온도 및 호르몬 분비에 대한 일일 리듬, 자발적으로 진동하는 화학반응은 모두 생명 유지에 필수인 극한 주기 궤도의 예다. 반대로 다리(bridge)나 비행기 날개의 자려(self-exciting) 진동은 생기면 위험한 예다.</p>
+      <p>이런 진동이 지속 가능하려면 약간의 교란(perturbation)을 받아도 항상 <b>표준 주기로 돌아가야</b> 한다. 시스템이 선호하는 주기, 파형, 진폭이 있고, 이것은 <span class="hlp">초기 조건보다는 시스템 자체의 구조에 의해 결정된다.</span></p>
+      <div class="box amber">
+        <p><span class="lbl">극한 주기 궤도는 본질적으로 비선형(nonlinear) 현상이다.</span> 선형 시스템 <span class="m">ẋ = A x</span>에 닫힌 궤도 <span class="m">x(t)</span>가 있으면, 임의의 상수 <span class="m">c ≠ 0</span>에 대해 <span class="m">c x(t)</span>도 주기해다. 닫힌 궤도는 동심원의 무리로 둘러싸여 있으니 고립될 수 없다.</p>
+      </div>
+      <p>선형 쪽에서는 진폭이 전적으로 초기 조건으로 정해지고, 교란으로 생긴 변화가 <b>영원히 지속된다</b>. 왼쪽 데모에서 “교란 가하기”를 여러 번 눌러 두 시스템의 진폭을 비교해 보자.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <button class="btn primary" id="kick">교란 가하기</button>
+        <button class="btn" id="kickReset">처음 상태로</button>
+      </div>
+      <div class="two">
+        <div>
+          <canvas id="lin" aria-label="선형 중심의 궤적"></canvas>
+          <p class="cap">선형 중심(center) <span class="m">ẍ + x = 0</span><br>진폭 <span class="amp" id="linAmp">1.00</span></p>
+        </div>
+        <div>
+          <canvas id="lc" aria-label="안정적인 극한 주기 궤도의 궤적"></canvas>
+          <p class="cap">극한 주기 궤도 <span class="m">ṙ = r(1 − r²)</span><br>진폭 <span class="amp" id="lcAmp">1.00</span></p>
+        </div>
+      </div>
+      <p class="hint">두 시스템에 같은 크기와 방향의 교란을 동시에 가합니다. 왼쪽은 새 진폭에 머무르고, 오른쪽은 다시 반지름 1로 돌아옵니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.1 ============ -->
+<section class="sec" id="s71">
+  <div class="sec-h"><span class="no">7.1</span><h2>예제<span>examples</span></h2></div>
+  <p class="intro">각도 변수가 존재하는 주기적인 시스템은 극좌표계(polar coordinates)로 다루면 편리하다.</p>
+
+  <h3>예제 7.1.1 간단한 극한 주기 궤도</h3>
+  <div class="row">
+    <div class="txt">
+      <div class="eq">ṙ = <i>r</i>(1 − <i>r</i>²),&emsp;θ̇ = 1</div>
+      <p>여기서 <span class="m">r ≥ 0</span>는 원점에서의 거리이고, 각속도는 1 rad/시간단위로 일정하다(반시계 방향). <span class="m">r</span>과 <span class="m">θ</span>는 완전히 분리(decouple)되어 있으니 <span class="m">r</span>만 따로 보면 1차원 흐름이다.</p>
+      <p><span class="m">ṙ = r(1 − r²) = 0</span>에서 고정점은 <span class="m">r* = 0</span>(불안정한 고정점)과 <span class="m">r* = 1</span>(안정된 고정점)이다. <span class="m">r</span>만 생각하면 “점”이지만 <span class="m">θ̇ = 1</span>로 돌고 있으니, 평면에서는 <span class="hl">단위 원(unit circle) 궤도로 접근</span>하게 된다.</p>
+      <p>극한 주기 궤도 위에서는 <span class="m">x*(t) = r* cos θ(t) = cos(t + θ₀)</span>, 즉 일정한 진폭의 사인꼴(sinusoidal) 진동이다. 아래 그래프의 점선이 <span class="m">x*(t)</span>다.</p>
+      <span class="pen">x(t)가 x*(t)로 접근</span>
+    </div>
+    <div class="demo">
+      <canvas id="ex1" class="pp" aria-label="예제 7.1.1의 위상 평면"></canvas>
+      <p class="sub">1차원 흐름 <span class="m">ṙ = r(1 − r²)</span> 위의 현재 위치</p>
+      <canvas id="ex1r" aria-label="r에 대한 1차원 흐름"></canvas>
+      <p class="sub">시계열 <span class="m">x(t)</span>와 극한 주기 궤도 위의 해 <span class="m">x*(t) = cos(t + θ₀)</span></p>
+      <canvas id="ex1x" aria-label="x(t) 시계열"></canvas>
+      <p class="hint">위상 평면을 누르면 그 점이 새 초기 조건이 됩니다. 원점 근처나 아주 바깥에서 출발해 보세요.</p>
+    </div>
+  </div>
+
+  <h3>예제 7.1.2 반 데르 폴 진동자 <span class="en">(van der Pol oscillator)</span></h3>
+  <div class="row flip">
+    <div class="txt">
+      <div class="eq">ẍ + μ(<i>x</i>² − 1)ẋ + <i>x</i> = 0,&emsp;μ ≥ 0</div>
+      <p>최초의 라디오에 사용된 비선형 전기 회로와 관련해서 나타난 방정식으로, 비선형 동역학의 발전에서 중심적인 역할을 했다. <span class="m">μ(x² − 1)ẋ</span> 항이 없으면 감쇠 없는 단순 조화 진동자 <span class="m">ẍ + x = 0</span>이다.</p>
+      <p>이 항은 <b>비선형 감쇠(nonlinear damping)</b>로, 사실은 감쇠와 증폭이 모두 일어난다.</p>
+      <ul>
+        <li><span class="m">|x| &gt; 1</span>: <span class="m">μ(x² − 1) &gt; 0</span>이니 양의 감쇠. <span class="hlp">진폭이 크면 줄인다.</span></li>
+        <li><span class="m">|x| &lt; 1</span>: <span class="m">μ(x² − 1) &lt; 0</span>이니 음의 감쇠. <span class="hl">진폭이 작으면 키운다.</span></li>
+      </ul>
+      <p>그래서 한 주기 동안 소실된 에너지와 공급된 에너지가 균형을 이루는 곳에서 스스로 지속 가능한 진동으로 자리 잡는다. 각각의 <span class="m">μ &gt; 0</span>에 대해 고유한 안정적인 극한 주기 궤도를 갖는다(7.4절에서 살펴볼 더 일반적인 정리, 리에나르의 정리를 따른다).</p>
+      <p>강의노트의 예시는 <span class="m">μ = 1.5</span>, 초기 조건 <span class="m">(x, ẋ) = (0.5, 0)</span>이다. <span class="m">μ</span>를 키우면 궤도는 찌그러지고, <span class="m">x(t)</span>는 더는 깔끔한 사인꼴 진동이 아니게 된다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="mu" min="0" max="6" step="0.1" value="1.5" aria-label="매개변수 mu"><output id="muOut">1.5</output></label>
+        <button class="btn" id="vdpClear">지우기</button>
+      </div>
+      <canvas id="vdp" class="pp" aria-label="반 데르 폴 진동자의 위상 평면"></canvas>
+      <div class="legend"><span><i style="background:var(--hl-green)"></i>|x| &lt; 1: 음의 감쇠(에너지 공급)</span><span><i style="background:var(--hl-pink)"></i>|x| &gt; 1: 양의 감쇠(에너지 소실)</span></div>
+      <p class="sub">시계열 <span class="m">x(t)</span></p>
+      <canvas id="vdpx" aria-label="반 데르 폴 진동자의 x(t)"></canvas>
+      <div class="read"><span>추정 주기 <b id="vdpT">–</b></span><span>최대 진폭 <b id="vdpA">–</b></span></div>
+      <p class="hint" id="vdpHint">위상 평면을 눌러 다른 초기 조건에서도 같은 궤도로 모이는지 확인해 보세요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.2 ============ -->
+<section class="sec" id="s72">
+  <div class="sec-h"><span class="no">7.2</span><h2>닫힌 궤도 기각하기<span>ruling out closed orbits</span></h2></div>
+  <p class="intro">이번 절의 목표는 주기해가 <b>없음</b>을 보이는 것이다. 6장에서 지표 이론(index theory)을 이용한 방법을 소개했고, 여기서는 세 가지 방법을 더 살펴본다.</p>
+
+  <h3>방법 1. 기울기 시스템 <span class="en">(gradient system)</span></h3>
+  <div class="row">
+    <div class="txt">
+      <div class="eq plain">ẋ = −∇<i>V</i></div>
+      <p>로 쓸 수 있는 시스템을 기울기 시스템이라 한다. 여기서 <span class="m">V(x)</span>는 연속적으로 미분 가능한 일가(single-valued) 스칼라 함수, 즉 퍼텐셜(potential)이다.</p>
+      <div class="box pink"><p><span class="lbl">정리 7.2.1</span>기울기 시스템에서는 닫힌 궤도가 있을 수 없다.</p></div>
+      <p><b>증명.</b> 닫힌 궤도가 있다고 가정하고, 한 바퀴(<span class="m">t = 0 → T</span>)를 돌았다고 하자. <span class="m">V</span>는 일가 함수이니 같은 점으로 돌아오면 <span class="m">ΔV = 0</span>이어야 한다. 한편</p>
+      <div class="eq plain">Δ<i>V</i> = ∫₀ᵀ (∇<i>V</i> · ẋ) d<i>t</i> = −∫₀ᵀ ‖ẋ‖² d<i>t</i> &lt; 0</div>
+      <p>이다(모든 순간 <span class="m">ẋ ≡ 0</span>인 경우, 즉 닫힌 궤도가 아니라 고정점인 경우를 제외하면). <b style="color:var(--pink)">모순이다.</b></p>
+      <p>문제점은 대부분의 2차원 시스템이 기울기 시스템이 아니라는 것이다. 다만 1차원 직선상의 모든 벡터장은 기울기 시스템이고, 이것이 2.6절과 2.7절에서 본 “선 위의 흐름”이 진동할 수 없는 이유다.</p>
+      <p><b>예제 7.2.1</b>&ensp;<span class="m">ẋ = sin y, ẏ = x cos y</span>. 퍼텐셜 <span class="m">V(x, y) = −x sin y</span>를 생각하면 <span class="m">−∇V = (sin y, x cos y)</span>이므로 기울기 시스템이고, 닫힌 궤도가 없다.</p>
+      <span class="pen c">y는 각도 변수(angular variable)이므로 주기적 경계조건(periodic boundary condition, PBC)을 적용</span>
+    </div>
+    <div class="demo">
+      <canvas id="grad" class="pp" aria-label="예제 7.2.1 기울기 시스템의 위상 평면과 퍼텐셜"></canvas>
+      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V &gt; 0(높은 곳)</span><span><i style="background:var(--hl-cyan)"></i>V &lt; 0(낮은 곳)</span><span>배경: <span class="m">V = −x sin y</span></span></div>
+      <p class="sub">궤적을 따라 잰 퍼텐셜 <span class="m">V(x(t), y(t))</span></p>
+      <canvas id="gradv" aria-label="궤적을 따라 측정한 퍼텐셜의 시간 변화"></canvas>
+      <p class="hint">어디서 출발하든 <span class="m">V</span>는 줄어들기만 합니다. 같은 점으로 돌아올 수 없다는 뜻입니다. 위아래 경계는 이어져 있습니다(<span class="m">y</span>는 주기 2π).</p>
+    </div>
+  </div>
+
+  <h3>예제 7.2.2 비선형 감쇠 진동자와 “에너지 같은” 함수</h3>
+  <div class="row flip">
+    <div class="txt">
+      <div class="eq">ẍ + (ẋ)³ + <i>x</i> = 0</div>
+      <p>기울기 시스템은 아니지만 비슷한 기술을 쓴다. “에너지 같은” 함수 <span class="m">E(x, ẋ) = ½(x² + ẋ²)</span>를 도입하자. <span class="m">E</span>는 일가 함수이므로, 주기해가 있다면 한 주기 동안 <span class="m">ΔE = 0</span>이어야 한다. 그런데</p>
+      <div class="eq plain">d<i>E</i>/d<i>t</i> = <i>x</i>ẋ + ẋẍ = ẋ(<i>x</i> + ẍ) = −(ẋ)⁴ ≤ 0</div>
+      <p>이므로 <span class="m">ẋ ≡ 0</span>(고정점)이 아니라면 <span class="m">ΔE &lt; 0</span>이다. 모순이므로 주기해는 없다.</p>
+      <span class="pen">(ẋ)³ 항에 의해 매우, 매우 천천히 원점으로 수렴</span>
+      <p>오른쪽 <span class="m">E(t)</span> 그래프에서 감소 속도가 지수적이 아니라 점점 느려지는 것을 확인할 수 있다. 원점 근처에서는 감쇠가 <span class="m">ẋ³</span>으로 매우 약하기 때문이다.</p>
+    </div>
+    <div class="demo">
+      <canvas id="en" class="pp" aria-label="비선형 감쇠 진동자의 위상 평면"></canvas>
+      <p class="sub">에너지 같은 함수 <span class="m">E(t) = ½(x² + ẋ²)</span>, 원은 <span class="m">E</span>의 등고선</p>
+      <canvas id="ent" aria-label="에너지 함수의 시간 변화"></canvas>
+      <div class="ctl" style="margin-top:8px"><button class="btn" id="enClear">지우기</button></div>
+    </div>
+  </div>
+
+  <h3>방법 2. 리아푸노프 함수 <span class="en">(Liapunov function)</span></h3>
+  <div class="row">
+    <div class="txt">
+      <p>“에너지 같은 함수”를 일반화한 것이다. <span class="m">ẋ = f(x)</span>가 <span class="m">x*</span>에 고정점을 갖는다고 가정하자. 이때 다음 성질을 가진, 연속적으로 미분 가능한 실숫값(real-valued) 함수 <span class="m">V(x)</span>를 찾을 수 있다고 하자.</p>
+      <div class="box pink">
+        <p>(1) 모든 <span class="m">x ≠ x*</span>에 대해 <span class="m">V(x) &gt; 0</span>이고, <span class="m">V(x*) = 0</span>이다. (양의 정부호(positive definite))</p>
+        <p>(2) 모든 <span class="m">x ≠ x*</span>에 대해 <span class="m">V̇ &lt; 0</span>이다. (모든 궤적이 <span class="m">x*</span>를 향해 “내리막”으로 흘러간다)</p>
+      </div>
+      <p>그러면 <span class="m">x*</span>는 모든 초기 조건에 대해 <span class="m">t → ∞</span>일 때 <span class="m">x(t) → x*</span>가 되는, 즉 전 구간에서 점근적으로 안정된 고정점이다. 특히 이런 시스템에는 <span class="hl">닫힌 궤도가 없다</span>(증명: Jordan &amp; Smith, 1987).</p>
+      <p><span class="m">V</span>를 찾는 체계적인 방법은 없다. 감? 신성한 영감(divine inspiration)? 다만 “제곱한 것들을 더하는 방식”이 종종 작동한다.</p>
+      <p><b>예제 7.2.3</b>&ensp;<span class="m">ẋ = −x + 4y, ẏ = −x − y³</span>. 신성한 영감으로 <span class="m">V = x² + ay²</span>을 시도하면</p>
+      <div class="eq plain">V̇ = −2<i>x</i>² + (8 − 2<i>a</i>)<i>xy</i> − 2<i>a</i><i>y</i>⁴</div>
+      <p>이다. 오른쪽에서 <span class="m">a</span>를 움직여 분홍 영역(<span class="m">V̇ &gt; 0</span>)이 사라지는 값을 찾아보자.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">a <input type="range" id="aa" min="0.5" max="10" step="0.1" value="1" aria-label="리아푸노프 함수의 계수 a"><output id="aaOut">1.0</output></label>
+        <button class="btn" id="aa4">a = 4로 맞추기</button>
+      </div>
+      <canvas id="lia" class="pp" aria-label="예제 7.2.3의 위상 평면과 V-dot 부호 지도"></canvas>
+      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V̇ &gt; 0(오르막: 조건 위반)</span><span><i style="background:var(--hl-green)"></i>V̇ &lt; 0(내리막)</span><span>타원: <span class="m">V</span>의 등고선</span></div>
+      <div class="read"><span>현재 <b id="liaF"></b></span></div>
+      <div class="verdict" id="liaV"></div>
+      <p class="hint">궤적은 항상 원점으로 나선을 그리며 들어갑니다. 원점의 야코비 행렬(Jacobian)은 <span class="m">A = [[−1, 4], [−1, 0]]</span>, <span class="m">λ² + λ + 4 = 0</span>이니 <span class="m">λ = −½ ± (√15/2) i</span>: 안정한 나선(stable spiral)이자 끌개(attractor)입니다. 하지만 이 국소 분석만으로는 닫힌 궤도가 없다는 결론을 낼 수 없습니다.</p>
+    </div>
+  </div>
+
+  <h3>방법 3. 둘락 기준 <span class="en">(Dulac's criterion)</span></h3>
+  <div class="row flip">
+    <div class="txt">
+      <p>그린 정리(Green's theorem)를 기반으로 한다. 사실상 2차원 발산 정리(divergence theorem)이며, <span class="m">(dx, dy) → (dy, −dx)</span>로 바꾸면 둘은 동등(equivalent)하다.</p>
+      <div class="box pink">
+        <p><span class="m">ẋ = f(x)</span>가 평면의 단순하게 연결된(simply connected) 부분집합 <span class="m">R</span>에서 정의된 연속적으로 미분 가능한 벡터장이라 하자. <span class="m">∇·(g ẋ)</span>가 <span class="m">R</span>에서 <b>하나의 부호만</b> 갖는 연속적으로 미분 가능한 실숫값 함수 <span class="m">g(x)</span>가 존재하면, <span class="m">R</span>에 완전히 포함된 닫힌 궤도는 없다.</p>
+      </div>
+      <p>단순하게 연결되었다는 것은 공간 내부에 공간에 속하지 않는 구멍(hole)이 없다는 뜻이다.</p>
+      <p><b>증명.</b> <span class="m">R</span> 안에 닫힌 궤도 <span class="m">C</span>가 있다고 가정하고, 그 내부 영역을 <span class="m">A</span>라 하자. 발산 정리에 의해</p>
+      <div class="eq plain">∬<sub>A</sub> ∇·(<i>g</i>ẋ) d<i>A</i> = ∮<sub>C</sub> <i>g</i> ẋ·<i>n̂</i> d<i>l</i> = 0</div>
+      <p>이다. <span class="m">C</span>가 궤적이므로 정의상 <span class="m">ẋ</span>는 바깥 법선(normal) <span class="m">n̂</span>에 수직이라 우변은 0이다. 그런데 좌변의 피적분 함수는 하나의 부호만 가지니 0이 될 수 없다. 모순이므로 <span class="m">C</span>는 있을 수 없다.</p>
+      <p>리아푸노프 방법처럼 <span class="m">g</span>를 찾는 알고리듬은 없다. 종종 쓸 만한 후보는 <span class="m">g = 1, 1/(x<sup>a</sup>y<sup>b</sup>), e<sup>ax</sup>, e<sup>ay</sup></span> 등이다.</p>
+      <p><b>예제 7.2.4</b>&ensp;<span class="m">ẋ = x(2 − x − y), ẏ = y(4x − x² − 3)</span>에 대해 <span class="m">x, y &gt; 0</span>인 양의 사분면에 닫힌 궤도가 없음을 보이자. 신성한 영감으로 <span class="m">g = 1/(xy)</span>를 고르면 <span class="m">∇·(g ẋ) = −1/y &lt; 0</span>이다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label>가중치 함수 <span class="m">g</span>&ensp;<select id="gsel" aria-label="가중치 함수 g 선택">
+          <option value="ixy" selected>g = 1/(xy)</option>
+          <option value="one">g = 1</option>
+          <option value="x">g = x</option>
+          <option value="y">g = y</option>
+        </select></label>
+        <button class="btn" id="dulClear">지우기</button>
+      </div>
+      <canvas id="dul" class="pp" aria-label="예제 7.2.4의 위상 평면과 발산 부호 지도"></canvas>
+      <div class="legend"><span><i style="background:var(--hl-cyan)"></i>∇·(gẋ) &lt; 0</span><span><i style="background:var(--hl-pink)"></i>∇·(gẋ) &gt; 0</span><span>영역 R: 양의 사분면</span></div>
+      <div class="read"><span><b id="dulF"></b></span></div>
+      <div class="verdict" id="dulV"></div>
+      <p class="hint">부호가 섞인 <span class="m">g</span>를 고르면 둘락 기준은 아무 결론도 내리지 못합니다. 닫힌 궤도가 있다는 뜻은 아닙니다. 궤적은 모두 <span class="m">(1, 1)</span>의 안정한 나선으로 들어갑니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="refs">
+  <div class="sec-h"><h2>참고문헌<span>references</span></h2></div>
+  <ol class="refs">
+    <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 7장 「극한 주기 궤도」. 이 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
+    <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
+    <li>D. W. Jordan and P. Smith, <i>Nonlinear Ordinary Differential Equations</i>, 2nd ed. (Oxford University Press, 1987). 리아푸노프 함수에 관한 정리의 증명.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 Shane Ross 교수의 강의 영상을 통해 소개한 위상 평면 도구로, 더 다양한 시스템을 직접 그려 볼 수 있습니다.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트를 기반으로 합니다. 강의는 한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>에서 진행되었습니다.</p>
+  <p>수치 적분은 4차 룽게-쿠타(Runge–Kutta) 방법으로 브라우저에서 실시간 계산합니다.</p>
+  <p><a href="index.html">전체 데모 목록으로 돌아가기</a></p>
+</footer>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};
+function readTheme(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+  C={paper:g('--paper'),panel:g('--panel'),ink:g('--ink'),muted:g('--muted'),rule:g('--rule'),pink:g('--pink'),green:g('--green'),cyan:g('--cyan'),amber:g('--amber')};}
+readTheme();
+function hexRGB(h){h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];}
+function rgba(h,a){const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;}
+const TRAJ=()=>[C.ink,C.pink,C.cyan,C.amber,C.green];
+
+function rk4(f,x,y,h){const a=f(x,y),b=f(x+h/2*a[0],y+h/2*a[1]),c=f(x+h/2*b[0],y+h/2*b[1]),d=f(x+h*c[0],y+h*c[1]);
+  return[x+h/6*(a[0]+2*b[0]+2*c[0]+d[0]),y+h/6*(a[1]+2*b[1]+2*c[1]+d[1])];}
+function polar(R){return(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-y,g*y+x];};}
+
+function niceStep(span){const raw=span/5;const p=Math.pow(10,Math.floor(Math.log10(raw)));const m=raw/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;}
+function fmt(v){const a=Math.abs(v);if(a<1e-9)return'0';if(a>=100)return v.toFixed(0);return(+v.toFixed(2)).toString();}
+function fit(cv){const dpr=Math.min(2,window.devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return null;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h,dpr};}
+
+/* ---------------- Phase plane ---------------- */
+const planes=[];
+class Plane{
+  constructor(cv,o){
+    this.cv=cv;
+    this.o=Object.assign({arrows:true,n:15,aspect:1,dt:0.01,sub:3,tmax:40,maxTraj:6,trail:0,wrapY:false,rec:1,fixed:[],xl:'x',yl:'y'},o);
+    this.trajs=[];this.ci=0;this.st=document.createElement('canvas');this.visible=true;this.dirty=true;
+    cv.style.aspectRatio=String(1/this.o.aspect);
+    planes.push(this);
+    cv.addEventListener('pointerdown',e=>{if(this.o.click===false)return;const r=cv.getBoundingClientRect();
+      const x=this.ix(e.clientX-r.left),y=this.iy(e.clientY-r.top);if(this.o.onClick)this.o.onClick(x,y);else this.add(x,y);});
+    new ResizeObserver(()=>{this.layout();}).observe(cv);
+    new IntersectionObserver(es=>{this.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(cv);
+  }
+  get d(){return this.o.dom;}
+  layout(){const F=fit(this.cv);if(!F)return;this.W=F.w;this.H=F.h;this.dpr=F.dpr;
+    this.m={l:this.W<300?30:38,r:8,t:8,b:this.W<300?24:28};
+    this.st.width=this.cv.width;this.st.height=this.cv.height;this.renderStatic();this.draw();}
+  X(x){const d=this.d;return this.m.l+(x-d.x0)/(d.x1-d.x0)*(this.W-this.m.l-this.m.r);}
+  Y(y){const d=this.d;return this.H-this.m.b-(y-d.y0)/(d.y1-d.y0)*(this.H-this.m.t-this.m.b);}
+  ix(px){const d=this.d;return d.x0+(px-this.m.l)/(this.W-this.m.l-this.m.r)*(d.x1-d.x0);}
+  iy(py){const d=this.d;return d.y0+(this.H-this.m.b-py)/(this.H-this.m.t-this.m.b)*(d.y1-d.y0);}
+  renderStatic(){
+    if(!this.W)return;const s=this.st.getContext('2d');s.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const o=this.o,d=this.d,m=this.m,pw=this.W-m.l-m.r,ph=this.H-m.t-m.b;
+    s.fillStyle=C.panel;s.fillRect(0,0,this.W,this.H);
+    if(o.bg){const Nx=Math.min(160,Math.round(pw/3)),Ny=Math.max(2,Math.round(Nx*ph/pw));const t=document.createElement('canvas');t.width=Nx;t.height=Ny;
+      const tc=t.getContext('2d');const img=tc.createImageData(Nx,Ny);
+      for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);const c=o.bg(x,y);const k=4*(j*Nx+i);
+        if(c){img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=Math.round(255*c[3]);}}
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,m.l,m.t,pw,ph);}
+    // grid & ticks
+    s.font=`${this.W<300?10:11}px 'Noto Sans KR',sans-serif`;s.fillStyle=C.muted;s.strokeStyle=rgba(C.muted,.18);s.lineWidth=1;
+    const xs=o.xticks||ticks(d.x0,d.x1),ys=o.yticks||ticks(d.y0,d.y1);
+    s.textAlign='center';s.textBaseline='top';
+    for(const[v,l]of xs){const px=this.X(v);s.beginPath();s.moveTo(px,m.t);s.lineTo(px,this.H-m.b);s.stroke();s.fillText(l,px,this.H-m.b+4);}
+    s.textAlign='right';s.textBaseline='middle';
+    for(const[v,l]of ys){const py=this.Y(v);s.beginPath();s.moveTo(m.l,py);s.lineTo(this.W-m.r,py);s.stroke();s.fillText(l,m.l-4,py);}
+    s.strokeStyle=rgba(C.ink,.55);s.lineWidth=1;
+    if(d.x0<=0&&d.x1>=0){s.beginPath();s.moveTo(this.X(0),m.t);s.lineTo(this.X(0),this.H-m.b);s.stroke();}
+    if(d.y0<=0&&d.y1>=0){s.beginPath();s.moveTo(m.l,this.Y(0));s.lineTo(this.W-m.r,this.Y(0));s.stroke();}
+    s.strokeStyle=C.rule;s.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+    s.save();s.font=`italic ${this.W<300?12:14}px 'STIX Two Text',serif`;s.fillStyle=C.ink;s.textAlign='right';s.textBaseline='bottom';
+    s.fillText(o.xl,this.W-m.r-4,this.H-m.b-3);s.textAlign='left';s.textBaseline='top';s.fillText(o.yl,m.l+5,m.t+3);s.restore();
+    s.save();s.beginPath();s.rect(m.l,m.t,pw,ph);s.clip();
+    if(o.decor)o.decor(s,this);
+    if(o.arrows){const n=this.W<320?Math.round(o.n*.75):o.n;const cw=pw/n,chh=ph/Math.max(1,Math.round(n*ph/pw));const ny=Math.round(ph/cw);
+      s.strokeStyle=rgba(C.muted,.7);s.fillStyle=rgba(C.muted,.7);s.lineWidth=1.1;
+      for(let i=0;i<n;i++)for(let j=0;j<ny;j++){const px=m.l+(i+.5)*cw,py=m.t+(j+.5)*(ph/ny);const x=this.ix(px),y=this.iy(py);const v=o.f(x,y);
+        if(!isFinite(v[0])||!isFinite(v[1]))continue;
+        let vx=v[0]/(d.x1-d.x0)*pw,vy=-v[1]/(d.y1-d.y0)*ph;const L=Math.hypot(vx,vy);if(L<1e-9)continue;const len=cw*.36;vx=vx/L*len;vy=vy/L*len;
+        s.beginPath();s.moveTo(px-vx,py-vy);s.lineTo(px+vx,py+vy);s.stroke();
+        const a=Math.atan2(vy,vx),hh=3.2;s.beginPath();s.moveTo(px+vx,py+vy);s.lineTo(px+vx-hh*Math.cos(a-.5),py+vy-hh*Math.sin(a-.5));s.lineTo(px+vx-hh*Math.cos(a+.5),py+vy-hh*Math.sin(a+.5));s.closePath();s.fill();}}
+    for(const p of o.fixed){const px=this.X(p.x),py=this.Y(p.y);s.lineWidth=1.6;s.strokeStyle=C.ink;s.beginPath();s.arc(px,py,4.5,0,7);
+      if(p.k==='s'){s.fillStyle=C.ink;s.fill();}else if(p.k==='saddle'){s.fillStyle=C.panel;s.fill();s.stroke();s.beginPath();s.arc(px,py,4.5,-Math.PI/2,Math.PI/2);s.lineTo(px,py-4.5);s.fillStyle=C.ink;s.fill();}else{s.fillStyle=C.panel;s.fill();s.stroke();}}
+    s.restore();
+  }
+  add(x,y,opt){opt=opt||{};const col=opt.col||TRAJ()[this.ci++%5];
+    const tr={x,y,t:0,c:0,pts:[[x,y,0]],col,alive:true,cidx:(this.ci-1)%5};
+    this.trajs.push(tr);while(this.trajs.length>this.o.maxTraj)this.trajs.shift();
+    if(reduceMotion&&!this.o.trail){while(tr.alive)this.stepTraj(tr,200);}
+    this.dirty=true;return tr;}
+  clear(){this.trajs=[];this.dirty=true;}
+  stepTraj(tr,k){const o=this.o,d=this.d;const W=(d.x1-d.x0),Hh=(d.y1-d.y0);
+    for(let i=0;i<k&&tr.alive;i++){let[nx,ny]=rk4(o.f,tr.x,tr.y,o.dt);tr.t+=o.dt;
+      if(o.wrapY){if(ny>d.y1)ny-=Hh;else if(ny<d.y0)ny+=Hh;}
+      tr.x=nx;tr.y=ny;
+      if(!isFinite(nx)||!isFinite(ny)||nx<d.x0-W*1.5||nx>d.x1+W*1.5||ny<d.y0-Hh*1.5||ny>d.y1+Hh*1.5){tr.alive=false;break;}
+      if(++tr.c%o.rec===0)tr.pts.push([nx,ny,tr.t]);
+      if(o.trail&&tr.pts.length>o.trail)tr.pts.splice(0,tr.pts.length-o.trail);
+      if(!o.trail&&tr.t>=o.tmax)tr.alive=false;}
+  }
+  step(){let any=false;for(const tr of this.trajs){if(tr.c===undefined)tr.c=0;if(tr.alive){this.stepTraj(tr,this.o.sub);any=true;}}return any;}
+  draw(){if(!this.W)return;const F=fit(this.cv);if(!F)return;const ctx=F.ctx;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(this.st,0,0);ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const m=this.m,d=this.d;ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,this.W-m.l-m.r,this.H-m.t-m.b);ctx.clip();
+    const Hh=d.y1-d.y0;
+    for(const tr of this.trajs){const P=tr.pts;if(P.length<1)continue;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';
+      if(this.o.trail){for(let i=1;i<P.length;i++){const a=i/P.length;ctx.strokeStyle=rgba(tr.col,.08+.9*a);ctx.beginPath();ctx.moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));ctx.stroke();}}
+      else{ctx.strokeStyle=tr.col;ctx.beginPath();ctx.moveTo(this.X(P[0][0]),this.Y(P[0][1]));
+        for(let i=1;i<P.length;i++){if(this.o.wrapY&&Math.abs(P[i][1]-P[i-1][1])>Hh/2)ctx.moveTo(this.X(P[i][0]),this.Y(P[i][1]));else ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));}ctx.stroke();
+        ctx.fillStyle=C.panel;ctx.strokeStyle=tr.col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      const L=P[P.length-1];ctx.fillStyle=tr.col;ctx.beginPath();ctx.arc(this.X(L[0]),this.Y(L[1]),tr.alive||this.o.trail?5:3.5,0,7);ctx.fill();}
+    ctx.restore();if(this.o.onDraw)this.o.onDraw(this);}
+}
+function ticks(a,b){const st=niceStep(b-a);const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push([v,fmt(v)]);return out;}
+
+/* ---------------- simple time-series plot ---------------- */
+function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const m={l:w<300?34:42,r:8,t:8,b:22};const pw=w-m.l-m.r,ph=h-m.t-m.b;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.panel;ctx.fillRect(0,0,w,h);
+  const[x0,x1]=o.xr,[y0,y1]=o.yr;const X=x=>m.l+(x-x0)/(x1-x0)*pw,Y=y=>h-m.b-(y-y0)/(y1-y0)*ph;
+  ctx.font=`${w<300?10:11}px 'Noto Sans KR',sans-serif`;ctx.fillStyle=C.muted;ctx.strokeStyle=rgba(C.muted,.18);ctx.lineWidth=1;
+  ctx.textAlign='center';ctx.textBaseline='top';for(const[v,l]of(o.xticks||ticks(x0,x1))){ctx.beginPath();ctx.moveTo(X(v),m.t);ctx.lineTo(X(v),h-m.b);ctx.stroke();ctx.fillText(l,X(v),h-m.b+4);}
+  ctx.textAlign='right';ctx.textBaseline='middle';for(const[v,l]of(o.yticks||ticks(y0,y1))){ctx.beginPath();ctx.moveTo(m.l,Y(v));ctx.lineTo(w-m.r,Y(v));ctx.stroke();ctx.fillText(l,m.l-4,Y(v));}
+  ctx.strokeStyle=rgba(C.ink,.5);if(y0<0&&y1>0){ctx.beginPath();ctx.moveTo(m.l,Y(0));ctx.lineTo(w-m.r,Y(0));ctx.stroke();}
+  ctx.strokeStyle=C.rule;ctx.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+  ctx.save();ctx.font=`italic ${w<300?12:13}px 'STIX Two Text',serif`;ctx.fillStyle=C.ink;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xl||'t',w-m.r-4,h-m.b-2);
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(o.yl||'',m.l+5,m.t+2);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  if(o.pre)o.pre(ctx,X,Y);
+  for(const sr of o.series){if(!sr.pts||sr.pts.length<2)continue;ctx.strokeStyle=sr.col;ctx.lineWidth=sr.lw||2;ctx.setLineDash(sr.dash||[]);ctx.beginPath();
+    let st=Math.max(1,Math.floor(sr.pts.length/(pw*2)));ctx.moveTo(X(sr.pts[0][0]),Y(sr.pts[0][1]));for(let i=st;i<sr.pts.length;i+=st)ctx.lineTo(X(sr.pts[i][0]),Y(sr.pts[i][1]));
+    const L=sr.pts[sr.pts.length-1];ctx.lineTo(X(L[0]),Y(L[1]));ctx.stroke();ctx.setLineDash([]);
+    if(sr.head){ctx.fillStyle=sr.col;ctx.beginPath();ctx.arc(X(L[0]),Y(L[1]),4,0,7);ctx.fill();}}
+  if(o.post)o.post(ctx,X,Y);ctx.restore();}
+
+/* ================= HERO ================= */
+(function hero(){
+  const cv=$('#hero');const f=polar(r=>r*(1-r*r));let P=[];let W=0,H=0,dpr=1,S=1,cx=0,cy=0;
+  function size(){const F=fit(cv);if(!F)return;W=F.w;H=F.h;dpr=F.dpr;S=Math.min(W,H)/2/1.9;cx=W/2;cy=H/2;F.ctx.clearRect(0,0,W,H);}
+  function spawn(x,y,inner){return{x,y,inner,age:0,life:8+Math.random()*12};}
+  function rand(){if(Math.random()<.4){const r=Math.random()*.35,a=Math.random()*7;return spawn(r*Math.cos(a),r*Math.sin(a),true);}
+    const r=1.3+Math.random()*1.4,a=Math.random()*7;return spawn(r*Math.cos(a),r*Math.sin(a),false);}
+  const N=matchMedia('(max-width:600px)').matches?420:800;
+  for(let i=0;i<N;i++){const p=rand();p.age=Math.random()*p.life*.3;P.push(p);}
+  new ResizeObserver(size).observe(cv);size();
+  let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
+  cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();const x=(e.clientX-r.left-cx)/S,y=-(e.clientY-r.top-cy)/S;
+    const inner=Math.hypot(x,y)<1;for(let i=0;i<70;i++){P.push(spawn(x+(Math.random()-.5)*.25,y+(Math.random()-.5)*.25,inner));}
+    if(P.length>N+600)P.splice(0,P.length-(N+600));if(reduceMotion)staticDraw();});
+  function staticDraw(){const F=fit(cv);if(!F)return;const c=F.ctx;c.clearRect(0,0,W,H);
+    for(let k=0;k<24;k++){const inner=k%2===0;const r0=inner?.05+.02*k:1.4+k*.04,a0=k*.9;let x=r0*Math.cos(a0),y=r0*Math.sin(a0);
+      c.strokeStyle=rgba(inner?C.cyan:C.pink,.7);c.lineWidth=1.2;c.beginPath();c.moveTo(cx+x*S,cy-y*S);for(let i=0;i<900;i++){[x,y]=rk4(f,x,y,.015);c.lineTo(cx+x*S,cy-y*S);}c.stroke();}}
+  if(reduceMotion){setTimeout(staticDraw,50);new ResizeObserver(()=>staticDraw()).observe(cv);return;}
+  function frame(){requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.05)';c.fillRect(0,0,W,H);c.globalCompositeOperation='source-over';
+    c.lineWidth=1.3;c.lineCap='round';const ci=rgba(C.cyan,.85),co=rgba(C.pink,.85);
+    c.strokeStyle=ci;c.beginPath();for(const p of P)if(p.inner)mv(c,p);c.stroke();
+    c.strokeStyle=co;c.beginPath();for(const p of P)if(!p.inner)mv(c,p);c.stroke();
+    for(let i=0;i<P.length;i++){if(P[i].age>P[i].life){P[i]=i<N?rand():null;}}P=P.filter(Boolean);}
+  function mv(c,p){const x0=p.x,y0=p.y;for(let k=0;k<2;k++){[p.x,p.y]=rk4(f,p.x,p.y,.0075);}p.age+=.015;c.moveTo(cx+x0*S,cy-y0*S);c.lineTo(cx+p.x*S,cy-p.y*S);}
+  frame();
+})();
+
+/* ================= 7.0 types ================= */
+const TYPES={
+  stable:{R:r=>r*(1-r*r),eq:'ṙ = r(1 − r²),  θ̇ = 1',seeds:[[.12,0],[1.9,.2],[-.1,-.2],[-1.6,-1.2]],tmax:14},
+  unstable:{R:r=>-r*(1-r*r),eq:'ṙ = −r(1 − r²),  θ̇ = 1',seeds:[[.94,0],[1.06,0],[-.9,.1],[-.75,-.75]],tmax:10},
+  half:{R:r=>r*(1-r)*(1-r),eq:'ṙ = r(1 − r)²,  θ̇ = 1',seeds:[[.15,0],[1.04,0],[-.3,.2],[0,-1.08]],tmax:16}
+};
+let tkind='stable';
+const typesPlane=new Plane($('#types'),{dom:{x0:-2,x1:2,y0:-2,y1:2},f:polar(TYPES.stable.R),tmax:14,maxTraj:8,sub:4,
+  decor:(s,p)=>{const col=tkind==='stable'?C.green:tkind==='unstable'?C.pink:C.amber;s.lineWidth=3;s.strokeStyle=rgba(col,.55);
+    if(tkind==='unstable')s.setLineDash([8,6]);
+    if(tkind==='half'){s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(1)-p.X(0)),0,7);s.stroke();s.setLineDash([3,5]);s.strokeStyle=rgba(C.pink,.9);s.lineWidth=2;}
+    s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(1)-p.X(0)),0,7);s.stroke();s.setLineDash([]);},
+  fixed:[{x:0,y:0,k:'u'}]});
+function setType(k){tkind=k;const T=TYPES[k];typesPlane.o.f=polar(T.R);typesPlane.o.tmax=T.tmax;typesPlane.o.fixed=[{x:0,y:0,k:k==='unstable'?'s':'u'}];
+  document.querySelectorAll('.seg[aria-label="극한 주기 궤도의 종류"] button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  $('#typesEq').textContent=T.eq+'. 위상 평면을 눌러 궤적을 더 추가해 보세요.';
+  typesPlane.clear();typesPlane.ci=0;typesPlane.renderStatic();for(const[x,y]of T.seeds)typesPlane.add(x,y);}
+document.querySelectorAll('.seg[aria-label="극한 주기 궤도의 종류"] button').forEach(b=>b.addEventListener('click',()=>setType(b.dataset.k)));
+$('#typesClear').addEventListener('click',()=>{typesPlane.clear();typesPlane.ci=0;});
+setType('stable');
+
+/* ================= 7.0 kick: linear center vs limit cycle ================= */
+const kd={x0:-2.2,x1:2.2,y0:-2.2,y1:2.2};
+const linP=new Plane($('#lin'),{dom:kd,f:(x,y)=>[y,-x],trail:520,n:11,sub:3,click:false,maxTraj:1,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'u'}],
+  onDraw:p=>{const t=p.trajs[0];if(t)$('#linAmp').textContent=Math.hypot(t.x,t.y).toFixed(2);}});
+const lcP=new Plane($('#lc'),{dom:kd,f:polar(r=>r*(1-r*r)),trail:520,n:11,sub:3,click:false,maxTraj:1,fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{s.strokeStyle=rgba(C.green,.5);s.lineWidth=3;s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(1)-p.X(0)),0,7);s.stroke();},
+  onDraw:p=>{const t=p.trajs[0];if(t)$('#lcAmp').textContent=Math.hypot(t.x,t.y).toFixed(2);}});
+function kickReset(){linP.clear();lcP.clear();linP.add(1,0,{col:C.cyan});lcP.add(1,0,{col:C.pink});}
+kickReset();
+$('#kickReset').addEventListener('click',kickReset);
+$('#kick').addEventListener('click',()=>{const a=Math.random()*Math.PI*2,mag=.35+Math.random()*.35;const dx=mag*Math.cos(a),dy=mag*Math.sin(a);
+  for(const p of[linP,lcP]){const t=p.trajs[0];if(!t)continue;
+    // keep the linear one from leaving the frame
+    let nx=t.x+dx,ny=t.y+dy;const r=Math.hypot(nx,ny);if(r>1.95){nx*=1.95/r;ny*=1.95/r;}if(r<.15){nx=.15*Math.cos(a);ny=.15*Math.sin(a);}
+    t.x=nx;t.y=ny;t.pts.push([nx,ny,t.t]);p.dirty=true;}});
+
+/* ================= 7.1.1 ================= */
+const ex1=new Plane($('#ex1'),{dom:{x0:-2,x1:2,y0:-2,y1:2},f:polar(r=>r*(1-r*r)),tmax:25,maxTraj:4,sub:4,fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{s.strokeStyle=rgba(C.green,.45);s.lineWidth=3;s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(1)-p.X(0)),0,7);s.stroke();
+    s.font="italic 15px 'STIX Two Text',serif";s.fillStyle=C.green;s.fillText('r = r* = 1',p.X(.95),p.Y(-1.3));},
+  onDraw:()=>drawEx1()});
+$('#ex1r').style.aspectRatio='3.2/1';$('#ex1x').style.aspectRatio='3/1';
+function drawEx1(){const tr=ex1.trajs[ex1.trajs.length-1];
+  const rNow=tr?Math.hypot(tr.x,tr.y):null;
+  plot($('#ex1r'),{xr:[0,1.8],yr:[-2.8,.7],xl:'r',yl:'ṙ',yticks:[[-2,'−2'],[-1,'−1'],[0,'0']],series:[],
+    pre:(c,X,Y)=>{c.strokeStyle=C.pink;c.lineWidth=2;c.beginPath();for(let i=0;i<=200;i++){const r=1.8*i/200;const v=r*(1-r*r);i?c.lineTo(X(r),Y(v)):c.moveTo(X(r),Y(v));}c.stroke();
+      c.fillStyle=C.cyan;const ar=(x,dir)=>{c.beginPath();c.moveTo(X(x)+dir*7,Y(0));c.lineTo(X(x)-dir*5,Y(0)-5);c.lineTo(X(x)-dir*5,Y(0)+5);c.fill();};
+      ar(.5,1);ar(1.4,-1);
+      c.lineWidth=1.6;c.strokeStyle=C.ink;c.fillStyle=C.panel;c.beginPath();c.arc(X(0)+1,Y(0),5,0,7);c.fill();c.stroke();
+      c.fillStyle=C.ink;c.beginPath();c.arc(X(1),Y(0),5,0,7);c.fill();},
+    post:(c,X,Y)=>{if(rNow===null||rNow>1.8)return;c.fillStyle=tr.col;c.strokeStyle=C.panel;c.lineWidth=2;c.beginPath();c.arc(X(rNow),Y(rNow*(1-rNow*rNow)),6,0,7);c.fill();c.stroke();}});
+  const ser=[];if(tr){const th0=Math.atan2(tr.pts[0][1],tr.pts[0][0]);const star=[];for(let i=0;i<=500;i++){const t=25*i/500;star.push([t,Math.cos(t+th0)]);}
+    ser.push({pts:star,col:C.green,dash:[5,5],lw:1.6});ser.push({pts:tr.pts.map(p=>[p[2],p[0]]),col:tr.col,head:tr.alive});}
+  plot($('#ex1x'),{xr:[0,25],yr:[-2,2],xl:'t',yl:'x',series:ser});}
+ex1.add(.08,0);ex1.add(1.85,-1.2);
+
+/* ================= 7.1.2 van der Pol ================= */
+let mu=1.5,vdpXR=3,vdpYR=3.5;
+const vdpF=(x,y)=>[y,-mu*(x*x-1)*y-x];
+function vdpRange(){let x=.5,y=0,mx=0,my=0;const h=.004;for(let i=0;i<20000;i++){[x,y]=rk4(vdpF,x,y,h);if(i>10000){mx=Math.max(mx,Math.abs(x));my=Math.max(my,Math.abs(y));}}
+  vdpXR=Math.max(3,mx*1.35);vdpYR=Math.max(3,my*1.25);}
+vdpRange();
+const vdp=new Plane($('#vdp'),{dom:{x0:-vdpXR,x1:vdpXR,y0:-vdpYR,y1:vdpYR},f:vdpF,tmax:40,maxTraj:4,dt:.005,sub:12,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'u'}],
+  bg:(x)=>{const c=Math.abs(x)<1?hexRGB(C.green):hexRGB(C.pink);return[c[0],c[1],c[2],Math.abs(x)<1?.13:.07];},
+  onDraw:()=>drawVdp()});
+$('#vdpx').style.aspectRatio='3/1';
+function drawVdp(){const tr=vdp.trajs[vdp.trajs.length-1];const ser=[];
+  if(tr){ser.push({pts:tr.pts.map(p=>[p[2],p[0]]),col:tr.col,head:tr.alive});
+    const z=[];for(let i=1;i<tr.pts.length;i++){if(tr.pts[i][2]<15)continue;if(tr.pts[i-1][0]<0&&tr.pts[i][0]>=0){const a=tr.pts[i-1],b=tr.pts[i];z.push(a[2]+(b[2]-a[2])*(-a[0])/(b[0]-a[0]));}}
+    $('#vdpT').textContent=z.length>=2?((z[z.length-1]-z[0])/(z.length-1)).toFixed(2):(mu===0?'2π ≈ 6.28':'계산 중…');
+    let am=0;for(const p of tr.pts)if(p[2]>15)am=Math.max(am,Math.abs(p[0]));$('#vdpA').textContent=am?am.toFixed(2):'계산 중…';}
+  plot($('#vdpx'),{xr:[0,40],yr:[-vdpXR,vdpXR],xl:'t',yl:'x',series:ser,
+    pre:(c,X,Y)=>{c.fillStyle=rgba(C.green,.12);c.fillRect(X(0),Y(1),X(40)-X(0),Y(-1)-Y(1));}});}
+function vdpSet(v){mu=v;$('#muOut').textContent=v.toFixed(1);vdpRange();vdp.o.dom={x0:-vdpXR,x1:vdpXR,y0:-vdpYR,y1:vdpYR};
+  vdp.o.dt=mu>3?.003:.005;vdp.o.sub=mu>3?20:12;
+  $('#vdpHint').textContent=mu===0?'μ = 0이면 감쇠 없는 조화 진동자: 고립되지 않은 동심원 궤도(중심)만 있고 극한 주기 궤도는 없습니다.':'위상 평면을 눌러 다른 초기 조건에서도 같은 궤도로 모이는지 확인해 보세요.';
+  vdp.clear();vdp.ci=0;vdp.renderStatic();vdp.add(.5,0);}
+let vdpTimer=null;
+$('#mu').addEventListener('input',e=>{const v=+e.target.value;$('#muOut').textContent=v.toFixed(1);clearTimeout(vdpTimer);vdpTimer=setTimeout(()=>vdpSet(v),120);});
+$('#vdpClear').addEventListener('click',()=>{vdp.clear();vdp.ci=0;});
+vdp.add(.5,0);
+
+/* ================= 7.2.1 gradient ================= */
+const PI=Math.PI;
+const piTicks=[[-PI,'−π'],[-PI/2,'−π/2'],[0,'0'],[PI/2,'π/2'],[PI,'π']];
+const grad=new Plane($('#grad'),{dom:{x0:-5,x1:5,y0:-PI,y1:PI},aspect:.72,f:(x,y)=>[Math.sin(y),x*Math.cos(y)],wrapY:true,tmax:14,maxTraj:5,sub:3,n:19,
+  yticks:piTicks,fixed:[{x:0,y:0,k:'saddle'},{x:0,y:PI,k:'saddle'},{x:0,y:-PI,k:'saddle'}],
+  bg:(x,y)=>{const v=-x*Math.sin(y);const c=hexRGB(v>0?C.pink:C.cyan);return[c[0],c[1],c[2],Math.min(.32,Math.abs(v)/5*.32)];},
+  onDraw:()=>drawGrad()});
+$('#gradv').style.aspectRatio='3/1';
+function drawGrad(){const ser=[];let lo=-1,hi=1;
+  for(const tr of grad.trajs){const pts=tr.pts.filter(p=>Math.abs(p[0])<=5.5).map(p=>[p[2],-p[0]*Math.sin(p[1])]);for(const q of pts){lo=Math.min(lo,q[1]);hi=Math.max(hi,q[1]);}ser.push({pts,col:tr.col,head:tr.alive});}
+  const pad=(hi-lo)*.08;plot($('#gradv'),{xr:[0,14],yr:[lo-pad,hi+pad],xl:'t',yl:'V',series:ser});}
+grad.add(-1.5,.4);grad.add(2.2,-2.6);grad.add(.6,1.2);
+
+/* ================= 7.2.2 energy ================= */
+const en=new Plane($('#en'),{dom:{x0:-1.2,x1:1.2,y0:-1.2,y1:1.2},f:(x,y)=>[y,-y*y*y-x],tmax:200,maxTraj:4,dt:.02,sub:8,rec:2,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'s'}],
+  decor:(s,p)=>{s.strokeStyle=rgba(C.amber,.45);s.lineWidth=1;s.setLineDash([3,4]);for(const r of[.25,.5,.75,1,1.25,1.5]){s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(r)-p.X(0)),0,7);s.stroke();}s.setLineDash([]);},
+  onDraw:()=>drawEn()});
+$('#ent').style.aspectRatio='3/1';
+function drawEn(){const ser=[];let hi=.1;for(const tr of en.trajs){const pts=tr.pts.map(p=>[p[2],.5*(p[0]*p[0]+p[1]*p[1])]);hi=Math.max(hi,pts[0][1]);ser.push({pts,col:tr.col,head:tr.alive});}
+  plot($('#ent'),{xr:[0,200],yr:[0,hi*1.1],xl:'t',yl:'E',series:ser});}
+$('#enClear').addEventListener('click',()=>{en.clear();en.ci=0;});
+en.add(1,0);en.add(-.3,-.95);
+
+/* ================= 7.2.3 Liapunov ================= */
+let aCoef=1;
+const liaVd=(x,y)=>-2*x*x+(8-2*aCoef)*x*y-2*aCoef*Math.pow(y,4);
+const lia=new Plane($('#lia'),{dom:{x0:-2,x1:2,y0:-2,y1:2},f:(x,y)=>[-x+4*y,-x-y*y*y],tmax:16,maxTraj:5,sub:3,fixed:[{x:0,y:0,k:'s'}],
+  bg:(x,y)=>{const v=liaVd(x,y);if(v>0){const c=hexRGB(C.pink);return[c[0],c[1],c[2],.42];}const c=hexRGB(C.green);return[c[0],c[1],c[2],.06+Math.min(.16,-v/30)];},
+  decor:(s,p)=>{s.strokeStyle=rgba(C.ink,.35);s.lineWidth=1;for(const cc of[.3,1,2.2,4]){s.beginPath();for(let i=0;i<=120;i++){const t=i/120*2*PI;const x=Math.sqrt(cc)*Math.cos(t),y=Math.sqrt(cc/aCoef)*Math.sin(t);i?s.lineTo(p.X(x),p.Y(y)):s.moveTo(p.X(x),p.Y(y));}s.stroke();}}});
+function liaUpdate(){$('#aaOut').textContent=aCoef.toFixed(1);
+  const b=8-2*aCoef;const bs=Math.abs(b)<1e-9?'':(b>0?' + ':' − ')+fmt(Math.abs(b))+'xy';
+  $('#liaF').textContent='V = x² + '+fmt(aCoef)+'y²,  V̇ = −2x²'+bs+' − '+fmt(2*aCoef)+'y⁴';
+  let pos=0,N=0;for(let i=0;i<160;i++)for(let j=0;j<160;j++){const x=-2+4*(i+.5)/160,y=-2+4*(j+.5)/160;N++;if(liaVd(x,y)>1e-12)pos++;}
+  const v=$('#liaV');
+  if(pos===0){v.className='verdict ok';v.innerHTML='모든 점에서 <span class="m">V̇ ≤ 0</span>, 등호는 원점에서만 성립합니다. 리아푸노프 함수를 찾았습니다! 닫힌 궤도가 없고, 모든 궤적은 <span class="m">t → ∞</span>일 때 원점으로 접근합니다.';}
+  else{v.className='verdict no';v.innerHTML='화면의 '+(100*pos/N).toFixed(1)+'%에서 <span class="m">V̇ &gt; 0</span>입니다. 조건 (2)를 위반하므로 이 <span class="m">V</span>로는 아무 결론도 내릴 수 없습니다. <span class="m">xy</span> 항을 없애는 <span class="m">a</span>를 찾아보세요.';}
+  lia.renderStatic();lia.dirty=true;}
+$('#aa').addEventListener('input',e=>{aCoef=+e.target.value;liaUpdate();});
+$('#aa4').addEventListener('click',()=>{aCoef=4;$('#aa').value=4;liaUpdate();});
+liaUpdate();lia.add(1.8,1.6);lia.add(-1.6,-.6);lia.add(.4,-1.8);
+
+/* ================= 7.2.4 Dulac ================= */
+const dulF=(x,y)=>[x*(2-x-y),y*(4*x-x*x-3)];
+const G={ixy:{g:(x,y)=>1/(x*y),txt:'∇·(gẋ) = −1/y < 0'},one:{g:()=>1,txt:'∇·ẋ = −(x − 1)² − y < 0'},
+  x:{g:x=>x,txt:'∇·(gẋ) = x(1 + x − 2y − x²)'},y:{g:(x,y)=>y,txt:'∇·(gẋ) = y(6x − 2x² − y − 4)'}};
+let gk='ixy';
+function dulDiv(x,y){const g=G[gk].g,h=1e-4;const fx=(a,b)=>g(a,b)*dulF(a,b)[0],fy=(a,b)=>g(a,b)*dulF(a,b)[1];
+  return(fx(x+h,y)-fx(x-h,y))/(2*h)+(fy(x,y+h)-fy(x,y-h))/(2*h);}
+const dul=new Plane($('#dul'),{dom:{x0:0,x1:3.6,y0:0,y1:3.2},aspect:.89,f:dulF,tmax:30,maxTraj:6,sub:3,
+  fixed:[{x:1,y:1,k:'s'},{x:2,y:0,k:'saddle'},{x:0,y:0,k:'saddle'}],
+  bg:(x,y)=>{if(x<=0||y<=0)return null;const v=dulDiv(x,y);const c=hexRGB(v<0?C.cyan:C.pink);return[c[0],c[1],c[2],v<0?.16:.42];}});
+function dulUpdate(){$('#dulF').textContent=G[gk].txt;let pos=0,N=0;
+  for(let i=0;i<120;i++)for(let j=0;j<120;j++){const x=.01+3.6*(i+.5)/120,y=.01+3.2*(j+.5)/120;N++;if(dulDiv(x,y)>=0)pos++;}
+  const v=$('#dulV');
+  if(pos===0){v.className='verdict ok';v.innerHTML='양의 사분면(단순하게 연결된 영역) 전체에서 부호가 음수 하나뿐입니다. 따라서 양의 사분면에 닫힌 궤도는 없습니다.'+(gk==='one'?' 덧붙이면, 이 예제는 <span class="m">g = 1</span>로도 성립합니다(<span class="m">y &gt; 0</span>이므로).':'');}
+  else{v.className='verdict no';v.innerHTML='화면의 '+(100*pos/N).toFixed(1)+'%에서 양수입니다. 부호가 섞여 있으니 이 <span class="m">g</span>로는 결론을 내릴 수 없습니다.';}
+  dul.renderStatic();dul.dirty=true;}
+$('#gsel').addEventListener('change',e=>{gk=e.target.value;dulUpdate();});
+$('#dulClear').addEventListener('click',()=>{dul.clear();dul.ci=0;});
+dulUpdate();dul.add(3.2,2.8);dul.add(.3,2.6);dul.add(2.6,.25);dul.add(.4,.3);
+
+/* ---------------- loop & theme ---------------- */
+function loop(){for(const p of planes){if(!p.visible||!p.W)continue;const busy=p.step();if(busy||p.dirty){p.draw();p.dirty=false;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function retheme(){readTheme();for(const p of planes){p.renderStatic();p.dirty=true;}
+  // recolour existing trajectories to the new palette
+  for(const p of planes)for(const t of p.trajs){if(t.cidx!==undefined&&!p.o.trail)t.col=TRAJ()[t.cidx];}
+  linP.trajs.forEach(t=>t.col=C.cyan);lcP.trajs.forEach(t=>t.col=C.pink);}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(()=>{for(const p of planes){p.renderStatic();p.dirty=true;}});
+})();
+</script>
+</body>
+</html>

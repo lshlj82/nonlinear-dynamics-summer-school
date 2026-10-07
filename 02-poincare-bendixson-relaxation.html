@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>제7장 극한 주기 궤도: 푸앵카레-벤딕슨 정리, 리에나르 시스템, 완화 진동</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
+  --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --hl-pink:rgba(232,67,147,.22); --hl-green:rgba(70,200,95,.28); --hl-cyan:rgba(60,180,230,.22);
+  --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --math:'STIX Two Text','Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+    --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+  --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;gap:18px;align-items:center;overflow-x:auto}
+.bar-in .t{font-family:var(--serif);font-weight:700;white-space:nowrap;margin-right:auto}
+.bar-in a{color:var(--ink);text-decoration:none;white-space:nowrap;font-size:.92rem;padding:4px 2px;border-bottom:2px solid transparent}
+.bar-in a:hover{border-bottom-color:var(--pink)}
+.bar-in a b{font-family:var(--math);font-weight:600;color:var(--pink);margin-right:4px}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:40px 20px 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.12;margin:0 0 6px;letter-spacing:-.01em}
+.hero h1 .en{display:block;font-family:var(--math);font-style:italic;font-weight:400;font-size:.5em;color:var(--muted);margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:1.05rem;max-width:34em;margin:18px 0}
+.credit{font-size:.88rem;color:var(--muted);border-left:3px solid var(--green);padding:4px 0 4px 12px;max-width:36em}
+.credit strong{color:var(--ink);font-weight:500}
+.hero-fig{position:relative}
+#hero{width:100%;aspect-ratio:1/1;display:block;cursor:crosshair;touch-action:manipulation}
+.hero-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* sections */
+.sec{max-width:1180px;margin:0 auto;padding:56px 20px 8px}
+.sec-h{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.sec-h .no{font-family:var(--math);font-size:2.4rem;font-weight:600;color:var(--pink);line-height:1}
+.sec-h h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);margin:0;line-height:1.25}
+.sec-h h2 span{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted);font-size:.72em;margin-left:6px}
+.sec > .intro{max-width:46em;margin:6px 0 10px}
+h3{font-family:var(--serif);font-size:1.32rem;margin:40px 0 8px;line-height:1.35}
+h3 .en{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start;margin-top:16px}
+.row.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.row.flip > .txt{order:2}
+.txt p{margin:0 0 14px}
+.txt ul{margin:0 0 14px;padding-left:1.2em}
+.txt li{margin-bottom:6px}
+.en{font-family:var(--math);font-style:italic}
+.hl{background:linear-gradient(transparent 58%,var(--hl-green) 58%)}
+.hlp{background:linear-gradient(transparent 58%,var(--hl-pink) 58%)}
+.hlc{background:linear-gradient(transparent 58%,var(--hl-cyan) 58%)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap;font-size:1.06em}
+.m sup,.m sub{font-style:normal;font-size:.72em}
+.eq{font-family:var(--math);font-size:1.22rem;margin:10px 0 16px;padding:8px 16px;display:inline-block;border:2px solid var(--pink);border-radius:5px;background:var(--panel);line-height:1.6}
+.eq i{font-style:italic}
+.eq.plain{border-color:var(--rule)}
+.pen{font-weight:500;font-size:.95rem;line-height:1.6;color:var(--pink);margin:4px 0 16px;display:block;border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pen::before{content:'강의노트 메모';display:block;font-size:.75rem;font-weight:400;color:var(--muted)}
+.no-wrap{white-space:nowrap}
+.pen.g{color:var(--green)} .pen.c{color:var(--cyan)}
+.box{border:2px solid var(--green);border-radius:6px;padding:12px 16px;margin:12px 0 16px;background:var(--panel)}
+.box.amber{border-color:var(--amber)}
+.box.pink{border-color:var(--pink)}
+.box p:last-child{margin-bottom:0}
+.box .lbl{font-weight:700;margin-right:6px}
+
+/* demo panel */
+.demo{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.demo canvas{width:100%;display:block;touch-action:manipulation}
+.demo canvas.pp{cursor:crosshair}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.92rem}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--hl-cyan)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);background:var(--pink)}
+label.sl{display:inline-flex;align-items:center;gap:8px}
+label.sl output{font-family:var(--math);min-width:3.2em;font-size:1.05rem}
+input[type=range]{accent-color:var(--pink);width:180px;max-width:42vw}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:4px 8px}
+.hint{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.read{font-size:.92rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.read b{font-family:var(--math);font-weight:600}
+.verdict{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:.93rem;border:1px solid var(--rule)}
+.verdict.ok{border-color:var(--green);background:var(--hl-green)}
+.verdict.no{border-color:var(--pink);background:var(--hl-pink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{font-size:.86rem;text-align:center;margin:4px 0 0}
+.cap .amp{font-family:var(--math);font-weight:600}
+.sub{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+footer{max-width:1180px;margin:40px auto 0;padding:24px 20px 40px;border-top:2px solid var(--ink);font-size:.9rem;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:60em}
+footer strong{color:var(--ink);font-weight:500}
+.refs{max-width:52em;padding-left:1.4em;margin:12px 0 0;font-size:.95rem}
+.refs li{margin-bottom:10px}
+.refs i{font-family:var(--math)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero-fig{order:-1}
+  .row,.row.flip{grid-template-columns:1fr;gap:18px}
+  .row.flip > .txt{order:0}
+  body{font-size:16px}
+}
+@media (max-width:520px){
+  .two{grid-template-columns:1fr}
+  .bar-in .t{display:none}
+}
+
+:root{--hl-amber:rgba(214,140,30,.22)}
+.hero .kicker{color:var(--muted);margin:0 0 10px;font-size:.95rem}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem)}
+.check{list-style:none;padding:0;margin:10px 0 0;font-size:.9rem;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.check li{display:flex;gap:6px;align-items:baseline}
+.check li span{font-weight:700;width:1em}
+.check li.y span{color:var(--green)}
+.check li.n span{color:var(--pink)}
+.check li.n{color:var(--pink)}
+@media (max-width:520px){.check{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="섹션 이동">
+  <div class="bar-in">
+    <a class="t" href="index.html" style="border:0;color:var(--ink)">극한 주기 궤도</a>
+    <a href="#s73"><b>7.3</b>푸앵카레-벤딕슨 정리</a>
+    <a href="#s74"><b>7.4</b>리에나르 시스템</a>
+    <a href="#s75"><b>7.5</b>완화 진동</a>
+    <a href="#refs">참고문헌</a>
+    <a href="index.html">전체 목록</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <p class="kicker">제7장 극한 주기 궤도</p>
+    <h1>푸앵카레-벤딕슨 정리에서 완화 진동까지<span class="en">Poincaré–Bendixson, Liénard, Relaxation</span></h1>
+    <p class="lead">닫힌 궤도를 기각하는 방법을 알았으니 이제 반대로, 닫힌 궤도가 <em>있음</em>을 확인하는 방법을 알아본다. 가두는 영역(trapping region)을 직접 그려 푸앵카레-벤딕슨 정리의 조건을 확인하고, 리에나르의 정리로 극한 주기 궤도의 유일성을 따져 본 뒤, μ가 아주 큰 반 데르 폴 방정식의 완화 진동(relaxation oscillation)에서 두 가지 시간 척도를 관찰한다.</p>
+    <p class="credit">이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트(한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>, 7~8장 강의)를 기반으로 합니다.</p>
+  </div>
+  <figure class="hero-fig" style="margin:0">
+    <canvas id="hero" aria-label="완화 진동 궤적을 따라 움직이는 입자들의 애니메이션. 클릭하면 입자가 추가됩니다."></canvas>
+    <figcaption><span class="m">ẋ = μ[y − F(x)], ẏ = −x/μ</span>, <span class="m">μ = 6</span>. 입자들은 3차 함수 영점선을 따라 느리게 이동하다가(파랑) 반대편 줄기로 빠르게 점프합니다(분홍). 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ 7.3 ============ -->
+<section class="sec" id="s73">
+  <div class="sec-h"><span class="no">7.3</span><h2>푸앵카레-벤딕슨 정리<span>Poincaré–Bendixson theorem</span></h2></div>
+  <p class="intro">이제 닫힌 궤도를 기각하는 방법을 알았으므로 반대의 일을 해보자. 특정한 시스템에 닫힌 궤도가 존재하는지 확인하는 방법이다. 이 정리는 위상 평면에서 카오스가 발생할 수 없음을 뜻하기에, 비선형 동역학의 주요한 이론적 결과 중 하나이기도 하다.</p>
+  <span class="pen">닫힌 궤도: 기각 말고 확인. 앞으로 “P-B 정리”라고 쓸 것</span>
+
+  <div class="row">
+    <div class="txt">
+      <div class="box pink">
+        <p><span class="lbl">푸앵카레-벤딕슨 정리</span>다음 네 가지 조건을 가정하자.</p>
+        <p>(1) <span class="m">R</span>은 평면상의 닫힌 경계를 가진 부분집합이다.<br>
+        (2) <span class="m">ẋ = f(x)</span>는 <span class="m">R</span>을 포함하는 열린 집합에서 연속적으로 미분 가능한 벡터장이다.<br>
+        (3) <span class="m">R</span>은 고정점을 포함하지 않는다.<br>
+        (4) <span class="m">R</span>에 ‘갇힌(confined)’ 궤적 <span class="m">C</span>가 존재한다. 즉, <span class="m">R</span>에서 시작해서 영원히 <span class="m">R</span>에 머무르는 궤도가 있다는 뜻이다.</p>
+        <p>그러면 <span class="m">C</span>는 닫힌 궤도이거나 <span class="m">t → ∞</span>인 극한에서 닫힌 궤도를 향해 나선형으로 접근한다. 어떤 경우든 <span class="m">R</span>은 닫힌 궤도를 포함한다.</p>
+      </div>
+      <p>증명은 미묘하며 위상수학(topology)의 심화 아이디어가 필요하다([Perko 1991], [Coddington and Levinson 1955], [Hurewicz 1958], [Cesari 1963]). 닫힌 궤도는 고정점을 둘러싸고 있어야 하고 <span class="m">R</span>에는 고정점이 허용되지 않으므로, <span class="m">R</span>은 보통 속이 빈 고리 모양의 영역이 된다.</p>
+      <p>조건 (1)~(3)을 만족시키기는 쉽지만, <span class="hlp">조건 (4)는 까다롭다.</span> 표준적인 기술은 <b>가두는 영역(trapping region)</b> <span class="m">R</span>, 즉 벡터장이 <span class="m">R</span> 경계의 모든 곳에서 ‘내부’로 향하는 닫힌 연결된 집합을 만드는 것이다. 그러면 <span class="m">R</span>에 있는 모든 궤적은 내부에 갇히게 된다. 게다가 <span class="m">R</span>에 고정점이 없다는 걸 알 수 있다면, P-B 정리에 의해 <span class="m">R</span>에 닫힌 궤도가 있는 것이 확실해진다.</p>
+
+      <h3>예제 7.3.1</h3>
+      <div class="eq">ṙ = <i>r</i>(1 − <i>r</i>²) + μ<i>r</i> cos θ,&emsp;θ̇ = 1</div>
+      <p><span class="m">μ = 0</span>이면 예제 7.1.1에서 살펴봤듯이 <span class="m">r = 1</span>에서 안정적인 극한 주기 궤도가 있다. <span class="m">μ</span>가 충분히 작으면 <span class="m">μ &gt; 0</span>일 때도 여전히 닫힌 궤도가 존재함을 보여라.</p>
+      <p><b>풀이.</b> 외부 원에서는 <span class="m">ṙ &lt; 0</span>, 내부 원에서는 <span class="m">ṙ &gt; 0</span>이 되도록 반지름 <span class="m">r<sub>min</sub></span>과 <span class="m">r<sub>max</sub></span>인 2개의 동심원을 찾자. 그러면 그 사이의 고리가 가두는 영역이 된다. <span class="m">θ̇ = 1 &gt; 0</span>이므로 고리 내부에는 고정점이 없다.</p>
+      <ul>
+        <li><span class="m">r = r<sub>min</sub></span>: <span class="m">cos θ ≥ −1</span>이므로 <span class="m">1 − r² − μ &gt; 0</span>이 충분조건이다. 제곱근이 의미가 있도록 <span class="m">μ &lt; 1</span>일 경우 <span class="m">r<sub>min</sub> &lt; √(1 − μ)</span>.</li>
+        <li><span class="m">r = r<sub>max</sub></span>: <span class="m">cos θ ≤ 1</span>이므로 <span class="m">1 − r² + μ &lt; 0</span>이 충분조건이다. 즉 <span class="m">r<sub>max</sub> &gt; √(1 + μ)</span>.</li>
+      </ul>
+      <p>가능한 한 큰 <span class="m">r<sub>min</sub></span>과 가능한 한 작은 <span class="m">r<sub>max</sub></span>를 골라야 극한 주기 궤도를 가능한 한 바짝 가둘 수 있다. 예를 들어 <span class="m">r<sub>min</sub> = 0.999√(1 − μ)</span>, <span class="m">r<sub>max</sub> = 1.001√(1 + μ)</span>로 고르면, <span class="hl"><span class="m">μ &lt; 1</span>인 모든 <span class="m">μ</span>에 대해 닫힌 궤도가 존재하며 그 궤도는 <span class="m">0.999√(1 − μ) &lt; r &lt; 1.001√(1 + μ)</span>가 표현하는 고리 내부 어딘가에 있다.</span></p>
+      <p>이 추정은 보수적으로 잡은 것이다. 사실은 닫힌 궤도가 <span class="m">μ ≥ 1</span>인 경우에도 있을 수 있다. 오른쪽에서 <span class="m">μ = 1</span>로 놓고 확인해 보자.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="pbMu" min="0" max="1.4" step="0.01" value="0.3" aria-label="매개변수 mu"><output id="pbMuOut">0.30</output></label>
+        <button class="btn" id="pbBook">교재의 선택으로</button>
+      </div>
+      <div class="ctl">
+        <label class="sl">r<sub>min</sub> <input type="range" id="pbIn" min="0.05" max="1.6" step="0.005" value="0.8" aria-label="안쪽 원의 반지름"><output id="pbInOut"></output></label>
+        <label class="sl">r<sub>max</sub> <input type="range" id="pbOut" min="0.1" max="1.8" step="0.005" value="1.2" aria-label="바깥 원의 반지름"><output id="pbOutOut"></output></label>
+      </div>
+      <canvas id="pb" class="pp" aria-label="예제 7.3.1의 위상 평면과 가두는 영역 후보"></canvas>
+      <div class="legend"><span><i style="background:var(--green)"></i>경계에서 흐름이 고리 안쪽으로 향함</span><span><i style="background:var(--pink)"></i>경계에서 흐름이 고리 밖으로 새어 나감</span><span><i style="background:var(--hl-amber)"></i>고리 영역</span></div>
+      <div class="verdict" id="pbV"></div>
+      <p class="hint">두 원의 반지름을 직접 움직여 보세요. 원 위의 색은 그 점에서 <span class="m">ṙ</span>의 부호로 정합니다. 위상 평면을 누르면 궤적이 출발합니다.</p>
+    </div>
+  </div>
+
+  <h3>예제 7.3.2 해당과정 <span class="en">(glycolysis)</span> 모형</h3>
+  <div class="row flip">
+    <div class="txt">
+      <p>해당과정이라 불리는 기본적인 생화학적 과정에서 살아있는 세포는 당을 분해하여 에너지를 얻는다. 손상되지 않은 효모(yeast) 세포와 효모 또는 근육 추출물에서, 해당과정은 다양한 중간체(intermediate)의 농도가 몇 분 동안 증가 및 감소하는 진동 형태로 진행될 수 있다. 이러한 진동의 간단한 모형이 셀코프[Sel’kov 1968]에 의해 제안됐다.</p>
+      <div class="eq">ẋ = −<i>x</i> + <i>ay</i> + <i>x</i>²<i>y</i>,&emsp;ẏ = <i>b</i> − <i>ay</i> − <i>x</i>²<i>y</i></div>
+      <p>여기서 <span class="m">x</span>와 <span class="m">y</span>는 각각 ADP와 F6P의 농도이고, <span class="m">a, b &gt; 0</span>은 동역학적 매개변수다. 이 시스템의 궤도를 가두는 영역을 만들어 보자.</p>
+      <p><b>풀이.</b> 먼저 영점선(nullcline)들을 찾는다. <span class="m">ẋ = 0</span>은 곡선 <span class="m">y = x/(a + x²)</span>, <span class="m">ẏ = 0</span>은 곡선 <span class="m">y = b/(a + x²)</span>이다. 점선으로 둘러싼 오각형이 가두는 영역 후보다. 수평, 수직인 경계면에는 문제가 없다. 까다로운 부분은 점 <span class="m">(b, b/a)</span>에서 영점선 <span class="m">y = x/(a + x²)</span>까지 이어지는 <b>기울기 −1의 대각선</b>이다.</p>
+      <p>이것은 어디에서 온 것일까? <span class="m">x</span>가 매우 큰 극한에서 <span class="m">ẋ ≈ x²y</span>, <span class="m">ẏ ≈ −x²y</span>이므로 궤적을 따라 <span class="m">dy/dx ≈ −1</span>이다. 더 정확하게 <span class="m">ẋ − (−ẏ) = ẋ + ẏ = b − x</span>를 보면, <span class="m">x &gt; b</span>일 때 <span class="m">−ẏ &gt; ẋ</span>이고 <span class="m">dy/dx &lt; −1</span>이다. 궤적의 기울기가 대각선보다 더 가파르니, 벡터장은 대각선 위에서 안쪽을 가리킨다. 따라서 이 영역은 가두는 영역이다.</p>
+      <div class="box amber">
+        <p><span class="lbl">그러면 가두는 영역 내부에 닫힌 궤도가 있다고 결론을 내릴 수 있는가?</span>아니다! 두 영점선이 만나는 지점에 고정점이 있으므로 P-B 정리의 조건 (3)을 만족시키지 않는다. 그러나 이 고정점이 <b>밀개(repeller)</b>라면, 고정점 주위에 무한소(infinitesimal) 크기의 구멍을 낸 영역을 생각해 닫힌 궤도의 존재를 증명할 수 있다. 밀개는 인접한 모든 궤적을 구멍 난 영역으로 밀어내고, 그 영역에는 고정점이 없기 때문이다.</p>
+      </div>
+      <h3 style="margin-top:24px">예제 7.3.3 고정점이 밀개일 조건</h3>
+      <p>고정점은 <span class="m">x* = b</span>, <span class="m">y* = b/(a + b²)</span>이다. 이 점에서 야코비 행렬의 행렬식은 <span class="m">Δ = a + b² &gt; 0</span>이고, 대각합은</p>
+      <div class="eq plain">τ = −[<i>b</i>⁴ + (2<i>a</i> − 1)<i>b</i>² + (<i>a</i> + <i>a</i>²)] / (<i>a</i> + <i>b</i>²)</div>
+      <p>이다. 따라서 이 고정점은 <span class="m">τ &gt; 0</span>일 때 불안정하고 <span class="m">τ &lt; 0</span>일 때 안정하다. 경계 <span class="m">τ = 0</span>은 <span class="m">b² = ½(1 − 2a ± √(1 − 8a))</span>로, <span class="m">(a, b)</span> 공간에서 오른쪽 아래 그림의 곡선이다. <span class="m">τ &gt; 0</span>인 영역에서는 시스템이 닫힌 궤도를 갖고 있음이 보장되며, 수치 적분을 통해 실제로 그것이 극한 주기 궤도임을 알 수 있다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">a <input type="range" id="ga" min="0.005" max="0.14" step="0.001" value="0.08" aria-label="매개변수 a"><output id="gaOut">0.080</output></label>
+        <label class="sl">b <input type="range" id="gb" min="0.05" max="1.2" step="0.01" value="0.6" aria-label="매개변수 b"><output id="gbOut">0.60</output></label>
+      </div>
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="보기 범위">
+          <button data-v="full" aria-pressed="true">가두는 영역 전체</button>
+          <button data-v="zoom" aria-pressed="false">고정점 근처</button>
+        </div>
+        <button class="btn" id="glyClear">지우기</button>
+      </div>
+      <canvas id="gly" class="pp" aria-label="해당과정 모형의 위상 평면과 가두는 영역"></canvas>
+      <div class="legend"><span><i style="background:var(--cyan)"></i>ẋ = 0 영점선</span><span><i style="background:var(--amber)"></i>ẏ = 0 영점선</span><span><i style="background:var(--green)"></i>경계에서 안쪽으로 향함</span></div>
+      <div class="read"><span>고정점 <b id="glyFP"></b></span><span><b id="glyTau"></b></span></div>
+      <div class="verdict" id="glyV"></div>
+      <p class="sub">매개변수 공간 <span class="m">(a, b)</span>: 누르면 그 값으로 바뀝니다</p>
+      <canvas id="glyab" class="pp" aria-label="a, b 매개변수 공간에서 극한 주기 궤도가 생기는 영역"></canvas>
+    </div>
+  </div>
+
+  <h3>위상 평면에는 카오스가 없음</h3>
+  <div class="row">
+    <div class="txt">
+      <p>P-B 정리는 비선형 동역학의 중심 결과 중 하나다. 궤적이 고정점이 없는 닫힌 제한된 영역에 갇혀 있으면 결국 닫힌 궤도에 접근하게 되며, 위상 평면의 동역학적인 성질이 매우 제한적이라는 뜻이다. 그보다 더 복잡한 것은 가능하지 않다.</p>
+      <p>이 결과는 결정적으로 평면이 2차원이라는 사실 때문에 생긴다. 닫힌 궤적, 곧 1차원의 닫힌 곡선이 평면을 ‘안’과 ‘밖’으로 완벽하게 나누기 때문이다.</p>
+    </div>
+    <div class="txt">
+      <p>고차원(<span class="m">n ≥ 3</span>) 시스템에서는 P-B 정리가 더 이상 적용되지 않으며, 완전히 새로운 현상이 일어날 수 있다. 궤적이 고정점이나 닫힌 궤도에 정착하지 못하고 제한된 영역 내부에서 영원히 돌아다닐 수 있게 된다. 경우에 따라 궤적은 움직임이 비주기적이고 초기 조건의 작은 변화에 민감한 프랙탈(fractal) 집합인 <b>이상한 끌개(strange attractor)</b>로 끌려갈 수 있다. 이 민감성은 장기적인 움직임을 예측할 수 없게 만든다. 이것이 바로 <b>카오스(chaos)</b>다.</p>
+      <div class="box pink"><p><span class="lbl">P-B 정리의 의미</span>위상 평면에서 카오스는 절대 발생할 수 없다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.4 ============ -->
+<section class="sec" id="s74">
+  <div class="sec-h"><span class="no">7.4</span><h2>리에나르 시스템<span>Liénard systems</span></h2></div>
+  <p class="intro">비선형 동역학의 태동기라고 할 수 있는 1920년에서 1950년 사이에 비선형 진동에 대한 많은 연구가 있었다. 초기에는 라디오 및 진공관 기술의 발전이 동기가 되었다. 많은 진동하는 회로를 다음 형식의 2차 미분 방정식으로 모형화할 수 있음이 밝혀졌다.</p>
+  <div class="row">
+    <div class="txt">
+      <div class="eq">ẍ + <i>f</i>(<i>x</i>)ẋ + <i>g</i>(<i>x</i>) = 0</div>
+      <p>이것이 <b>리에나르 방정식(Liénard's equation)</b>이다. <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이면 반 데르 폴 진동자이니, 이를 일반화한 것이다. 역학적으로는 비선형 감쇠력 <span class="m">−f(x)ẋ</span>와 비선형 복원력 <span class="m">−g(x)</span>를 받는 단위 질량에 대한 운동 방정식(<span class="m">F = ma = mẍ</span>에서 <span class="m">m = 1</span>)으로 해석할 수 있다. 속도 변수 <span class="m">y = ẋ</span>를 도입하면 다음 시스템과 같다.</p>
+      <div class="eq plain">ẋ = <i>y</i>,&emsp;ẏ = −<i>g</i>(<i>x</i>) − <i>f</i>(<i>x</i>)<i>y</i></div>
+      <div class="box pink">
+        <p><span class="lbl">리에나르의 정리</span><span class="m">f(x)</span>와 <span class="m">g(x)</span>가 다음 조건들을 만족시킨다고 가정하자.</p>
+        <p>(1) <span class="m">f(x)</span>와 <span class="m">g(x)</span>는 모든 <span class="m">x</span>에 대해 연속적으로 미분 가능하다.<br>
+        (2) 모든 <span class="m">x</span>에 대해 <span class="m">g(−x) = −g(x)</span>, 즉 <span class="m">g(x)</span>는 기함수(odd function)이다.<br>
+        (3) <span class="m">x &gt; 0</span>이면 <span class="m">g(x) &gt; 0</span>이다.<br>
+        (4) 모든 <span class="m">x</span>에 대해 <span class="m">f(−x) = f(x)</span>, 즉 <span class="m">f(x)</span>는 우함수(even function)다.<br>
+        (5) 기함수 <span class="m">F(x) = ∫₀ˣ f(u) du</span>는 <span class="m">x = a</span>에서 정확히 하나의 양의 근을 갖고 있고, <span class="m">0 &lt; x &lt; a</span>인 <span class="m">x</span>에서는 음수인 값을 갖고 있으며 <span class="m">x &gt; a</span>에서는 감소하지 않고, <span class="m">x → ∞</span>인 극한에서 <span class="m">F(x) → ∞</span>로 발산한다.</p>
+        <p>그러면 이 시스템은 위상 평면의 원점을 둘러싼 유일하고 안정적인 극한 주기 궤도를 갖고 있다.</p>
+      </div>
+      <p>이 결과는 그럴듯해 보인다. <span class="m">g(x)</span>에 대한 가정은 복원력이 보통의 용수철처럼 작용하고 변위(displacement)를 줄이는 경향이 있다는 뜻이다. <span class="m">g(0) = 0</span>이니 원점은 항상 고정점이다. <span class="m">f(x)</span>에 대한 가정은 작은 <span class="m">|x|</span>에서 감쇠가 음수(증폭)이며 큰 <span class="m">|x|</span>에서는 감쇠가 양수라는 뜻이다. 작은 진동은 증폭되고 큰 진동은 감쇠되니, 시스템이 스스로 지속 가능한 중간 정도의 진폭을 가진 진동으로 정착되는 경향이 있다는 것은 놀랍지 않다.</p>
+      <p><b>예제 7.4.1</b>&ensp;반 데르 폴 방정식은 <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이므로 조건 (1)~(4)를 확실히 만족시킨다. 또 <span class="m">F(x) = μ(⅓x³ − x) = ⅓μx(x² − 3)</span>이니 <span class="m">a = √3</span>에서 (5)번 조건이 만족된다. 따라서 반 데르 폴 방정식은 유일하고 안정적인 극한 주기 궤도를 갖는다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label><span class="m">f(x)</span>&ensp;<select id="lf" aria-label="감쇠 함수 f 선택">
+          <option value="vdp" selected>μ(x² − 1)</option>
+          <option value="quart">μ(x⁴ − 1)</option>
+          <option value="rev">μ(1 − x²)</option>
+          <option value="odd">μ(x² − 1) + 0.5x</option>
+        </select></label>
+        <label><span class="m">g(x)</span>&ensp;<select id="lg" aria-label="복원력 함수 g 선택">
+          <option value="lin" selected>x</option>
+          <option value="hard">x + x³</option>
+          <option value="cub">x³</option>
+          <option value="sin">sin x</option>
+        </select></label>
+      </div>
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="lmu" min="0.2" max="3" step="0.1" value="1" aria-label="매개변수 mu"><output id="lmuOut">1.0</output></label>
+        <button class="btn" id="lienClear">지우기</button>
+      </div>
+      <canvas id="lien" class="pp" aria-label="리에나르 시스템의 위상 평면"></canvas>
+      <p class="sub"><span class="m">F(x) = ∫₀ˣ f(u) du</span> (<span class="m">x ≥ 0</span>)</p>
+      <canvas id="lienF" aria-label="F(x)의 그래프"></canvas>
+      <ul class="check" id="lienCk"></ul>
+      <div class="verdict" id="lienV"></div>
+      <p class="hint">조건을 하나라도 어기면 정리는 아무것도 보장하지 않습니다. 극한 주기 궤도가 없다는 뜻은 아닙니다. 위상 평면을 눌러 직접 확인해 보세요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7.5 ============ -->
+<section class="sec" id="s75">
+  <div class="sec-h"><span class="no">7.5</span><h2>완화 진동<span>relaxation oscillation</span></h2></div>
+  <p class="intro">지금까지는 주기적 해가 있는가와 같은 정성적인 질문에 집중했다. 이제 닫힌 궤도가 존재한다면 그 모양과 주기에 대해 무엇을 말할 수 있는지에 대한 정량적(quantitative) 질문을 해보자. 반 데르 폴 방정식 <span class="m">ẍ + μ(x² − 1)ẋ + x = 0</span>에서 <span class="m">μ ≫ 1</span>인, 강한 비선형 극한을 다룬다.</p>
+  <div class="row">
+    <div class="txt">
+      <p>이 극한에서는 <span class="m">x</span>의 변화가 매우 천천히 쌓였다가 갑작스럽게 사라지고, 다시 천천히 쌓이는 식으로 반복되는 극한 주기 궤도를 볼 수 있다. 느리게 쌓이는 중에 축적된 ‘변형(stress)’이 급격하게 사라지는 과정에서 ‘완화(relax)’되기 때문에 이를 <b>완화 진동(relaxation oscillation)</b>이라고 한다. 휘어진 바이올린 현의 습동(stick-slip) 진동에서부터 일정한 전류에 의해 동작하는 신경세포의 주기적인 발화에 이르기까지 수많은 과학적 상황에서 발생한다.</p>
+      <h3>예제 7.5.1 <span class="en">μ ≫ 1에서의 위상 평면</span></h3>
+      <p>일반적인 ‘<span class="m">ẋ = y, ẏ = …</span>’과는 다른 위상 평면 변수를 도입하는 것이 편리하다. <span class="m">F(x) = ⅓x³ − x</span>로 두면</p>
+      <div class="eq plain">ẍ + μẋ(<i>x</i>² − 1) = d/d<i>t</i> [ẋ + μ<i>F</i>(<i>x</i>)]</div>
+      <p>이므로 <span class="m">w = ẋ + μF(x)</span>로 두면 <span class="m">ẇ = −x</span>, <span class="m">ẋ = w − μF(x)</span>이다. 변수를 한 번 더 치환해 <span class="m">y = w/μ</span>로 두면</p>
+      <div class="eq">ẋ = μ[<i>y</i> − <i>F</i>(<i>x</i>)],&emsp;ẏ = −<i>x</i>/μ</div>
+      <p>영점선들이 이 움직임을 이해하기 위한 열쇠다. 초기 조건이 3차 함수 영점선(cubic nullcline) <span class="m">y = F(x)</span>에 너무 가깝지 않으면, 즉 <span class="m">y − F(x) ~ O(1)</span>이면 <span class="m">|ẋ| ~ O(μ) ≫ 1</span>, <span class="m">|ẏ| ~ O(μ⁻¹) ≪ 1</span>이다. 속도가 수평 방향으로 매우 크고 수직 방향으로는 매우 작으니 <span class="hlp">궤적은 사실상 수평으로 이동한다.</span></p>
+      <p>궤적이 영점선에 너무 가까워져서 <span class="m">y − F(x) ~ O(μ⁻²)</span>에 도달하면 <span class="m">ẋ</span>과 <span class="m">ẏ</span>은 둘 다 <span class="m">O(μ⁻¹)</span>이 된다. 궤적은 영점선을 수직으로 가로지른 다음, 3차 함수의 ‘무릎’에 도달해서 다시 옆으로 점프할 수 있을 때까지 <span class="hlc">영점선의 해당 줄기를 따라 천천히 이동한다.</span> 무릎 <span class="m">B(1, −⅔)</span>에 도달하면 <span class="m">C(−2, −⅔)</span>로 점프하고, 다시 무릎 <span class="m">D(−1, ⅔)</span>까지 천천히 올라가 <span class="m">A(2, ⅔)</span>로 점프한다.</p>
+      <p>이 극한 주기 궤도에는 <b>크게 분리된 2개의 시간 척도(time scale)</b>가 있다. 천천히 기어가는 움직임에는 <span class="m">Δt ~ O(μ)</span>, 점프에는 <span class="m">Δt ~ O(μ⁻¹)</span>만큼의 시간이 걸린다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="rmu" min="1" max="20" step="0.5" value="10" aria-label="매개변수 mu"><output id="rmuOut">10.0</output></label>
+        <button class="btn" id="relClear">지우기</button>
+      </div>
+      <canvas id="rel" class="pp" aria-label="리에나르 평면에서 본 반 데르 폴 방정식의 위상 평면"></canvas>
+      <div class="legend"><span><i style="background:var(--pink)"></i>빠른 이동(|ẋ| &gt; 1)</span><span><i style="background:var(--cyan)"></i>느린 이동</span><span><i style="background:var(--amber)"></i>3차 함수 영점선 y = F(x)</span></div>
+      <p class="sub">시계열 <span class="m">x(t)</span></p>
+      <canvas id="relx" aria-label="완화 진동의 x(t)"></canvas>
+      <div class="read"><span>수치 주기 <b id="relTn">–</b></span><span>μ(3 − 2 ln 2) <b id="relTa">–</b></span></div>
+      <p class="hint">교재 그림 7.5.2처럼 <span class="m">μ = 10</span>, 초기 조건 <span class="m">(x₀, y₀) = (2, 0)</span>에서 시작합니다. μ를 줄이면 두 시간 척도의 구분이 흐려집니다.</p>
+    </div>
+  </div>
+
+  <h3>예제 7.5.2 <span class="en">μ ≫ 1일 때 극한 주기 궤도의 주기</span></h3>
+  <div class="row flip">
+    <div class="txt">
+      <p>점프에 걸리는 시간 <span class="m">Δt ~ O(μ⁻¹)</span>은 무시할 만하므로, 주기는 2개의 느린 줄기를 따라 이동하는 데 필요한 시간이다. 대칭에 의해 각 줄기에서 소요되는 시간은 동일하므로 <span class="hl">느린 이동에 걸리는 시간의 2배를 주기로 추정할 수 있다.</span></p>
+      <p>느린 줄기에서는 <span class="m">y ≈ F(x)</span>이므로 <span class="m">dy/dt ≈ F′(x) dx/dt = (x² − 1) dx/dt</span>이다. 한편 <span class="m">dy/dt = −x/μ</span>이므로 <span class="m">dx/dt ≈ −x/[μ(x² − 1)]</span>, 즉 <span class="m">dt ≈ −μ(x² − 1)/x dx</span>이다. <span class="m">x</span>가 양수인 줄기는 <span class="m">x<sub>A</sub> = 2</span>에서 시작해 <span class="m">x<sub>B</sub> = 1</span>에서 끝나므로</p>
+      <div class="eq">T ≈ 2∫₂¹ −(μ/<i>x</i>)(<i>x</i>² − 1) d<i>x</i> = 2μ[½<i>x</i>² − ln <i>x</i>]₁² = μ(3 − 2 ln 2)</div>
+      <p>이며, 예상대로 <span class="m">O(μ)</span>이다(<span class="m">3 − 2 ln 2 ≈ 1.614</span>). 훨씬 많은 과정을 거치면 <span class="m">T ≈ μ[3 − 2 ln 2] + 2αμ<sup>−1/3</sup> + …</span>임을 보일 수 있다. 여기서 <span class="m">α ≈ 2.338</span>은 <span class="m">Ai(−α) = 0</span>의 가장 작은 해이고, <span class="m">Ai(x)</span>는 에어리(Airy) 함수라 불리는 특수 함수다. 보정 항은 점프와 느린 움직임 사이에서 영점선의 구석을 도는 데 필요한 시간에서 나온다(메리 캣라이트(Mary Cartwright, 1952); [Grimshaw 1990]).</p>
+      <p>마지막 한마디: 완화 진동에서는 두 가지 시간 척도가 <b>순차적으로</b> 작동한다. 다음 절에서는 2개의 시간 척도가 <b>동시에</b> 작동하는 문제를 만나게 된다.</p>
+    </div>
+    <div class="demo">
+      <p class="sub" style="margin-top:0">주기 <span class="m">T</span>와 <span class="m">μ</span>: 점은 브라우저에서 수치 적분으로 구한 값</p>
+      <canvas id="relT" aria-label="주기의 수치값과 두 근사식의 비교 그래프"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>수치 적분</span><span><i style="background:var(--pink)"></i>μ(3 − 2 ln 2)</span><span><i style="background:var(--green)"></i>μ(3 − 2 ln 2) + 2αμ<sup>−1/3</sup></span></div>
+      <p class="hint">μ가 커질수록 수치값과 첫 번째 근사의 비율은 1에 다가가고, 두 번째 근사는 작은 μ에서도 훨씬 잘 맞습니다. 세로 점선은 위 데모의 현재 μ입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="refs">
+  <div class="sec-h"><h2>참고문헌<span>references</span></h2></div>
+  <ol class="refs">
+    <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 7장 「극한 주기 궤도」. 이 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
+    <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 Shane Ross 교수의 강의 영상을 통해 소개한 위상 평면 도구로, 더 다양한 시스템을 직접 그려 볼 수 있습니다.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트를 기반으로 합니다. 강의는 한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>에서 진행되었습니다.</p>
+  <p>수치 적분은 4차 룽게-쿠타(Runge–Kutta) 방법으로 브라우저에서 실시간 계산합니다.</p>
+  <p><a href="index.html">전체 데모 목록으로 돌아가기</a></p>
+</footer>
+
+<script>
+
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};
+function readTheme(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+  C={paper:g('--paper'),panel:g('--panel'),ink:g('--ink'),muted:g('--muted'),rule:g('--rule'),pink:g('--pink'),green:g('--green'),cyan:g('--cyan'),amber:g('--amber')};}
+readTheme();
+function hexRGB(h){h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];}
+function rgba(h,a){const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;}
+const TRAJ=()=>[C.ink,C.pink,C.cyan,C.amber,C.green];
+
+function rk4(f,x,y,h){const a=f(x,y),b=f(x+h/2*a[0],y+h/2*a[1]),c=f(x+h/2*b[0],y+h/2*b[1]),d=f(x+h*c[0],y+h*c[1]);
+  return[x+h/6*(a[0]+2*b[0]+2*c[0]+d[0]),y+h/6*(a[1]+2*b[1]+2*c[1]+d[1])];}
+function polar(R){return(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-y,g*y+x];};}
+
+function niceStep(span){const raw=span/5;const p=Math.pow(10,Math.floor(Math.log10(raw)));const m=raw/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;}
+function fmt(v){const a=Math.abs(v);if(a<1e-9)return'0';if(a>=100)return v.toFixed(0);return(+v.toFixed(2)).toString();}
+function fit(cv){const dpr=Math.min(2,window.devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return null;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h,dpr};}
+
+/* ---------------- Phase plane ---------------- */
+const planes=[];
+class Plane{
+  constructor(cv,o){
+    this.cv=cv;
+    this.o=Object.assign({arrows:true,n:15,aspect:1,dt:0.01,sub:3,tmax:40,maxTraj:6,trail:0,wrapY:false,rec:1,fixed:[],xl:'x',yl:'y'},o);
+    this.trajs=[];this.ci=0;this.st=document.createElement('canvas');this.visible=true;this.dirty=true;
+    cv.style.aspectRatio=String(1/this.o.aspect);
+    planes.push(this);
+    cv.addEventListener('pointerdown',e=>{if(this.o.click===false)return;const r=cv.getBoundingClientRect();
+      const x=this.ix(e.clientX-r.left),y=this.iy(e.clientY-r.top);if(this.o.onClick)this.o.onClick(x,y);else this.add(x,y);});
+    new ResizeObserver(()=>{this.layout();}).observe(cv);
+    new IntersectionObserver(es=>{this.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(cv);
+  }
+  get d(){return this.o.dom;}
+  layout(){const F=fit(this.cv);if(!F)return;this.W=F.w;this.H=F.h;this.dpr=F.dpr;
+    this.m={l:this.W<300?30:38,r:8,t:8,b:this.W<300?24:28};
+    this.st.width=this.cv.width;this.st.height=this.cv.height;this.renderStatic();this.draw();}
+  X(x){const d=this.d;return this.m.l+(x-d.x0)/(d.x1-d.x0)*(this.W-this.m.l-this.m.r);}
+  Y(y){const d=this.d;return this.H-this.m.b-(y-d.y0)/(d.y1-d.y0)*(this.H-this.m.t-this.m.b);}
+  ix(px){const d=this.d;return d.x0+(px-this.m.l)/(this.W-this.m.l-this.m.r)*(d.x1-d.x0);}
+  iy(py){const d=this.d;return d.y0+(this.H-this.m.b-py)/(this.H-this.m.t-this.m.b)*(d.y1-d.y0);}
+  renderStatic(){
+    if(!this.W)return;const s=this.st.getContext('2d');s.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const o=this.o,d=this.d,m=this.m,pw=this.W-m.l-m.r,ph=this.H-m.t-m.b;
+    s.fillStyle=C.panel;s.fillRect(0,0,this.W,this.H);
+    if(o.bg){const Nx=Math.min(160,Math.round(pw/3)),Ny=Math.max(2,Math.round(Nx*ph/pw));const t=document.createElement('canvas');t.width=Nx;t.height=Ny;
+      const tc=t.getContext('2d');const img=tc.createImageData(Nx,Ny);
+      for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);const c=o.bg(x,y);const k=4*(j*Nx+i);
+        if(c){img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=Math.round(255*c[3]);}}
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,m.l,m.t,pw,ph);}
+    // grid & ticks
+    s.font=`${this.W<300?10:11}px 'Noto Sans KR',sans-serif`;s.fillStyle=C.muted;s.strokeStyle=rgba(C.muted,.18);s.lineWidth=1;
+    const xs=o.xticks||ticks(d.x0,d.x1),ys=o.yticks||ticks(d.y0,d.y1);
+    s.textAlign='center';s.textBaseline='top';
+    for(const[v,l]of xs){const px=this.X(v);s.beginPath();s.moveTo(px,m.t);s.lineTo(px,this.H-m.b);s.stroke();s.fillText(l,px,this.H-m.b+4);}
+    s.textAlign='right';s.textBaseline='middle';
+    for(const[v,l]of ys){const py=this.Y(v);s.beginPath();s.moveTo(m.l,py);s.lineTo(this.W-m.r,py);s.stroke();s.fillText(l,m.l-4,py);}
+    s.strokeStyle=rgba(C.ink,.55);s.lineWidth=1;
+    if(d.x0<=0&&d.x1>=0){s.beginPath();s.moveTo(this.X(0),m.t);s.lineTo(this.X(0),this.H-m.b);s.stroke();}
+    if(d.y0<=0&&d.y1>=0){s.beginPath();s.moveTo(m.l,this.Y(0));s.lineTo(this.W-m.r,this.Y(0));s.stroke();}
+    s.strokeStyle=C.rule;s.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+    s.save();s.font=`italic ${this.W<300?12:14}px 'STIX Two Text',serif`;s.fillStyle=C.ink;s.textAlign='right';s.textBaseline='bottom';
+    s.fillText(o.xl,this.W-m.r-4,this.H-m.b-3);s.textAlign='left';s.textBaseline='top';s.fillText(o.yl,m.l+5,m.t+3);s.restore();
+    s.save();s.beginPath();s.rect(m.l,m.t,pw,ph);s.clip();
+    if(o.decor)o.decor(s,this);
+    if(o.arrows){const n=this.W<320?Math.round(o.n*.75):o.n;const cw=pw/n,chh=ph/Math.max(1,Math.round(n*ph/pw));const ny=Math.round(ph/cw);
+      s.strokeStyle=rgba(C.muted,.7);s.fillStyle=rgba(C.muted,.7);s.lineWidth=1.1;
+      for(let i=0;i<n;i++)for(let j=0;j<ny;j++){const px=m.l+(i+.5)*cw,py=m.t+(j+.5)*(ph/ny);const x=this.ix(px),y=this.iy(py);const v=o.f(x,y);
+        if(!isFinite(v[0])||!isFinite(v[1]))continue;
+        let vx=v[0]/(d.x1-d.x0)*pw,vy=-v[1]/(d.y1-d.y0)*ph;const L=Math.hypot(vx,vy);if(L<1e-9)continue;const len=cw*.36;vx=vx/L*len;vy=vy/L*len;
+        s.beginPath();s.moveTo(px-vx,py-vy);s.lineTo(px+vx,py+vy);s.stroke();
+        const a=Math.atan2(vy,vx),hh=3.2;s.beginPath();s.moveTo(px+vx,py+vy);s.lineTo(px+vx-hh*Math.cos(a-.5),py+vy-hh*Math.sin(a-.5));s.lineTo(px+vx-hh*Math.cos(a+.5),py+vy-hh*Math.sin(a+.5));s.closePath();s.fill();}}
+    for(const p of o.fixed){const px=this.X(p.x),py=this.Y(p.y);s.lineWidth=1.6;s.strokeStyle=C.ink;s.beginPath();s.arc(px,py,4.5,0,7);
+      if(p.k==='s'){s.fillStyle=C.ink;s.fill();}else if(p.k==='saddle'){s.fillStyle=C.panel;s.fill();s.stroke();s.beginPath();s.arc(px,py,4.5,-Math.PI/2,Math.PI/2);s.lineTo(px,py-4.5);s.fillStyle=C.ink;s.fill();}else{s.fillStyle=C.panel;s.fill();s.stroke();}}
+    s.restore();
+  }
+  add(x,y,opt){opt=opt||{};const col=opt.col||TRAJ()[this.ci++%5];
+    const tr={x,y,t:0,c:0,pts:[[x,y,0]],col,alive:true,cidx:(this.ci-1)%5};
+    this.trajs.push(tr);while(this.trajs.length>this.o.maxTraj)this.trajs.shift();
+    if(reduceMotion&&!this.o.trail){while(tr.alive)this.stepTraj(tr,200);}
+    this.dirty=true;return tr;}
+  clear(){this.trajs=[];this.dirty=true;}
+  stepTraj(tr,k){const o=this.o,d=this.d;const W=(d.x1-d.x0),Hh=(d.y1-d.y0);
+    for(let i=0;i<k&&tr.alive;i++){let[nx,ny]=rk4(o.f,tr.x,tr.y,o.dt);tr.t+=o.dt;
+      if(o.wrapY){if(ny>d.y1)ny-=Hh;else if(ny<d.y0)ny+=Hh;}
+      tr.x=nx;tr.y=ny;
+      if(!isFinite(nx)||!isFinite(ny)||nx<d.x0-W*1.5||nx>d.x1+W*1.5||ny<d.y0-Hh*1.5||ny>d.y1+Hh*1.5){tr.alive=false;break;}
+      if(++tr.c%o.rec===0)tr.pts.push([nx,ny,tr.t]);
+      if(o.trail&&tr.pts.length>o.trail)tr.pts.splice(0,tr.pts.length-o.trail);
+      if(!o.trail&&tr.t>=o.tmax)tr.alive=false;}
+  }
+  step(){let any=false;for(const tr of this.trajs){if(tr.c===undefined)tr.c=0;if(tr.alive){this.stepTraj(tr,this.o.sub);any=true;}}return any;}
+  draw(){if(!this.W)return;const F=fit(this.cv);if(!F)return;const ctx=F.ctx;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(this.st,0,0);ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const m=this.m,d=this.d;ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,this.W-m.l-m.r,this.H-m.t-m.b);ctx.clip();
+    const Hh=d.y1-d.y0;
+    for(const tr of this.trajs){const P=tr.pts;if(P.length<1)continue;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';
+      if(this.o.trail){for(let i=1;i<P.length;i++){const a=i/P.length;ctx.strokeStyle=rgba(tr.col,.08+.9*a);ctx.beginPath();ctx.moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));ctx.stroke();}}
+      else if(this.o.segColor){const paths={};for(let i=1;i<P.length;i++){const k=this.o.segColor(P[i-1],P[i]);(paths[k]||(paths[k]=new Path2D())).moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));paths[k].lineTo(this.X(P[i][0]),this.Y(P[i][1]));}
+        for(const k in paths){ctx.strokeStyle=k;ctx.stroke(paths[k]);}
+        ctx.fillStyle=C.panel;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      else{ctx.strokeStyle=tr.col;ctx.beginPath();ctx.moveTo(this.X(P[0][0]),this.Y(P[0][1]));
+        for(let i=1;i<P.length;i++){if(this.o.wrapY&&Math.abs(P[i][1]-P[i-1][1])>Hh/2)ctx.moveTo(this.X(P[i][0]),this.Y(P[i][1]));else ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));}ctx.stroke();
+        ctx.fillStyle=C.panel;ctx.strokeStyle=tr.col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      const L=P[P.length-1];ctx.fillStyle=tr.col;ctx.beginPath();ctx.arc(this.X(L[0]),this.Y(L[1]),tr.alive||this.o.trail?5:3.5,0,7);ctx.fill();}
+    ctx.restore();if(this.o.onDraw)this.o.onDraw(this);}
+}
+function ticks(a,b){const st=niceStep(b-a);const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push([v,fmt(v)]);return out;}
+
+/* ---------------- simple time-series plot ---------------- */
+function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const m={l:w<300?34:42,r:8,t:8,b:22};const pw=w-m.l-m.r,ph=h-m.t-m.b;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.panel;ctx.fillRect(0,0,w,h);
+  const[x0,x1]=o.xr,[y0,y1]=o.yr;const X=x=>m.l+(x-x0)/(x1-x0)*pw,Y=y=>h-m.b-(y-y0)/(y1-y0)*ph;
+  ctx.font=`${w<300?10:11}px 'Noto Sans KR',sans-serif`;ctx.fillStyle=C.muted;ctx.strokeStyle=rgba(C.muted,.18);ctx.lineWidth=1;
+  ctx.textAlign='center';ctx.textBaseline='top';for(const[v,l]of(o.xticks||ticks(x0,x1))){ctx.beginPath();ctx.moveTo(X(v),m.t);ctx.lineTo(X(v),h-m.b);ctx.stroke();ctx.fillText(l,X(v),h-m.b+4);}
+  ctx.textAlign='right';ctx.textBaseline='middle';for(const[v,l]of(o.yticks||ticks(y0,y1))){ctx.beginPath();ctx.moveTo(m.l,Y(v));ctx.lineTo(w-m.r,Y(v));ctx.stroke();ctx.fillText(l,m.l-4,Y(v));}
+  ctx.strokeStyle=rgba(C.ink,.5);if(y0<0&&y1>0){ctx.beginPath();ctx.moveTo(m.l,Y(0));ctx.lineTo(w-m.r,Y(0));ctx.stroke();}
+  ctx.strokeStyle=C.rule;ctx.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+  ctx.save();ctx.font=`italic ${w<300?12:13}px 'STIX Two Text',serif`;ctx.fillStyle=C.ink;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xl||'t',w-m.r-4,h-m.b-2);
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(o.yl||'',m.l+5,m.t+2);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  if(o.pre)o.pre(ctx,X,Y);
+  for(const sr of o.series){if(!sr.pts||sr.pts.length<2)continue;ctx.strokeStyle=sr.col;ctx.lineWidth=sr.lw||2;ctx.setLineDash(sr.dash||[]);ctx.beginPath();
+    let st=Math.max(1,Math.floor(sr.pts.length/(pw*2)));ctx.moveTo(X(sr.pts[0][0]),Y(sr.pts[0][1]));for(let i=st;i<sr.pts.length;i+=st)ctx.lineTo(X(sr.pts[i][0]),Y(sr.pts[i][1]));
+    const L=sr.pts[sr.pts.length-1];ctx.lineTo(X(L[0]),Y(L[1]));ctx.stroke();ctx.setLineDash([]);
+    if(sr.head){ctx.fillStyle=sr.col;ctx.beginPath();ctx.arc(X(L[0]),Y(L[1]),4,0,7);ctx.fill();}}
+  if(o.post)o.post(ctx,X,Y);ctx.restore();}
+
+
+/* ================= HERO: relaxation particles ================= */
+(function hero(){
+  const cv=$('#hero');const MU=6;const Fc=x=>x*x*x/3-x;const f=(x,y)=>[MU*(y-Fc(x)),-x/MU];
+  let P=[];let W=0,H=0,dpr=1,S=1,cx=0,cy=0;const R=2.8;
+  function size(){const F=fit(cv);if(!F)return;W=F.w;H=F.h;dpr=F.dpr;S=Math.min(W,H)/2/R;cx=W/2;cy=H/2;F.ctx.clearRect(0,0,W,H);}
+  function spawn(x,y){return{x,y,age:0,life:10+Math.random()*14};}
+  function rand(){return spawn((Math.random()*2-1)*R,(Math.random()*2-1)*R);}
+  const N=matchMedia('(max-width:600px)').matches?260:480;
+  for(let i=0;i<N;i++){const p=rand();p.age=Math.random()*p.life*.5;P.push(p);}
+  new ResizeObserver(size).observe(cv);size();
+  let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
+  cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();const x=(e.clientX-r.left-cx)/S,y=-(e.clientY-r.top-cy)/S;
+    for(let i=0;i<60;i++)P.push(spawn(x+(Math.random()-.5)*.3,y+(Math.random()-.5)*.3));
+    if(P.length>N+500)P.splice(0,P.length-(N+500));if(reduceMotion)staticDraw();});
+  function nullcline(c,a){c.strokeStyle=rgba(C.amber,a);c.lineWidth=1.5;c.beginPath();for(let i=0;i<=200;i++){const x=-R+2*R*i/200;const y=Fc(x);i?c.lineTo(cx+x*S,cy-y*S):c.moveTo(cx+x*S,cy-y*S);}c.stroke();}
+  function staticDraw(){const F=fit(cv);if(!F)return;const c=F.ctx;c.clearRect(0,0,W,H);nullcline(c,.6);
+    for(const[x0,y0]of[[2,0],[-2.4,2.2],[0.3,-2.4],[2.5,-1.5]]){let x=x0,y=y0;for(let i=0;i<6000;i++){const[nx,ny]=rk4(f,x,y,.004);const fast=Math.abs(MU*(y-Fc(x)))>1;
+      c.strokeStyle=rgba(fast?C.pink:C.cyan,.8);c.lineWidth=1.4;c.beginPath();c.moveTo(cx+x*S,cy-y*S);c.lineTo(cx+nx*S,cy-ny*S);c.stroke();x=nx;y=ny;}}}
+  if(reduceMotion){setTimeout(staticDraw,50);new ResizeObserver(()=>staticDraw()).observe(cv);return;}
+  function frame(){requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.06)';c.fillRect(0,0,W,H);c.globalCompositeOperation='source-over';
+    nullcline(c,.05);
+    c.lineWidth=1.4;c.lineCap='round';const pf=new Path2D(),ps=new Path2D();
+    for(const p of P){const x0=p.x,y0=p.y;for(let k=0;k<4;k++){[p.x,p.y]=rk4(f,p.x,p.y,.005);}p.age+=.02;
+      const fast=Math.abs(MU*(y0-Fc(x0)))>1;const path=fast?pf:ps;path.moveTo(cx+x0*S,cy-y0*S);path.lineTo(cx+p.x*S,cy-p.y*S);}
+    c.strokeStyle=rgba(C.pink,.85);c.stroke(pf);c.strokeStyle=rgba(C.cyan,.9);c.stroke(ps);
+    for(let i=0;i<P.length;i++){const p=P[i];if(p.age>p.life||Math.abs(p.x)>R*1.6||Math.abs(p.y)>R*1.6)P[i]=i<N?rand():null;}P=P.filter(Boolean);}
+  frame();
+})();
+
+/* ================= 7.3.1 trapping annulus ================= */
+let pbMu=.3,rIn=.8,rOut=1.2;
+const pbRdot=(r,th)=>r*(1-r*r)+pbMu*r*Math.cos(th);
+function pbCheck(r,inner){let bad=0;for(let i=0;i<720;i++){const v=pbRdot(r,i/720*2*Math.PI);if(inner?v<=0:v>=0)bad++;}return bad;}
+const pb=new Plane($('#pb'),{dom:{x0:-1.8,x1:1.8,y0:-1.8,y1:1.8},
+  f:(x,y)=>{const r=Math.hypot(x,y);const g=(1-r*r)+(r>1e-12?pbMu*x/r:0);return[g*x-y,g*y+x];},
+  tmax:20,maxTraj:6,sub:4,fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{const R0=Math.abs(p.X(1)-p.X(0));const cx=p.X(0),cy=p.Y(0);
+    if(rOut>rIn){s.fillStyle=rgba(C.amber,.13);s.beginPath();s.moveTo(cx+rOut*R0,cy);s.arc(cx,cy,rOut*R0,0,2*Math.PI);s.moveTo(cx+rIn*R0,cy);s.arc(cx,cy,rIn*R0,0,2*Math.PI);s.fill('evenodd');}
+    for(const[r,inner]of[[rIn,true],[rOut,false]]){const n=240;s.lineWidth=3.5;
+      for(let i=0;i<n;i++){const t0=i/n*2*Math.PI,t1=(i+1)/n*2*Math.PI,v=pbRdot(r,(t0+t1)/2);const ok=inner?v>0:v<0;
+        s.strokeStyle=ok?C.green:C.pink;s.beginPath();s.arc(cx,cy,r*R0,-t1,-t0);s.stroke();}}}});
+function pbUpdate(){$('#pbMuOut').textContent=pbMu.toFixed(2);$('#pbInOut').textContent=rIn.toFixed(3);$('#pbOutOut').textContent=rOut.toFixed(3);
+  const bi=pbCheck(rIn,true),bo=pbCheck(rOut,false);const v=$('#pbV');
+  if(rIn>=rOut){v.className='verdict no';v.innerHTML='안쪽 원이 바깥 원보다 커서 고리가 만들어지지 않습니다.';}
+  else if(!bi&&!bo){v.className='verdict ok';v.innerHTML='두 원 위의 모든 점에서 흐름이 고리 안쪽으로 향합니다. 고리 안에는 고정점이 없으니(<span class="m">θ̇ = 1</span>) P-B 정리에 의해 <b>고리 안에 닫힌 궤도가 있습니다.</b>';}
+  else{v.className='verdict no';const w=[];if(bi)w.push('안쪽 원의 '+(100*bi/720).toFixed(0)+'%');if(bo)w.push('바깥 원의 '+(100*bo/720).toFixed(0)+'%');
+    v.innerHTML=w.join(', ')+'에서 흐름이 고리 밖으로 새어 나갑니다. 가두는 영역이 아니므로 이 고리로는 결론을 내릴 수 없습니다.'+(pbMu>=1&&bi?' <span class="m">μ ≥ 1</span>이면 어떤 원을 골라도 안쪽 원에서 <span class="m">ṙ &gt; 0</span>을 보장할 수 없습니다. 그래도 궤적을 그려 보면 닫힌 궤도는 여전히 있습니다.':'');}
+  pb.renderStatic();pb.dirty=true;}
+function pbBook(){if(pbMu<1){rIn=.999*Math.sqrt(1-pbMu);}else{rIn=.05;}rOut=1.001*Math.sqrt(1+pbMu);$('#pbIn').value=rIn;$('#pbOut').value=rOut;pbUpdate();}
+$('#pbMu').addEventListener('input',e=>{pbMu=+e.target.value;pbBook();});
+$('#pbIn').addEventListener('input',e=>{rIn=+e.target.value;pbUpdate();});
+$('#pbOut').addEventListener('input',e=>{rOut=+e.target.value;pbUpdate();});
+$('#pbBook').addEventListener('click',pbBook);
+pbBook();pb.add(.15,0);pb.add(1.7,.4);pb.add(-.5,-1.5);
+
+/* ================= 7.3.2/7.3.3 glycolysis ================= */
+let ga=.08,gb=.6,gview='full';
+const glyF=(x,y)=>[-x+ga*y+x*x*y,gb-ga*y-x*x*y];
+function glyTau(a,b){return -(b**4+(2*a-1)*b*b+(a+a*a))/(a+b*b);}
+function glyPoly(){const a=ga,b=gb,top=b/a;const h=x=>top-(x-b)-x/(a+x*x);let lo=b,hi=b+top;for(let i=0;i<80;i++){const m=(lo+hi)/2;if(h(m)>0)lo=m;else hi=m;}
+  const xc=(lo+hi)/2,yc=xc/(a+xc*xc);return[[0,0],[xc,0],[xc,yc],[b,top],[0,top]];}
+function glyDom(){if(gview==='zoom'){const L=Math.max(3,2.6*gb+1);return{x0:0,x1:L,y0:0,y1:L};}const P=glyPoly();const L=Math.max(P[1][0],P[3][1])*1.06;return{x0:0,x1:L,y0:0,y1:L};}
+function edgeOK(p0,p1){const dx=p1[0]-p0[0],dy=p1[1]-p0[1];const nx=-dy,ny=dx;const L=Math.hypot(nx,ny);const out=[];const n=60;
+  for(let i=0;i<n;i++){const t=(i+.5)/n;const x=p0[0]+dx*t,y=p0[1]+dy*t;const v=glyF(x,y);out.push([t,(v[0]*nx+v[1]*ny)/L>=-1e-9]);}return out;}
+const gly=new Plane($('#gly'),{dom:glyDom(),f:glyF,tmax:80,maxTraj:6,sub:6,
+  decor:(s,p)=>{const P=glyPoly();
+    s.fillStyle=rgba(C.amber,.1);s.beginPath();P.forEach((q,i)=>i?s.lineTo(p.X(q[0]),p.Y(q[1])):s.moveTo(p.X(q[0]),p.Y(q[1])));s.closePath();s.fill();
+    const d=p.d;const nc=(fn,col)=>{s.strokeStyle=col;s.lineWidth=2;s.beginPath();for(let i=0;i<=400;i++){const x=d.x0+(d.x1-d.x0)*i/400;const y=fn(x);i?s.lineTo(p.X(x),p.Y(y)):s.moveTo(p.X(x),p.Y(y));}s.stroke();};
+    nc(x=>x/(ga+x*x),rgba(C.cyan,.85));nc(x=>gb/(ga+x*x),rgba(C.amber,.9));
+    s.lineWidth=3;s.setLineDash([6,4]);let allOK=true;
+    for(let k=0;k<P.length;k++){const p0=P[k],p1=P[(k+1)%P.length];const res=edgeOK(p0,p1);const n=res.length;
+      for(const[t,ok]of res){if(!ok)allOK=false;const ta=t-.5/n,tb=t+.5/n;s.strokeStyle=ok?C.green:C.pink;s.beginPath();
+        s.moveTo(p.X(p0[0]+(p1[0]-p0[0])*ta),p.Y(p0[1]+(p1[1]-p0[1])*ta));s.lineTo(p.X(p0[0]+(p1[0]-p0[0])*tb),p.Y(p0[1]+(p1[1]-p0[1])*tb));s.stroke();}}
+    s.setLineDash([]);gly.allOK=allOK;
+    if(glyTau(ga,gb)>0){const fx=p.X(gb),fy=p.Y(gb/(ga+gb*gb));s.strokeStyle=C.ink;s.lineWidth=1.2;s.setLineDash([3,3]);s.beginPath();s.arc(fx,fy,14,0,7);s.stroke();s.setLineDash([]);
+      s.fillStyle=C.ink;s.font="13px 'Noto Sans KR',sans-serif";s.fillText('밀개',fx+17,fy-10);}}});
+function glyUpdate(reseed){$('#gaOut').textContent=ga.toFixed(3);$('#gbOut').textContent=gb.toFixed(2);
+  const tau=glyTau(ga,gb),det=ga+gb*gb,ys=gb/(ga+gb*gb);const spiral=tau*tau-4*det<0;
+  gly.o.dom=glyDom();gly.o.fixed=[{x:gb,y:ys,k:tau>0?'u':'s'}];
+  $('#glyFP').textContent='(x*, y*) = ('+gb.toFixed(2)+', '+ys.toFixed(3)+')';
+  $('#glyTau').textContent='τ = '+tau.toFixed(3)+', Δ = '+det.toFixed(3);
+  gly.renderStatic();
+  const v=$('#glyV');const kind=(tau>0?'불안정한 ':'안정한 ')+(spiral?'나선':'점');
+  if(tau>0){v.className='verdict ok';v.innerHTML='고정점은 '+kind+'(<span class="m">τ &gt; 0</span>), 즉 밀개입니다. 고정점 주위에 작은 구멍을 낸 영역은 고정점이 없는 가두는 영역이 되므로, P-B 정리에 의해 <b>닫힌 궤도가 존재합니다.</b>';}
+  else{v.className='verdict no';v.innerHTML='고정점은 '+kind+'(<span class="m">τ &lt; 0</span>)입니다. 가두는 영역 안에 고정점이 있으니 P-B 정리를 적용할 수 없습니다. 궤적은 고정점으로 빨려 들어갑니다.';}
+  if(reseed){gly.clear();gly.ci=0;const L=Math.min(gly.o.dom.x1,3);gly.add(.2*L,.1*L);gly.add(.9*L,.15*L);gly.add(.1*L,.9*L);}
+  gly.dirty=true;drawAB();}
+function glyFromInputs(){ga=+$('#ga').value;gb=+$('#gb').value;glyUpdate(true);}
+let glyT=null;
+for(const id of['#ga','#gb'])$(id).addEventListener('input',()=>{$('#gaOut').textContent=(+$('#ga').value).toFixed(3);$('#gbOut').textContent=(+$('#gb').value).toFixed(2);clearTimeout(glyT);glyT=setTimeout(glyFromInputs,90);});
+document.querySelectorAll('.seg[aria-label="보기 범위"] button').forEach(b=>b.addEventListener('click',()=>{gview=b.dataset.v;
+  document.querySelectorAll('.seg[aria-label="보기 범위"] button').forEach(c=>c.setAttribute('aria-pressed',c===b));glyUpdate(true);}));
+$('#glyClear').addEventListener('click',()=>{gly.clear();gly.ci=0;});
+// (a,b) parameter plane
+const abCv=$('#glyab');abCv.style.aspectRatio='2/1';
+const AB={xr:[0,.14],yr:[0,1.2]};
+function drawAB(){const lo=[],hi=[];for(let i=0;i<=300;i++){const a=.125*i/300;const s=Math.sqrt(Math.max(0,1-8*a));const bl=(1-2*a-s)/2,bh=(1-2*a+s)/2;lo.push([a,Math.sqrt(Math.max(0,bl))]);hi.push([a,Math.sqrt(Math.max(0,bh))]);}
+  const curve=lo.concat(hi.slice().reverse());
+  plot(abCv,{xr:AB.xr,yr:AB.yr,xl:'a',yl:'b',xticks:[[0,'0'],[.04,'0.04'],[.08,'0.08'],[.12,'0.12']],series:[{pts:curve,col:C.ink,lw:1.6}],
+    pre:(c,X,Y)=>{c.fillStyle=rgba(C.green,.18);c.beginPath();curve.forEach((q,i)=>i?c.lineTo(X(q[0]),Y(q[1])):c.moveTo(X(q[0]),Y(q[1])));c.closePath();c.fill();
+      c.fillStyle=C.muted;c.font="11px 'Noto Sans KR',sans-serif";c.textAlign='left';c.fillText('안정적인 극한 주기 궤도',X(.008),Y(.62));c.fillText('안정된 고정점',X(.095),Y(.22));},
+    post:(c,X,Y)=>{c.fillStyle=glyTau(ga,gb)>0?C.pink:C.cyan;c.strokeStyle=C.panel;c.lineWidth=2;c.beginPath();c.arc(X(ga),Y(gb),6,0,7);c.fill();c.stroke();}});}
+abCv.addEventListener('pointerdown',e=>{const r=abCv.getBoundingClientRect();const w=r.width,h=r.height;const m={l:w<300?34:42,r:8,t:8,b:22};
+  const a=AB.xr[0]+(e.clientX-r.left-m.l)/(w-m.l-m.r)*(AB.xr[1]-AB.xr[0]);const b=AB.yr[0]+(h-m.b-(e.clientY-r.top))/(h-m.t-m.b)*(AB.yr[1]-AB.yr[0]);
+  ga=Math.min(.14,Math.max(.005,Math.round(a*1000)/1000));gb=Math.min(1.2,Math.max(.05,Math.round(b*100)/100));$('#ga').value=ga;$('#gb').value=gb;glyUpdate(true);});
+new ResizeObserver(drawAB).observe(abCv);
+glyUpdate(true);
+
+/* ================= 7.4 Liénard ================= */
+let lmu=1;
+const FS={vdp:x=>lmu*(x*x-1),quart:x=>lmu*(x**4-1),rev:x=>lmu*(1-x*x),odd:x=>lmu*(x*x-1)+.5*x};
+const GS={lin:x=>x,hard:x=>x+x*x*x,cub:x=>x*x*x,sin:x=>Math.sin(x)};
+let lfk='vdp',lgk='lin';
+const lien=new Plane($('#lien'),{dom:{x0:-4,x1:4,y0:-5,y1:5},f:(x,y)=>[y,-GS[lgk](x)-FS[lfk](x)*y],tmax:40,maxTraj:5,dt:.005,sub:8,xl:'x',yl:'y = ẋ',fixed:[{x:0,y:0,k:'u'}]});
+$('#lienF').style.aspectRatio='3/1';
+function Fint(x){const n=200;let s=0;const h=x/n,f=FS[lfk];for(let i=0;i<n;i++){const a=i*h;s+=h/6*(f(a)+4*f(a+h/2)+f(a+h));}return s;}
+function lienCheck(){const f=FS[lfk],g=GS[lgk];const xs=[];for(let i=1;i<=400;i++)xs.push(10*i/400);
+  const c2=xs.every(x=>Math.abs(g(-x)+g(x))<1e-9),c3=xs.every(x=>g(x)>0),c4=xs.every(x=>Math.abs(f(-x)-f(x))<1e-9);
+  const Fv=xs.map(Fint);let roots=[];for(let i=1;i<xs.length;i++)if(Fv[i-1]<0!==Fv[i]<0)roots.push(xs[i-1]+(xs[i]-xs[i-1])*(-Fv[i-1])/(Fv[i]-Fv[i-1]));
+  let c5=roots.length===1&&Fv[0]<0;let a=roots[0];
+  if(c5){for(let i=1;i<xs.length;i++){if(xs[i]<a&&Fv[i]>=0)c5=false;if(xs[i-1]>a&&Fv[i]<Fv[i-1]-1e-9)c5=false;}if(Fv[Fv.length-1]<=Fv[Fv.length/2])c5=false;}
+  return{c:[true,c2,c3,c4,c5],a,roots};}
+function lienUpdate(reseed){$('#lmuOut').textContent=lmu.toFixed(1);const R=lienCheck();
+  const lbl=['(1) f, g 연속적으로 미분 가능','(2) g는 기함수','(3) x > 0이면 g(x) > 0','(4) f는 우함수','(5) F의 조건'+(R.c[4]?' (a = '+R.a.toFixed(3)+')':'')];
+  $('#lienCk').innerHTML=lbl.map((t,i)=>'<li class="'+(R.c[i]?'y':'n')+'"><span>'+(R.c[i]?'✓':'✗')+'</span>'+t+'</li>').join('');
+  const v=$('#lienV');
+  if(R.c.every(Boolean)){v.className='verdict ok';v.innerHTML='다섯 조건을 모두 만족합니다. 리에나르의 정리에 의해 원점을 둘러싼 <b>유일하고 안정적인 극한 주기 궤도</b>가 있습니다.';}
+  else{v.className='verdict no';v.innerHTML='조건 '+R.c.map((ok,i)=>ok?null:'('+(i+1)+')').filter(Boolean).join(', ')+'을(를) 만족하지 않으므로 리에나르의 정리를 적용할 수 없습니다.';}
+  const pts=[],xm=4;let lo=-1,hi=1;for(let i=0;i<=200;i++){const x=xm*i/200;const F=Fint(x);pts.push([x,F]);}
+  for(const q of pts){if(q[0]<=3){lo=Math.min(lo,q[1]);hi=Math.max(hi,q[1]);}}lo=Math.max(lo,-6);hi=Math.min(hi,6);
+  plot($('#lienF'),{xr:[0,xm],yr:[lo*1.15,hi*1.15],xl:'x',yl:'F',series:[{pts,col:C.pink}],
+    post:(c,X,Y)=>{if(R.c[4]){c.fillStyle=C.ink;c.beginPath();c.arc(X(R.a),Y(0),4.5,0,7);c.fill();c.font="italic 13px 'STIX Two Text',serif";c.fillText('a',X(R.a)+5,Y(0)-6);}}});
+  lien.renderStatic();
+  if(reseed){lien.clear();lien.ci=0;lien.add(.1,0);lien.add(3.6,0);lien.add(-1,-4.5);}lien.dirty=true;}
+$('#lf').addEventListener('change',e=>{lfk=e.target.value;lienUpdate(true);});
+$('#lg').addEventListener('change',e=>{lgk=e.target.value;lienUpdate(true);});
+let lienT=null;$('#lmu').addEventListener('input',e=>{lmu=+e.target.value;$('#lmuOut').textContent=lmu.toFixed(1);clearTimeout(lienT);lienT=setTimeout(()=>lienUpdate(true),100);});
+$('#lienClear').addEventListener('click',()=>{lien.clear();lien.ci=0;});
+new ResizeObserver(()=>lienUpdate(false)).observe($('#lienF'));
+lienUpdate(true);
+
+/* ================= 7.5 relaxation ================= */
+let rmu=10;const Fr=x=>x*x*x/3-x;const LN2=Math.log(2),ALPHA=2.338;
+const relF=(x,y)=>[rmu*(y-Fr(x)),-x/rmu];
+const Tapprox=m=>m*(3-2*LN2),Tbetter=m=>m*(3-2*LN2)+2*ALPHA*Math.pow(m,-1/3);
+function relTsettings(){const T=Tbetter(rmu);const dt=Math.min(.01,.05/rmu);const tmax=3*T;return{dt,tmax,sub:Math.max(2,Math.ceil(tmax/dt/720))};}
+const rel=new Plane($('#rel'),{dom:{x0:-3,x1:3,y0:-2,y1:2},aspect:.72,f:relF,maxTraj:3,rec:2,xl:'x',yl:'y',fixed:[{x:0,y:0,k:'u'}],
+  segColor:(a,b)=>Math.abs(rmu*(a[1]-Fr(a[0])))>1?C.pink:C.cyan,
+  decor:(s,p)=>{s.strokeStyle=rgba(C.amber,.9);s.lineWidth=2.2;s.beginPath();for(let i=0;i<=300;i++){const x=-3+6*i/300;i?s.lineTo(p.X(x),p.Y(Fr(x))):s.moveTo(p.X(x),p.Y(Fr(x)));}s.stroke();
+    s.fillStyle=C.ink;s.font="600 13px 'STIX Two Text',serif";
+    for(const[n,x,y,dx,dy]of[['A',2,2/3,6,-6],['B',1,-2/3,6,14],['C',-2,-2/3,-16,14],['D',-1,2/3,-16,-6]]){s.beginPath();s.arc(p.X(x),p.Y(y),3.5,0,7);s.fill();s.fillText(n,p.X(x)+dx,p.Y(y)+dy);}},
+  onDraw:()=>drawRel()});
+$('#relx').style.aspectRatio='3/1';
+function drawRel(){const tr=rel.trajs[rel.trajs.length-1];const ser=[];const tmax=rel.o.tmax;
+  if(tr){let cur=null,k=null;const P=tr.pts;for(let i=1;i<P.length;i++){const kk=Math.abs(rmu*(P[i-1][1]-Fr(P[i-1][0])))>1?C.pink:C.cyan;
+      if(kk!==k){if(cur)ser.push({pts:cur,col:k});cur=[[P[i-1][2],P[i-1][0]]];k=kk;}cur.push([P[i][2],P[i][0]]);}if(cur)ser.push({pts:cur,col:k});
+    const z=[];for(let i=1;i<P.length;i++){if(P[i-1][0]<0&&P[i][0]>=0){const a=P[i-1],b=P[i];z.push(a[2]+(b[2]-a[2])*(-a[0])/(b[0]-a[0]));}}
+    $('#relTn').textContent=z.length>=2?((z[z.length-1]-z[z.length-2])).toFixed(2):'계산 중…';}
+  plot($('#relx'),{xr:[0,tmax],yr:[-2.6,2.6],xl:'t',yl:'x',series:ser});}
+function relSet(reseed){$('#rmuOut').textContent=rmu.toFixed(1);$('#relTa').textContent=Tapprox(rmu).toFixed(2);
+  const S=relTsettings();rel.o.dt=S.dt;rel.o.tmax=S.tmax;rel.o.sub=S.sub;rel.renderStatic();
+  if(reseed){rel.clear();rel.ci=0;rel.add(2,0,{col:C.ink});}rel.dirty=true;drawT();}
+let relTm=null;$('#rmu').addEventListener('input',e=>{rmu=+e.target.value;$('#rmuOut').textContent=rmu.toFixed(1);clearTimeout(relTm);relTm=setTimeout(()=>relSet(true),120);});
+$('#relClear').addEventListener('click',()=>{rel.clear();rel.ci=0;});
+// numerical periods
+function numPeriod(m){const f=(x,y)=>[m*(y-Fr(x)),-x/m];const dt=Math.min(.01,.05/m);let x=2,y=0,t=0;const Te=Tbetter(m);const z=[];let px=x;
+  while(t<4*Te&&z.length<4){[x,y]=rk4(f,x,y,dt);t+=dt;if(t>1.2*Te&&px<0&&x>=0)z.push(t);px=x;}return z.length>=2?(z[z.length-1]-z[0])/(z.length-1):NaN;}
+const MUS=[1,1.5,2,3,4,5,6,8,10,12,15,20,25,30];const Tnum=MUS.map(m=>[m,numPeriod(m)]);
+$('#relT').style.aspectRatio='4/3';
+function drawT(){const a1=[],a2=[];for(let i=0;i<=200;i++){const m=.5+29.5*i/200;a1.push([m,Tapprox(m)]);a2.push([m,Tbetter(m)]);}
+  plot($('#relT'),{xr:[0,30],yr:[0,55],xl:'μ',yl:'T',series:[{pts:a1,col:C.pink,lw:2},{pts:a2,col:C.green,lw:2}],
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.muted,.7);c.setLineDash([4,4]);c.beginPath();c.moveTo(X(rmu),Y(0));c.lineTo(X(rmu),Y(55));c.stroke();c.setLineDash([]);},
+    post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[m,T]of Tnum){if(!isFinite(T))continue;c.beginPath();c.arc(X(m),Y(T),3.8,0,7);c.fill();}}});}
+new ResizeObserver(drawT).observe($('#relT'));
+relSet(true);
+
+/* ---------------- loop & theme ---------------- */
+function loop(){for(const p of planes){if(!p.visible||!p.W)continue;const busy=p.step();if(busy||p.dirty){p.draw();p.dirty=false;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function retheme(){readTheme();for(const p of planes){for(const t of p.trajs){if(t.cidx!==undefined)t.col=TRAJ()[t.cidx];}p.renderStatic();p.dirty=true;}
+  rel.trajs.forEach(t=>t.col=C.ink);drawAB();lienUpdate(false);drawT();}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(()=>{for(const p of planes){p.renderStatic();p.dirty=true;}drawAB();drawT();});
+})();
+</script>
+</body>
+</html>
