@@ -534,7 +534,7 @@ const TAU=2*Math.PI;
   new ResizeObserver(draw).observe(cv);
   if(reduceMotion){for(let s=0;s<2500;s++)step();setTimeout(draw,30);return;}
   for(let s=0;s<600;s++)step();
-  (function frame(){requestAnimationFrame(frame);if(!vis)return;for(let s=0;s<6;s++)step();draw();})();
+  let fc=0;(function frame(){requestAnimationFrame(frame);if(!vis)return;if((fc++)%2)return;step();draw();})();
 })();
 
 /* ================= 8.3 chemical oscillator ================= */
