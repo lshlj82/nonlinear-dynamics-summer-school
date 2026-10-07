@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>제8장 갈래치기 다시 보기: 화학 진동자, 전역적 갈래치기, 조지프슨 접합</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
+  --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --hl-pink:rgba(232,67,147,.22); --hl-green:rgba(70,200,95,.28); --hl-cyan:rgba(60,180,230,.22);
+  --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --math:'STIX Two Text','Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+    --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+  --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;gap:18px;align-items:center;overflow-x:auto}
+.bar-in .t{font-family:var(--serif);font-weight:700;white-space:nowrap;margin-right:auto}
+.bar-in a{color:var(--ink);text-decoration:none;white-space:nowrap;font-size:.92rem;padding:4px 2px;border-bottom:2px solid transparent}
+.bar-in a:hover{border-bottom-color:var(--pink)}
+.bar-in a b{font-family:var(--math);font-weight:600;color:var(--pink);margin-right:4px}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:40px 20px 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.12;margin:0 0 6px;letter-spacing:-.01em}
+.hero h1 .en{display:block;font-family:var(--math);font-style:italic;font-weight:400;font-size:.5em;color:var(--muted);margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:1.05rem;max-width:34em;margin:18px 0}
+.credit{font-size:.88rem;color:var(--muted);border-left:3px solid var(--green);padding:4px 0 4px 12px;max-width:36em}
+.credit strong{color:var(--ink);font-weight:500}
+.hero-fig{position:relative}
+#hero{width:100%;aspect-ratio:1/1;display:block;cursor:crosshair;touch-action:manipulation}
+.hero-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* sections */
+.sec{max-width:1180px;margin:0 auto;padding:56px 20px 8px}
+.sec-h{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.sec-h .no{font-family:var(--math);font-size:2.4rem;font-weight:600;color:var(--pink);line-height:1}
+.sec-h h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);margin:0;line-height:1.25}
+.sec-h h2 span{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted);font-size:.72em;margin-left:6px}
+.sec > .intro{max-width:46em;margin:6px 0 10px}
+h3{font-family:var(--serif);font-size:1.32rem;margin:40px 0 8px;line-height:1.35}
+h3 .en{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start;margin-top:16px}
+.row.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.row.flip > .txt{order:2}
+.txt p{margin:0 0 14px}
+.txt ul{margin:0 0 14px;padding-left:1.2em}
+.txt li{margin-bottom:6px}
+.en{font-family:var(--math);font-style:italic}
+.hl{background:linear-gradient(transparent 58%,var(--hl-green) 58%)}
+.hlp{background:linear-gradient(transparent 58%,var(--hl-pink) 58%)}
+.hlc{background:linear-gradient(transparent 58%,var(--hl-cyan) 58%)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap;font-size:1.06em}
+.m sup,.m sub{font-style:normal;font-size:.72em}
+.eq{font-family:var(--math);font-size:1.22rem;margin:10px 0 16px;padding:8px 16px;display:inline-block;border:2px solid var(--pink);border-radius:5px;background:var(--panel);line-height:1.6}
+.eq i{font-style:italic}
+.eq.plain{border-color:var(--rule)}
+.pen{font-weight:500;font-size:.95rem;line-height:1.6;color:var(--pink);margin:4px 0 16px;display:block;border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pen::before{content:'강의노트 메모';display:block;font-size:.75rem;font-weight:400;color:var(--muted)}
+.no-wrap{white-space:nowrap}
+.pen.g{color:var(--green)} .pen.c{color:var(--cyan)}
+.box{border:2px solid var(--green);border-radius:6px;padding:12px 16px;margin:12px 0 16px;background:var(--panel)}
+.box.amber{border-color:var(--amber)}
+.box.pink{border-color:var(--pink)}
+.box p:last-child{margin-bottom:0}
+.box .lbl{font-weight:700;margin-right:6px}
+
+/* demo panel */
+.demo{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.demo canvas{width:100%;display:block;touch-action:manipulation}
+.demo canvas.pp{cursor:crosshair}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.92rem}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--hl-cyan)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);background:var(--pink)}
+label.sl{display:inline-flex;align-items:center;gap:8px}
+label.sl output{font-family:var(--math);min-width:3.2em;font-size:1.05rem}
+input[type=range]{accent-color:var(--pink);width:180px;max-width:42vw}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:4px 8px}
+.hint{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.read{font-size:.92rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.read b{font-family:var(--math);font-weight:600}
+.verdict{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:.93rem;border:1px solid var(--rule)}
+.verdict.ok{border-color:var(--green);background:var(--hl-green)}
+.verdict.no{border-color:var(--pink);background:var(--hl-pink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{font-size:.86rem;text-align:center;margin:4px 0 0}
+.cap .amp{font-family:var(--math);font-weight:600}
+.sub{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+footer{max-width:1180px;margin:40px auto 0;padding:24px 20px 40px;border-top:2px solid var(--ink);font-size:.9rem;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:60em}
+footer strong{color:var(--ink);font-weight:500}
+.refs{max-width:52em;padding-left:1.4em;margin:12px 0 0;font-size:.95rem}
+.refs li{margin-bottom:10px}
+.refs i{font-family:var(--math)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero-fig{order:-1}
+  .row,.row.flip{grid-template-columns:1fr;gap:18px}
+  .row.flip > .txt{order:0}
+  body{font-size:16px}
+}
+@media (max-width:520px){
+  .two{grid-template-columns:1fr}
+  .bar-in .t{display:none}
+}
+
+:root{--hl-amber:rgba(214,140,30,.22)}
+.hero .kicker{color:var(--muted);margin:0 0 10px;font-size:.95rem}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem)}
+.check{list-style:none;padding:0;margin:10px 0 0;font-size:.9rem;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.check li{display:flex;gap:6px;align-items:baseline}
+.check li span{font-weight:700;width:1em}
+.check li.y span{color:var(--green)}
+.check li.n span{color:var(--pink)}
+.check li.n{color:var(--pink)}
+@media (max-width:520px){.check{grid-template-columns:1fr}}
+
+.ctl input[type=checkbox]{accent-color:var(--pink);margin-right:4px}
+
+
+.tbl{border-collapse:collapse;font-size:.93rem;margin:8px 0 16px;min-width:420px;background:var(--panel)}
+.tbl th,.tbl td{border-bottom:1px solid var(--rule);padding:6px 12px;text-align:left}
+.tbl th{font-weight:500;color:var(--muted)}
+.tbl td.m{white-space:nowrap}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="섹션 이동">
+  <div class="bar-in">
+    <a class="t" href="index.html" style="border:0;color:var(--ink)">갈래치기 다시 보기</a>
+    <a href="#s83"><b>8.3</b>진동하는 화학반응</a>
+    <a href="#s84"><b>8.4</b>전역적 갈래치기</a>
+    <a href="#s85"><b>8.5</b>구동 진자와 조지프슨 접합</a>
+    <a href="#refs">참고문헌</a>
+    <a href="index.html">전체 목록</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <p class="kicker">제8장 갈래치기 다시 보기</p>
+    <h1>화학 진동자에서 조지프슨 접합까지<span class="en">Chemical Oscillators, Global Bifurcations, Josephson Junctions</span></h1>
+    <p class="lead">호프 갈래치기로 화학 진동이 켜지는 것을 확인하고, 단일 고정점 근처가 아니라 위상 평면의 넓은 영역에서 일어나는 순환 궤도의 전역적 갈래치기(global bifurcation)들을 비교한다. 마지막으로 원통 위상 공간에서 푸앵카레 사상(Poincaré map)으로 극한 주기 궤도의 존재를 증명하고, 조지프슨 접합의 다른길오고감(hysteresis)을 직접 만들어 본다.</p>
+    <p class="credit">이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트(<a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>, 7~8장 강의)를 기반으로 합니다.</p>
+  </div>
+  <figure class="hero-fig" style="margin:0">
+    <canvas id="hero" aria-label="흥분성 매질에서 회전하는 나선파 시뮬레이션. 클릭하면 새 파동이 생깁니다."></canvas>
+    <figcaption>BZ 반응의 얇은 층에서 관찰되는 나선파를 흉내 낸 흥분성 매질 모형(Barkley 모형) 시뮬레이션입니다. 교재의 방정식은 아니며, 분위기를 보여 주기 위한 그림입니다. 눌러서 새 파동을 일으켜 보세요.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ 8.3 ============ -->
+<section class="sec" id="s83">
+  <div class="sec-h"><span class="no">8.3</span><h2>진동하는 화학반응<span>oscillating chemical reactions</span></h2></div>
+  <div class="row">
+    <div class="txt">
+      <h3 style="margin-top:8px">벨루소프의 ‘발견했다는 발견’</h3>
+      <p>1950년대 초 러시아의 생화학자 보리스 벨루소프(Boris Belousov)는 크렙스(Krebs) 순환을 시험관에서 흉내 내려다가, 세륨(cerium) 촉매가 있는 황산 용액에서 구연산과 브롬산 이온을 혼합하자 혼합물이 노랗게 변했다가 약 1분 후에 무색으로 바래고 다시 노랗게 되는 진동을 관찰했다. 당시에는 열역학 법칙 때문에 모든 용액은 단조롭게 평형에 도달해야 한다고 생각했고, 그의 논문은 차례차례 게재 거부됐다.</p>
+      <p>1961년 대학원생 자보틴스키(Zhabotinsky)가 벨루소프가 옳았음을 확인했고, 1968년 프라하 국제학회 발표로 연구는 드디어 빛을 보게 된다. 이 반응이 <b>BZ 반응</b>이다. BZ 시약의 얇은 층에서는 산화(oxidation) 파동이 동심원 고리 또는 나선 모양으로 전파되며, 나선파와 그 3차원 유사체인 스크롤파(scroll wave)는 특정한 심장 부정맥과 관련이 있는 것으로 보인다. 1980년 벨루소프와 자보틴스키는 레닌상을 수상했지만, 벨루소프는 10년 전에 이미 세상을 떠났다.</p>
+      <span class="pen">BZ 반응 영상: Shane Ross 교수의 강의 영상에서 소개</span>
+      <h3>이산화염소-아이오딘-말론산 반응</h3>
+      <p>BZ 반응은 20개 이상의 기본 반응 단계를 포함하지만, 많은 단계는 빠르게 평형을 이룬다. 렝곌 등[Lengyel et al. 1990]은 이산화염소(chlorine dioxide)-아이오딘(iodine)-말론산(malonic acid) 반응에서 느린 반응물의 농도를 상수로 근사해 2변수 모형으로 축약했다.</p>
+      <div class="eq">ẋ = <i>a</i> − <i>x</i> − 4<i>xy</i>/(1 + <i>x</i>²),&emsp;ẏ = <i>bx</i>[1 − <i>y</i>/(1 + <i>x</i>²)]</div>
+      <p><span class="m">x</span>와 <span class="m">y</span>는 각각 I⁻와 ClO₂⁻의 차원 없는 농도이고, <span class="m">a, b &gt; 0</span>이다.</p>
+      <p><b>예제 8.3.1.</b> 영점선은 <span class="m">ẋ = 0</span>: <span class="m">y = (a − x)(1 + x²)/(4x)</span>, <span class="m">ẏ = 0</span>: <span class="m">y</span>축과 포물선 <span class="m">y = 1 + x²</span>이다. 네모칸 <span class="m">0 ≤ x ≤ a</span>, <span class="m">0 ≤ y ≤ 1 + a²</span>의 경계 위 모든 벡터가 안쪽을 가리키니 가두는 영역이다. 하지만 내부에 고정점 <span class="m">x* = a/5</span>, <span class="m">y* = 1 + (a/5)²</span>가 있다. 이 점에서</p>
+      <div class="eq plain">Δ = 5<i>bx</i>*/(1 + <i>x</i>*²) &gt; 0,&emsp;τ = [3<i>x</i>*² − 5 − <i>bx</i>*]/(1 + <i>x</i>*²)</div>
+      <p>이다. <span class="m">Δ &gt; 0</span>이니 안장점일 수 없고, <span class="m">τ &gt; 0</span>이면 밀개다. 곧 <span class="hl"><span class="m">b &lt; b<sub>c</sub> = 3a/5 − 25/a</span>이면 구멍 난 네모칸 어딘가에 닫힌 궤도가 있어야 한다.</span></p>
+      <p><b>예제 8.3.2.</b> <span class="m">b</span>가 <span class="m">b<sub>c</sub></span>를 통과하며 감소하면 고정점이 안정적인 나선에서 불안정한 나선으로 변하고, 안정적인 극한 주기 궤도에 둘러싸인다. <b>초임계</b> 호프 갈래치기다.</p>
+      <p><b>예제 8.3.3.</b> 진동수는 갈래치기점에서 고윳값의 허수 부분으로 근사할 수 있다. <span class="m">b = b<sub>c</sub></span>에서 <span class="m">τ = 0</span>이니 <span class="m">λ = ±i√Δ</span>이고</p>
+      <div class="eq"><i>T</i> ≈ 2π/ω = 2π √[(<i>a</i>² + 25)/(15<i>a</i>² − 625)]</div>
+      <p>이다. <span class="m">a → ∞</span>일 때 <span class="m">T → 2π/√15 ≈ 1.62</span>가 된다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">a <input type="range" id="ca" min="7" max="40" step="0.5" value="10" aria-label="매개변수 a"><output id="caOut">10.0</output></label>
+        <label class="sl">b <input type="range" id="cb" min="0.5" max="20" step="0.1" value="2" aria-label="매개변수 b"><output id="cbOut">2.0</output></label>
+      </div>
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="화학 진동자 보기 범위">
+          <button data-v="zoom" aria-pressed="true">고정점 근처</button>
+          <button data-v="full" aria-pressed="false">가두는 네모칸 전체</button>
+        </div>
+        <button class="btn" id="chClear">지우기</button>
+      </div>
+      <canvas id="ch" class="pp" aria-label="이산화염소-아이오딘-말론산 반응 모형의 위상 평면"></canvas>
+      <div class="legend"><span><i style="background:var(--cyan)"></i>ẋ = 0 영점선</span><span><i style="background:var(--amber)"></i>ẏ = 0: y = 1 + x²</span><span><i style="background:var(--green)"></i>경계에서 안쪽으로 향함</span></div>
+      <div class="read" id="chRead"></div>
+      <div class="verdict" id="chV"></div>
+      <p class="sub">안정성 다이어그램 <span class="m">(a, b)</span>: 누르면 그 값으로 바뀝니다</p>
+      <canvas id="chAB" class="pp" aria-label="화학 진동자의 안정성 다이어그램"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.4 ============ -->
+<section class="sec" id="s84">
+  <div class="sec-h"><span class="no">8.4</span><h2>순환 궤도의 전역적 갈래치기<span>global bifurcations of cycles</span></h2></div>
+  <p class="intro">2차원 시스템에서 극한 주기 궤도가 생기거나 없어지는 일반적인 방법은 네 가지다. 호프 갈래치기가 가장 유명하지만, 나머지 세 가지는 단일 고정점 근처가 아니라 위상 평면의 넓은 영역에 대한 것이어서 감지하기가 더 어렵다. 그래서 이것들을 <b>전역적 갈래치기(global bifurcation)</b>라고 한다.</p>
+  <div class="row flip">
+    <div class="txt">
+      <h3 style="margin-top:8px">순환 궤도의 안장점 갈래치기</h3>
+      <p>2개의 극한 주기 궤도가 합쳐지고 사라지는 갈래치기로, <b>순환 궤도의 접힘 또는 안장점 갈래치기</b>라고 한다. 예시는 8.2절의 <span class="m">ṙ = μr + r³ − r⁵</span>에서 <span class="m">μ &lt; 0</span>일 때의 동역학이다. 반지름 방향 방정식(radial equation)을 1차원 시스템으로 보면 <span class="m">μ<sub>c</sub> = −1/4</span>에서 고정점이 안장점 갈래치기를 거치고, 2차원으로 돌아오면 이 고정점들은 원형의 극한 주기 궤도다. <span class="m">μ<sub>c</sub></span>에서 반쯤 안정한 주기가 난데없이 생기고, <span class="m">μ</span>가 증가하면 안정적인 것과 불안정한 것 한 쌍으로 쪼개진다. 원점은 언제나 안정적이며 이 갈래치기에 참여하지 않는다. 생겨날 때 이미 <span class="m">O(1)</span>인 진폭이 있다는 점이 호프 갈래치기와 다르다.</p>
+      <h3>무한 주기 갈래치기 <span class="en">(infinite-period bifurcation)</span></h3>
+      <div class="eq plain">ṙ = <i>r</i>(1 − <i>r</i>²),&emsp;θ̇ = μ − sin θ,&emsp;μ ≥ 0</div>
+      <p>반지름 방향에서는 모든 궤적(<span class="m">r* = 0</span> 제외)이 단위 원에 접근한다. <span class="m">μ &gt; 1</span>이면 모든 곳에서 반시계 방향으로 움직이고, <span class="m">μ &lt; 1</span>이면 <span class="m">sin θ = μ</span>로 정의되는 2개의 불변 반직선(ray)이 있다. <span class="m">μ → 1⁺</span>이면 <span class="m">θ = π/2</span>에서 병목현상이 점점 심각해져 주기가 길어지고, <span class="m">μ<sub>c</sub> = 1</span>에서 무한대가 된다. 진폭은 <span class="m">O(1)</span>로 유지되지만 주기는 <span class="m">(μ − μ<sub>c</sub>)<sup>−1/2</sup></span>처럼 증가한다. 이 경우 정확한 주기는 <span class="m">T = 2π/√(μ² − 1)</span>이다(예제 4.3.2).</p>
+      <h3>같은 모임 갈래치기 <span class="en">(homoclinic bifurcation)</span></h3>
+      <p>극한 주기 궤도의 일부가 안장점에 점점 더 가까워지다가, 갈래치기가 일어나는 지점에서 안장점에 닿아 <b>같은 모임 궤도(homoclinic orbit)</b>가 된다. 또 다른 종류의 무한 주기 갈래치기이며, 혼동을 피하기 위해 안장 고리(saddle-loop) 또는 같은 모임 갈래치기라고 한다. 해석적으로 다루기 쉬운 예시가 드물어 컴퓨터에 의존한다.</p>
+      <div class="eq plain">ẋ = <i>y</i>,&emsp;ẏ = μ<i>y</i> + <i>x</i> − <i>x</i>² + <i>xy</i></div>
+      <p>수치적으로 갈래치기는 <span class="m">μ<sub>c</sub> ≈ −0.8645</span>에서 일어난다. <span class="m">μ &lt; μ<sub>c</sub></span>이면 안정적인 극한 주기 궤도가 원점의 안장점 근처를 지나가고, <span class="m">μ</span>가 커지면 극한 주기 궤도가 부풀어 오르다가 안장점에 충돌해 같은 모임 궤도를 이룬다. <span class="m">μ &gt; μ<sub>c</sub></span>이면 고리가 사라진다. <span class="hlp">핵심은 원점을 북동쪽으로 떠나는 안장점의 불안정한 다양체의 행동이다.</span></p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="전역적 갈래치기 종류">
+          <button data-k="snc" aria-pressed="true">순환 궤도의 안장점</button>
+          <button data-k="inf" aria-pressed="false">무한 주기</button>
+          <button data-k="hom" aria-pressed="false">같은 모임</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="gbMu" min="-0.4" max="0" step="0.005" value="-0.2" aria-label="매개변수 mu"><output id="gbMuOut">−0.200</output></label>
+        <button class="btn" id="gbClear">지우기</button>
+      </div>
+      <p class="hint" id="gbEq" style="margin:0 0 6px"></p>
+      <canvas id="gb" class="pp" aria-label="전역적 갈래치기의 위상 평면"></canvas>
+      <p class="sub" id="gbAuxCap"></p>
+      <canvas id="gbAux" aria-label="보조 그래프"></canvas>
+      <div class="read" id="gbRead"></div>
+    </div>
+  </div>
+
+  <h3>척도 조정 법칙 <span class="en">(scaling law)</span></h3>
+  <div class="row">
+    <div class="txt">
+      <p>각 갈래치기에는 갈래치기에 접근함에 따라 극한 주기 궤도의 진폭과 주기를 결정하는 특징적인 척도 조정 법칙이 있다. 갈래치기 지점으로부터의 거리를 나타내는 차원 없는 양을 <span class="m">μ ≪ 1</span>이라 하면(표 8.4.1):</p>
+      <div style="overflow-x:auto"><table class="tbl">
+        <thead><tr><th></th><th>안정적인 극한 주기 궤도의 진폭</th><th>주기</th></tr></thead>
+        <tbody>
+          <tr><td>초임계 호프</td><td class="m">O(μ<sup>1/2</sup>)</td><td class="m">O(1)</td></tr>
+          <tr><td>궤도의 안장점 갈래치기</td><td class="m">O(1)</td><td class="m">O(1)</td></tr>
+          <tr><td>무한 주기</td><td class="m">O(1)</td><td class="m">O(μ<sup>−1/2</sup>)</td></tr>
+          <tr><td>같은 모임</td><td class="m">O(1)</td><td class="m">O(ln μ)</td></tr>
+        </tbody>
+      </table></div>
+      <p>실험 과학자라면, 조절 매개변수를 바꿔 진동이 멈출 때 갈래치기점 근처의 주기와 진폭의 척도 조정을 살펴서 (정확히 알려지지 않은) 시스템의 동역학에 대해 배울 수 있다. 가능한 모형을 소거하거나 추천할 수 있는 것이다.</p>
+    </div>
+    <div class="txt">
+      <h3 style="margin-top:8px">예제 8.4.1 표에 맞지 않는 반 데르 폴 진동자?</h3>
+      <p><span class="m">ẍ + εẋ(x² − 1) + x = 0</span>에서 원점의 야코비 행렬은 <span class="m">[[0, 1], [−1, ε]]</span>이니 <span class="m">ε = 0</span>에서 고윳값이 순허수 <span class="m">λ = ±i</span>이고, 호프 갈래치기가 일어난다. 그런데 7.6절에서 배웠듯이 <span class="m">0 &lt; ε ≪ 1</span>이면 진폭 <span class="m">r ≈ 2</span>의 극한 주기 궤도가 있다. 척도 조정 법칙이 예측하는 <span class="m">O(ε<sup>1/2</sup>)</span>가 아니라 ‘다 자란’ 상태로 태어난다. 왜일까?</p>
+      <p><b>풀이.</b> <span class="m">ε = 0</span>에서의 갈래치기는 <b>겹쳐져(degenerate) 있다.</b> 비선형 항 <span class="m">εẋx²</span>이 고윳값이 허수 축을 지나가는 순간과 정확히 동일한 매개변숫값에서 사라진다. 참으로 일반적이지 않은 우연의 일치다! <span class="m">u = ε<sup>1/2</sup>x</span>로 크기를 재조정하면 <span class="m">ü + u + u²u̇ − εu̇ = 0</span>이 되어 비선형 항이 더 이상 사라지지 않는다. 그러면 <span class="m">u(t, ε) ≈ 2ε<sup>1/2</sup> cos t</span>이니, 호프 갈래치기에 대해 예상되는 것처럼 진폭이 <span class="m">ε<sup>1/2</sup></span>로 커진다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.5 ============ -->
+<section class="sec" id="s85">
+  <div class="sec-h"><span class="no">8.5</span><h2>구동 진자와 조지프슨 접합의 다른길오고감<span>driven pendulum and Josephson junction</span></h2></div>
+  <p class="intro">같은 모임 갈래치기와 무한 주기 갈래치기가 모두 발생하는 물리적 문제다. 4장에서는 질량(진자) 또는 정전용량(조지프슨 접합)을 무시할 수 있는 과감쇠 극한(overdamped limit)만 다뤘다. 이제 완전한 2차원 문제를 풀 때다. 충분히 약한 감쇠에서는 안정적인 극한 주기 궤도와 안정점이 공존하는 <b>쌍안정성(bistability)</b> 덕분에 다른길오고감이 생긴다. 진자는 맨 위쪽을 통과해 회전하거나, 중력과 균형을 이루며 가만히 있는 상태로 정착할 수 있다.</p>
+  <div class="row">
+    <div class="txt">
+      <h3 style="margin-top:8px">지배 방정식</h3>
+      <p>조지프슨 접합의 지배 방정식 <span class="m">(ℏC/2e)φ̈ + (ℏ/2eR)φ̇ + I<sub>c</sub> sin φ = I<sub>B</sub></span>를 감쇠의 역할이 드러나도록 무차원화하면</p>
+      <div class="eq">φ″ + αφ′ + sin φ = <i>I</i></div>
+      <p>이다. <span class="m">α &gt; 0</span>은 무차원의 감쇠, <span class="m">I ≥ 0</span>은 인가된 전류다. <span class="m">y = φ′</span>로 두면 <span class="m">φ′ = y</span>, <span class="m">y′ = I − sin φ − αy</span>이다. <span class="m">φ</span>는 각도 변수, <span class="m">y</span>는 실변수(각속도)이니 <b>위상 공간은 원통(cylinder)</b>이다. 오른쪽 데모의 좌우 경계는 이어져 있다.</p>
+      <p><b>고정점.</b> <span class="m">y* = 0</span>, <span class="m">sin φ* = I</span>이니 <span class="m">I &lt; 1</span>이면 2개, <span class="m">I &gt; 1</span>이면 없다. 야코비 행렬의 <span class="m">τ = −α &lt; 0</span>, <span class="m">Δ = cos φ* = ±√(1 − I²)</span>이니 하나는 안장점, 다른 하나는 싱크다. <span class="m">I = 1</span>에서 안장점 갈래치기가 일어나 둘이 합쳐진다.</p>
+      <h3>닫힌 궤도의 존재: 푸앵카레 사상</h3>
+      <p><span class="m">I &gt; 1</span>이면 고정점이 없다. 영점선 <span class="m">y = α⁻¹(I − sin φ)</span>보다 위에서는 흐름이 아래로, 아래에서는 위로 향하니 모든 궤적은 띠 <span class="m">y₁ ≤ y ≤ y₂</span>(<span class="m">0 &lt; y₁ &lt; (I − 1)/α</span>, <span class="m">y₂ &gt; (I + 1)/α</span>)로 들어가 영원히 머문다. 띠 안에서는 <span class="m">y &gt; 0</span>이니 흐름은 늘 오른쪽이다.</p>
+      <p>높이 <span class="m">y</span>에서 출발해 원통을 한 바퀴 돌고 처음 돌아온 높이를 <span class="m">P(y)</span>라 하자. 이것이 <b>푸앵카레 사상(Poincaré map)</b> 또는 <b>첫 반환 사상(first-return map)</b>이다. <span class="hlp"><span class="m">P(y*) = y*</span>인 <span class="m">y*</span>가 있으면 그 궤적은 닫힌 궤도다.</span> <span class="m">P(y₁) &gt; y₁</span>, <span class="m">P(y₂) &lt; y₂</span>이고, <span class="m">P</span>는 연속(continuous)이며 단조(monotonic)다(단조가 아니면 두 궤적이 교차해야 한다). 따라서 중간 값 정리(intermediate value theorem), 또는 상식에 의해 <span class="m">P(y)</span>의 그래프는 어딘가에서 45° 대각선을 가로지른다.</p>
+      <h3>극한 주기 궤도의 고유성</h3>
+      <p>원통에는 위상적으로 다른 두 종류의 주기적 궤도, 칭동(libration)과 회전(rotation)이 있다. <span class="m">I &gt; 1</span>이면 고정점이 없어 지표 이론에 의해 칭동은 불가능하다. 서로 다른 두 회전 <span class="m">y<sub>U</sub>(φ) &gt; y<sub>L</sub>(φ)</span>가 있다고 하자. “에너지” <span class="m">E = ½y² − cos φ</span>는 한 바퀴 돌면 변하지 않아야 하는데 <span class="m">dE/dφ = I − αy</span>이니</p>
+      <div class="eq plain">∫₀<sup>2π</sup> <i>y</i>(φ) dφ = 2π<i>I</i>/α</div>
+      <p>가 모든 회전에 대해 성립해야 한다. 그러나 <span class="m">y<sub>U</sub> &gt; y<sub>L</sub></span>이니 두 적분이 같을 수 없다. 모순이다. <span class="hl"><span class="m">I &gt; 1</span>에 대한 회전은 고유하다.</span> 오른쪽 데모에서 이 적분값을 직접 확인할 수 있다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">α <input type="range" id="jA" min="0.05" max="2" step="0.01" value="0.3" aria-label="감쇠 alpha"><output id="jAOut">0.30</output></label>
+        <label class="sl">I <input type="range" id="jI" min="0" max="2" step="0.01" value="1.2" aria-label="전류 I"><output id="jIOut">1.20</output></label>
+      </div>
+      <div class="ctl"><button class="btn" id="jClear">지우기</button></div>
+      <canvas id="jj" class="pp" aria-label="원통 위상 공간에서 본 조지프슨 접합의 위상 그림"></canvas>
+      <div class="legend"><span><i style="background:var(--cyan)"></i>y′ = 0 영점선</span><span>좌우 경계 φ = 0과 2π는 같은 점(원통)</span></div>
+      <p class="sub">푸앵카레 사상 <span class="m">P(y)</span>와 45° 대각선</p>
+      <canvas id="jP" aria-label="푸앵카레 사상의 그래프"></canvas>
+      <div class="read" id="jRead"></div>
+    </div>
+  </div>
+
+  <h3>같은 모임 갈래치기와 전류-전압 다른길오고감 곡선</h3>
+  <div class="row flip">
+    <div class="txt">
+      <p><span class="m">I &gt; 1</span>에서 시작해 <span class="m">I</span>를 천천히 줄이자. 진자를 생각하면, 구동 토크가 감소함에 따라 가장 높은 점에 도달하기가 점점 더 힘들어진다. 어느 임곗값 <span class="m">I<sub>c</sub> &lt; 1</span>에서 토크는 더 이상 중력과 감쇠를 극복하지 못하고, 회전이 사라져 모든 해는 멈춘 상태로 감쇠된다.</p>
+      <ul>
+        <li><span class="m">I<sub>c</sub> &lt; I &lt; 1</span>: 쌍안정 상태. 싱크가 안정적인 극한 주기 궤도와 공존한다. 안장점의 불안정한 다양체의 한 줄기 <span class="m">U</span>는 극한 주기 궤도에 점근적으로 접근한다.</li>
+        <li><span class="m">I = I<sub>c</sub></span>: 극한 주기 궤도가 <span class="m">U</span>와 합쳐져 안장점에 스스로 연결된 같은 모임 궤도가 된다.</li>
+        <li><span class="m">I &lt; I<sub>c</sub></span>: 안장점 연결이 끊어지고 <span class="m">U</span>는 나선형으로 싱크로 빨려 들어간다.</li>
+      </ul>
+      <p>이 시나리오는 <span class="m">α</span>가 충분히 작을 때만 유효하다. <span class="m">α</span>가 크면 4장의 과감쇠 극한처럼 주기적 해가 <b>무한 주기 갈래치기</b>로 파괴된다. 종합하면 세 가지 갈래치기가 나타난다. 주기적 궤도의 같은 모임 갈래치기와 무한 주기 갈래치기, 그리고 고정점의 안장점 갈래치기다. 멜니코프(Melnikov)의 방법을 쓰면 <span class="m">α ≪ 1</span>일 때 같은 모임 갈래치기 곡선이 직선 <span class="m">I = 4α/π</span>에 접한다는 것을 보일 수 있다.</p>
+      <p><b>전류-전압 곡선.</b> 접합의 dc 전압은 평균 각속도 <span class="m">〈φ′〉</span>에 비례한다. <span class="m">I</span>를 0에서 올리면 1을 넘을 때까지 전압이 0인 상태(안정된 고정점)에 머물다가, 안장점 갈래치기에서 전압이 0이 아닌 상태(극한 주기 궤도)로 점프한다. <span class="m">I</span>를 다시 낮추면 극한 주기 궤도는 <span class="m">I = 1</span> 아래로도 지속되고, 진동수는 <span class="m">[ln(I − I<sub>c</sub>)]⁻¹</span>처럼 0으로 접근한다. 실제로는 불연속적으로 점프하는 것처럼 보이지만, 이 함수는 <span class="m">I<sub>c</sub></span>에서 모든 미분값이 무한대가 되어 그렇게 보일 뿐이다.</p>
+    </div>
+    <div class="demo">
+      <p class="sub" style="margin-top:0">안정성 그림 <span class="m">(α, I)</span>: 누르면 그 값으로 바뀝니다. 굵은 선은 수치로 찾은 같은 모임 갈래치기 곡선</p>
+      <canvas id="jST" class="pp" aria-label="조지프슨 접합의 안정성 그림"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>같은 모임 갈래치기(수치)</span><span><i style="background:var(--pink)"></i>근사 I = 4α/π</span><span><i style="background:var(--muted)"></i>I = 1: 안장점 갈래치기</span></div>
+      <div class="ctl" style="margin-top:12px">
+        <button class="btn primary" id="ivPlay">I 쓸기 시작</button>
+        <button class="btn" id="ivReset">처음으로</button>
+      </div>
+      <p class="sub">전류-전압 곡선: <span class="m">I</span>를 0 → 2 → 0으로 천천히 바꿀 때의 <span class="m">〈φ′〉</span> (현재 α 사용)</p>
+      <canvas id="jIV" aria-label="전류-전압 다른길오고감 곡선"></canvas>
+      <div class="read"><span>I = <b id="ivI">–</b></span><span>〈φ′〉 = <b id="ivV">–</b></span><span id="ivDir"></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="refs">
+  <div class="sec-h"><h2>참고문헌<span>references</span></h2></div>
+  <ol class="refs">
+    <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 8장 「갈래치기 다시 보기」. 이 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
+    <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
+    <li>Shane D. Ross, <a href="https://youtu.be/4vOC7zw2YME" target="_blank" rel="noopener">BZ 반응과 호프 갈래치기 강의 영상</a>, <a href="https://youtu.be/iphb2GlNtCk" target="_blank" rel="noopener">무한 주기 갈래치기 강의 영상</a>.</li>
+    <li>D. Barkley, “A model for fast computer simulation of waves in excitable media,” <i>Physica D</i> 49, 61–70 (1991). 첫 화면의 나선파 시뮬레이션에 사용한 모형.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 Shane Ross 교수의 강의 영상을 통해 소개한 위상 평면 도구로, 더 다양한 시스템을 직접 그려 볼 수 있습니다.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트를 기반으로 합니다. 강의는 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>에서 진행되었습니다.</p>
+  <p>수치 적분은 4차 룽게-쿠타(Runge–Kutta) 방법으로 브라우저에서 실시간 계산합니다.</p>
+  <p><a href="index.html">전체 데모 목록으로 돌아가기</a></p>
+</footer>
+
+<script>
+
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};
+function readTheme(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+  C={paper:g('--paper'),panel:g('--panel'),ink:g('--ink'),muted:g('--muted'),rule:g('--rule'),pink:g('--pink'),green:g('--green'),cyan:g('--cyan'),amber:g('--amber')};}
+readTheme();
+function hexRGB(h){h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];}
+function rgba(h,a){const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;}
+const TRAJ=()=>[C.ink,C.pink,C.cyan,C.amber,C.green];
+
+function rk4(f,x,y,h){const a=f(x,y),b=f(x+h/2*a[0],y+h/2*a[1]),c=f(x+h/2*b[0],y+h/2*b[1]),d=f(x+h*c[0],y+h*c[1]);
+  return[x+h/6*(a[0]+2*b[0]+2*c[0]+d[0]),y+h/6*(a[1]+2*b[1]+2*c[1]+d[1])];}
+function polar(R){return(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-y,g*y+x];};}
+
+function niceStep(span){const raw=span/5;const p=Math.pow(10,Math.floor(Math.log10(raw)));const m=raw/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;}
+function fmt(v){const a=Math.abs(v);if(a<1e-9)return'0';if(a>=100)return v.toFixed(0);return(+v.toFixed(2)).toString();}
+function fit(cv){const dpr=Math.min(2,window.devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return null;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h,dpr};}
+
+/* ---------------- Phase plane ---------------- */
+const planes=[];
+class Plane{
+  constructor(cv,o){
+    this.cv=cv;
+    this.o=Object.assign({arrows:true,n:15,aspect:1,dt:0.01,sub:3,tmax:40,maxTraj:6,trail:0,wrapY:false,rec:1,fixed:[],xl:'x',yl:'y'},o);
+    this.trajs=[];this.ci=0;this.st=document.createElement('canvas');this.visible=true;this.dirty=true;
+    cv.style.aspectRatio=String(1/this.o.aspect);
+    planes.push(this);
+    cv.addEventListener('pointerdown',e=>{if(this.o.click===false)return;const r=cv.getBoundingClientRect();
+      const x=this.ix(e.clientX-r.left),y=this.iy(e.clientY-r.top);if(this.o.onClick)this.o.onClick(x,y);else this.add(x,y);});
+    new ResizeObserver(()=>{this.layout();}).observe(cv);
+    new IntersectionObserver(es=>{this.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(cv);
+  }
+  get d(){return this.o.dom;}
+  layout(){const F=fit(this.cv);if(!F)return;this.W=F.w;this.H=F.h;this.dpr=F.dpr;
+    this.m={l:this.W<300?30:38,r:8,t:8,b:this.W<300?24:28};
+    this.st.width=this.cv.width;this.st.height=this.cv.height;this.renderStatic();this.draw();}
+  X(x){const d=this.d;return this.m.l+(x-d.x0)/(d.x1-d.x0)*(this.W-this.m.l-this.m.r);}
+  Y(y){const d=this.d;return this.H-this.m.b-(y-d.y0)/(d.y1-d.y0)*(this.H-this.m.t-this.m.b);}
+  ix(px){const d=this.d;return d.x0+(px-this.m.l)/(this.W-this.m.l-this.m.r)*(d.x1-d.x0);}
+  iy(py){const d=this.d;return d.y0+(this.H-this.m.b-py)/(this.H-this.m.t-this.m.b)*(d.y1-d.y0);}
+  renderStatic(){
+    if(!this.W)return;const s=this.st.getContext('2d');s.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const o=this.o,d=this.d,m=this.m,pw=this.W-m.l-m.r,ph=this.H-m.t-m.b;
+    s.fillStyle=C.panel;s.fillRect(0,0,this.W,this.H);
+    if(o.bg){const Nx=Math.min(160,Math.round(pw/3)),Ny=Math.max(2,Math.round(Nx*ph/pw));const t=document.createElement('canvas');t.width=Nx;t.height=Ny;
+      const tc=t.getContext('2d');const img=tc.createImageData(Nx,Ny);
+      for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);const c=o.bg(x,y);const k=4*(j*Nx+i);
+        if(c){img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=Math.round(255*c[3]);}}
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,m.l,m.t,pw,ph);}
+    // grid & ticks
+    s.font=`${this.W<300?10:11}px 'Noto Sans KR',sans-serif`;s.fillStyle=C.muted;s.strokeStyle=rgba(C.muted,.18);s.lineWidth=1;
+    const xs=o.xticks||ticks(d.x0,d.x1),ys=o.yticks||ticks(d.y0,d.y1);
+    s.textAlign='center';s.textBaseline='top';
+    for(const[v,l]of xs){const px=this.X(v);s.beginPath();s.moveTo(px,m.t);s.lineTo(px,this.H-m.b);s.stroke();s.fillText(l,px,this.H-m.b+4);}
+    s.textAlign='right';s.textBaseline='middle';
+    for(const[v,l]of ys){const py=this.Y(v);s.beginPath();s.moveTo(m.l,py);s.lineTo(this.W-m.r,py);s.stroke();s.fillText(l,m.l-4,py);}
+    s.strokeStyle=rgba(C.ink,.55);s.lineWidth=1;
+    if(d.x0<=0&&d.x1>=0){s.beginPath();s.moveTo(this.X(0),m.t);s.lineTo(this.X(0),this.H-m.b);s.stroke();}
+    if(d.y0<=0&&d.y1>=0){s.beginPath();s.moveTo(m.l,this.Y(0));s.lineTo(this.W-m.r,this.Y(0));s.stroke();}
+    s.strokeStyle=C.rule;s.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+    s.save();s.font=`italic ${this.W<300?12:14}px 'STIX Two Text',serif`;s.fillStyle=C.ink;s.textAlign='right';s.textBaseline='bottom';
+    s.fillText(o.xl,this.W-m.r-4,this.H-m.b-3);s.textAlign='left';s.textBaseline='top';s.fillText(o.yl,m.l+5,m.t+3);s.restore();
+    s.save();s.beginPath();s.rect(m.l,m.t,pw,ph);s.clip();
+    if(o.decor)o.decor(s,this);
+    if(o.arrows){const n=this.W<320?Math.round(o.n*.75):o.n;const cw=pw/n,chh=ph/Math.max(1,Math.round(n*ph/pw));const ny=Math.round(ph/cw);
+      s.strokeStyle=rgba(C.muted,.7);s.fillStyle=rgba(C.muted,.7);s.lineWidth=1.1;
+      for(let i=0;i<n;i++)for(let j=0;j<ny;j++){const px=m.l+(i+.5)*cw,py=m.t+(j+.5)*(ph/ny);const x=this.ix(px),y=this.iy(py);const v=o.f(x,y);
+        if(!isFinite(v[0])||!isFinite(v[1]))continue;
+        let vx=v[0]/(d.x1-d.x0)*pw,vy=-v[1]/(d.y1-d.y0)*ph;const L=Math.hypot(vx,vy);if(L<1e-9)continue;const len=cw*.36;vx=vx/L*len;vy=vy/L*len;
+        s.beginPath();s.moveTo(px-vx,py-vy);s.lineTo(px+vx,py+vy);s.stroke();
+        const a=Math.atan2(vy,vx),hh=3.2;s.beginPath();s.moveTo(px+vx,py+vy);s.lineTo(px+vx-hh*Math.cos(a-.5),py+vy-hh*Math.sin(a-.5));s.lineTo(px+vx-hh*Math.cos(a+.5),py+vy-hh*Math.sin(a+.5));s.closePath();s.fill();}}
+    for(const p of o.fixed){const px=this.X(p.x),py=this.Y(p.y);s.lineWidth=1.6;s.strokeStyle=C.ink;s.beginPath();s.arc(px,py,4.5,0,7);
+      if(p.k==='s'){s.fillStyle=C.ink;s.fill();}else if(p.k==='saddle'){s.fillStyle=C.panel;s.fill();s.stroke();s.beginPath();s.arc(px,py,4.5,-Math.PI/2,Math.PI/2);s.lineTo(px,py-4.5);s.fillStyle=C.ink;s.fill();}else{s.fillStyle=C.panel;s.fill();s.stroke();}}
+    s.restore();
+  }
+  add(x,y,opt){opt=opt||{};const col=opt.col||TRAJ()[this.ci++%5];
+    const tr={x,y,t:0,c:0,pts:[[x,y,0]],col,alive:true,cidx:(this.ci-1)%5};
+    this.trajs.push(tr);while(this.trajs.length>this.o.maxTraj)this.trajs.shift();
+    if(reduceMotion&&!this.o.trail){while(tr.alive)this.stepTraj(tr,200);}
+    this.dirty=true;return tr;}
+  clear(){this.trajs=[];this.dirty=true;}
+  stepTraj(tr,k){const o=this.o,d=this.d;const W=(d.x1-d.x0),Hh=(d.y1-d.y0);
+    for(let i=0;i<k&&tr.alive;i++){let[nx,ny]=rk4(o.f,tr.x,tr.y,o.dt);tr.t+=o.dt;
+      if(o.wrapY){if(ny>d.y1)ny-=Hh;else if(ny<d.y0)ny+=Hh;}
+      if(o.wrapX){if(nx>=d.x1)nx-=W;else if(nx<d.x0)nx+=W;}
+      tr.x=nx;tr.y=ny;
+      if(!isFinite(nx)||!isFinite(ny)||nx<d.x0-W*1.5||nx>d.x1+W*1.5||ny<d.y0-Hh*1.5||ny>d.y1+Hh*1.5){tr.alive=false;break;}
+      if(++tr.c%o.rec===0)tr.pts.push([nx,ny,tr.t]);
+      if(o.trail&&tr.pts.length>o.trail)tr.pts.splice(0,tr.pts.length-o.trail);
+      if(!o.trail&&tr.t>=o.tmax)tr.alive=false;}
+  }
+  step(){let any=false;for(const tr of this.trajs){if(tr.c===undefined)tr.c=0;if(tr.alive){this.stepTraj(tr,this.o.sub);any=true;}}return any;}
+  draw(){if(!this.W)return;const F=fit(this.cv);if(!F)return;const ctx=F.ctx;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(this.st,0,0);ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const m=this.m,d=this.d;ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,this.W-m.l-m.r,this.H-m.t-m.b);ctx.clip();
+    const Hh=d.y1-d.y0;
+    for(const tr of this.trajs){const P=tr.pts;if(P.length<1)continue;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';
+      if(this.o.trail){for(let i=1;i<P.length;i++){const a=i/P.length;ctx.strokeStyle=rgba(tr.col,.08+.9*a);ctx.beginPath();ctx.moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));ctx.stroke();}}
+      else if(this.o.segColor){const paths={};for(let i=1;i<P.length;i++){const k=this.o.segColor(P[i-1],P[i]);(paths[k]||(paths[k]=new Path2D())).moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));paths[k].lineTo(this.X(P[i][0]),this.Y(P[i][1]));}
+        for(const k in paths){ctx.strokeStyle=k;ctx.stroke(paths[k]);}
+        ctx.fillStyle=C.panel;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      else{ctx.strokeStyle=tr.col;ctx.beginPath();ctx.moveTo(this.X(P[0][0]),this.Y(P[0][1]));
+        for(let i=1;i<P.length;i++){if((this.o.wrapY&&Math.abs(P[i][1]-P[i-1][1])>Hh/2)||(this.o.wrapX&&Math.abs(P[i][0]-P[i-1][0])>(d.x1-d.x0)/2))ctx.moveTo(this.X(P[i][0]),this.Y(P[i][1]));else ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));}ctx.stroke();
+        ctx.fillStyle=C.panel;ctx.strokeStyle=tr.col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      const L=P[P.length-1];ctx.fillStyle=tr.col;ctx.beginPath();ctx.arc(this.X(L[0]),this.Y(L[1]),tr.alive||this.o.trail?5:3.5,0,7);ctx.fill();}
+    ctx.restore();if(this.o.onDraw)this.o.onDraw(this);}
+}
+function ticks(a,b){const st=niceStep(b-a);const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push([v,fmt(v)]);return out;}
+
+/* ---------------- simple time-series plot ---------------- */
+function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const m={l:w<300?34:42,r:8,t:8,b:22};const pw=w-m.l-m.r,ph=h-m.t-m.b;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.panel;ctx.fillRect(0,0,w,h);
+  const[x0,x1]=o.xr,[y0,y1]=o.yr;const X=x=>m.l+(x-x0)/(x1-x0)*pw,Y=y=>h-m.b-(y-y0)/(y1-y0)*ph;
+  ctx.font=`${w<300?10:11}px 'Noto Sans KR',sans-serif`;ctx.fillStyle=C.muted;ctx.strokeStyle=rgba(C.muted,.18);ctx.lineWidth=1;
+  ctx.textAlign='center';ctx.textBaseline='top';for(const[v,l]of(o.xticks||ticks(x0,x1))){ctx.beginPath();ctx.moveTo(X(v),m.t);ctx.lineTo(X(v),h-m.b);ctx.stroke();ctx.fillText(l,X(v),h-m.b+4);}
+  ctx.textAlign='right';ctx.textBaseline='middle';for(const[v,l]of(o.yticks||ticks(y0,y1))){ctx.beginPath();ctx.moveTo(m.l,Y(v));ctx.lineTo(w-m.r,Y(v));ctx.stroke();ctx.fillText(l,m.l-4,Y(v));}
+  ctx.strokeStyle=rgba(C.ink,.5);if(y0<0&&y1>0){ctx.beginPath();ctx.moveTo(m.l,Y(0));ctx.lineTo(w-m.r,Y(0));ctx.stroke();}
+  ctx.strokeStyle=C.rule;ctx.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+  ctx.save();ctx.font=`italic ${w<300?12:13}px 'STIX Two Text',serif`;ctx.fillStyle=C.ink;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xl||'t',w-m.r-4,h-m.b-2);
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(o.yl||'',m.l+5,m.t+2);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  if(o.pre)o.pre(ctx,X,Y);
+  for(const sr of o.series){if(!sr.pts||sr.pts.length<2)continue;ctx.strokeStyle=sr.col;ctx.lineWidth=sr.lw||2;ctx.setLineDash(sr.dash||[]);ctx.beginPath();
+    let st=Math.max(1,Math.floor(sr.pts.length/(pw*2)));ctx.moveTo(X(sr.pts[0][0]),Y(sr.pts[0][1]));for(let i=st;i<sr.pts.length;i+=st)ctx.lineTo(X(sr.pts[i][0]),Y(sr.pts[i][1]));
+    const L=sr.pts[sr.pts.length-1];ctx.lineTo(X(L[0]),Y(L[1]));ctx.stroke();ctx.setLineDash([]);
+    if(sr.head){ctx.fillStyle=sr.col;ctx.beginPath();ctx.arc(X(L[0]),Y(L[1]),4,0,7);ctx.fill();}}
+  if(o.post)o.post(ctx,X,Y);ctx.restore();}
+
+
+/* ---------------- helpers ---------------- */
+function classify(tau,det){if(Math.abs(det)<1e-12)return{k:'u',name:'비쌍곡'};if(det<0)return{k:'saddle',name:'안장점'};const disc=tau*tau-4*det;
+  if(Math.abs(tau)<1e-12)return{k:'u',name:'중심(선형)'};if(tau<0)return{k:'s',name:disc<0?'안정적인 나선':'안정점'};return{k:'u',name:disc<0?'불안정한 나선':'불안정한 점'};}
+function fmtS(v,d){return(v<0?'−':'')+Math.abs(v).toFixed(d);}
+function edgeCheck(F,p0,p1,n){const dx=p1[0]-p0[0],dy=p1[1]-p0[1];const nx=-dy,ny=dx;const out=[];for(let i=0;i<n;i++){const t=(i+.5)/n;const x=p0[0]+dx*t,y=p0[1]+dy*t;const v=F(x,y);out.push([t,(v[0]*nx+v[1]*ny)>=-1e-9]);}return out;}
+function drawPolyCheck(s,p,F,P){let all=true;s.lineWidth=3;s.setLineDash([6,4]);
+  for(let k=0;k<P.length;k++){const p0=P[k],p1=P[(k+1)%P.length];const res=edgeCheck(F,p0,p1,60);const n=res.length;
+    for(const[t,ok]of res){if(!ok)all=false;const ta=t-.5/n,tb=t+.5/n;s.strokeStyle=ok?C.green:C.pink;s.beginPath();
+      s.moveTo(p.X(p0[0]+(p1[0]-p0[0])*ta),p.Y(p0[1]+(p1[1]-p0[1])*ta));s.lineTo(p.X(p0[0]+(p1[0]-p0[0])*tb),p.Y(p0[1]+(p1[1]-p0[1])*tb));s.stroke();}}
+  s.setLineDash([]);return all;}
+function clickToParams(cv,e,xr,yr){const r=cv.getBoundingClientRect();const w=r.width,h=r.height;const m={l:w<300?34:42,r:8,t:8,b:22};
+  return[xr[0]+(e.clientX-r.left-m.l)/(w-m.l-m.r)*(xr[1]-xr[0]),yr[0]+(h-m.b-(e.clientY-r.top))/(h-m.t-m.b)*(yr[1]-yr[0])];}
+const TAU=2*Math.PI;
+
+/* ================= HERO: Barkley spiral ================= */
+(function hero(){
+  const cv=$('#hero');const N=matchMedia('(max-width:600px)').matches?96:128;const h=.4,dt=.02,A=.75,B=.02,EPS=.02;
+  let u=new Float32Array(N*N),v=new Float32Array(N*N);const L=new Float32Array(N*N);
+  for(let j=0;j<N;j++)for(let i=0;i<N;i++){const k=j*N+i;u[k]=(j<N/2)?1:0;v[k]=(i<N/2)?A/2:0;}
+  const off=document.createElement('canvas');off.width=N;off.height=N;const oc=off.getContext('2d');const img=oc.createImageData(N,N);
+  function step(){for(let j=0;j<N;j++)for(let i=0;i<N;i++){const k=j*N+i;const l=i>0?u[k-1]:u[k+1],r=i<N-1?u[k+1]:u[k-1],d=j>0?u[k-N]:u[k+N],w=j<N-1?u[k+N]:u[k-N];L[k]=(l+r+d+w-4*u[k])/(h*h);}
+    for(let k=0;k<N*N;k++){const uu=u[k],vv=v[k];u[k]=uu+dt*(uu*(1-uu)*(uu-(vv+B)/A)/EPS+L[k]);v[k]=vv+dt*(uu-vv);}}
+  let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
+  function draw(){const F=fit(cv);if(!F)return;const{ctx:c,w,hh=F.h}=F;const bg=hexRGB(C.panel),pk=hexRGB(C.pink),cy=hexRGB(C.cyan);
+    for(let k=0;k<N*N;k++){const uu=Math.max(0,Math.min(1,u[k])),vv=Math.max(0,Math.min(1,v[k]/.9));const q=4*k;
+      for(let ch=0;ch<3;ch++){img.data[q+ch]=bg[ch]+(pk[ch]-bg[ch])*uu*.95+(cy[ch]-bg[ch])*vv*(1-uu)*.55;}img.data[q+3]=255;}
+    oc.putImageData(img,0,0);c.imageSmoothingEnabled=true;c.clearRect(0,0,w,hh);const S=Math.min(w,hh);c.save();c.beginPath();c.arc(w/2,hh/2,S/2-2,0,7);c.clip();c.drawImage(off,(w-S)/2,(hh-S)/2,S,S);c.restore();}
+  cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();const S=Math.min(r.width,r.height);const i=Math.floor((e.clientX-r.left-(r.width-S)/2)/S*N),j=Math.floor((e.clientY-r.top-(r.height-S)/2)/S*N);
+    for(let dj=-3;dj<=3;dj++)for(let di=-3;di<=3;di++){const ii=i+di,jj=j+dj;if(ii<0||jj<0||ii>=N||jj>=N||di*di+dj*dj>9)continue;u[jj*N+ii]=1;}if(reduceMotion){for(let s=0;s<200;s++)step();draw();}});
+  new ResizeObserver(draw).observe(cv);
+  if(reduceMotion){for(let s=0;s<2500;s++)step();setTimeout(draw,30);return;}
+  for(let s=0;s<600;s++)step();
+  (function frame(){requestAnimationFrame(frame);if(!vis)return;for(let s=0;s<6;s++)step();draw();})();
+})();
+
+/* ================= 8.3 chemical oscillator ================= */
+let cA=10,cB=2,chView='zoom';
+const chF=(x,y)=>{const q=1+x*x;return[cA-x-4*x*y/q,cB*x*(1-y/q)];};
+function chFP(){const x=cA/5,y=1+x*x;const q=1+x*x;const tau=(3*x*x-5-cB*x)/q,det=5*cB*x/q;return{x,y,tau,det,cls:classify(tau,det)};}
+function chBox(){const t=1+cA*cA;return[[0,0],[cA,0],[cA,t],[0,t]];}
+function chDom(){if(chView==='full'){return{x0:0,x1:cA*1.05,y0:0,y1:(1+cA*cA)*1.05};}const p=chFP();return{x0:0,x1:Math.max(4,2.4*p.x),y0:0,y1:Math.max(10,2.4*p.y)};}
+const ch=new Plane($('#ch'),{dom:chDom(),f:chF,dt:.002,sub:25,tmax:30,maxTraj:5,n:17,
+  decor:(s,p)=>{const d=p.d;s.fillStyle=rgba(C.amber,.08);const B=chBox();s.beginPath();B.forEach((q,i)=>i?s.lineTo(p.X(q[0]),p.Y(q[1])):s.moveTo(p.X(q[0]),p.Y(q[1])));s.closePath();s.fill();
+    const nc=(fn,col,x0)=>{s.strokeStyle=col;s.lineWidth=2;s.beginPath();let st=false;for(let i=0;i<=400;i++){const x=Math.max(x0,d.x0+(d.x1-d.x0)*i/400);const y=fn(x);if(!isFinite(y)){st=false;continue;}st?s.lineTo(p.X(x),p.Y(y)):s.moveTo(p.X(x),p.Y(y));st=true;}s.stroke();};
+    nc(x=>x>cA?NaN:(cA-x)*(1+x*x)/(4*x),rgba(C.cyan,.9),.02);nc(x=>1+x*x,rgba(C.amber,.95),0);
+    s.strokeStyle=rgba(C.amber,.95);s.beginPath();s.moveTo(p.X(0)+1,p.Y(d.y0));s.lineTo(p.X(0)+1,p.Y(d.y1));s.stroke();
+    ch.allOK=drawPolyCheck(s,p,chF,B);
+    const fp=chFP();if(fp.tau>0){s.strokeStyle=C.ink;s.lineWidth=1.2;s.setLineDash([3,3]);s.beginPath();s.arc(p.X(fp.x),p.Y(fp.y),13,0,7);s.stroke();s.setLineDash([]);
+      s.fillStyle=C.ink;s.font="13px 'Noto Sans KR',sans-serif";s.fillText('밀개',p.X(fp.x)+16,p.Y(fp.y)-10);}}});
+let chPeriodTok=0;
+function chPeriod(tok){const fp=chFP();if(fp.tau<=0){$('#chT').textContent='극한 주기 궤도 없음';return;}
+  setTimeout(()=>{if(tok!==chPeriodTok)return;let x=fp.x+.05,y=fp.y,t=0;const dt=.002;const z=[];let py=y;
+    while(t<80&&z.length<6){[x,y]=rk4(chF,x,y,dt);t+=dt;if(t>30&&py<fp.y&&y>=fp.y)z.push(t);py=y;}
+    $('#chT').textContent=z.length>=2?((z[z.length-1]-z[0])/(z.length-1)).toFixed(3):'계산 실패';},30);}
+function chUpdate(reseed){$('#caOut').textContent=cA.toFixed(1);$('#cbOut').textContent=cB.toFixed(1);const fp=chFP();const bc=3*cA/5-25/cA;
+  ch.o.dom=chDom();ch.o.fixed=[{x:fp.x,y:fp.y,k:fp.cls.k}];ch.renderStatic();
+  const Tap=15*cA*cA>625?TAU*Math.sqrt((cA*cA+25)/(15*cA*cA-625)):NaN;
+  $('#chRead').innerHTML='<span>고정점 (a/5, 1 + (a/5)²) = ('+fp.x.toFixed(2)+', '+fp.y.toFixed(2)+')</span><span>τ = '+fmtS(fp.tau,3)+', Δ = '+fp.det.toFixed(3)+'</span><span>b<sub>c</sub> = 3a/5 − 25/a = <b>'+bc.toFixed(3)+'</b></span><span>수치 주기 <b id="chT">–</b>, 근사 2π/√Δ<sub>c</sub> = '+(isFinite(Tap)?Tap.toFixed(3):'–')+'</span>';
+  const v=$('#chV');if(fp.tau>0){v.className='verdict ok';v.innerHTML='<span class="m">b &lt; b<sub>c</sub></span>: 고정점은 '+fp.cls.name+', 곧 밀개입니다. 구멍 난 네모칸에 P-B 정리를 적용하면 닫힌 궤도가 있어야 합니다. 궤적은 안정적인 극한 주기 궤도로 끌려갑니다.';}
+  else{v.className='verdict no';v.innerHTML='<span class="m">b &gt; b<sub>c</sub></span>: 고정점은 '+fp.cls.name+'입니다. 모든 궤적이 고정점으로 나선형으로 빨려 듭니다.';}
+  if(reseed){ch.clear();ch.ci=0;const d=ch.o.dom;for(const[fx,fy]of[[.1,.1],[.9,.85],[.15,.9],[fp.x/d.x1+.03,fp.y/d.y1]])ch.add(fx*d.x1,fy*d.y1);}ch.dirty=true;
+  drawChAB();chPeriod(++chPeriodTok);}
+let chT0=null;for(const id of['#ca','#cb'])$(id).addEventListener('input',()=>{cA=+$('#ca').value;cB=+$('#cb').value;$('#caOut').textContent=cA.toFixed(1);$('#cbOut').textContent=cB.toFixed(1);clearTimeout(chT0);chT0=setTimeout(()=>chUpdate(true),120);});
+document.querySelectorAll('.seg[aria-label="화학 진동자 보기 범위"] button').forEach(b=>b.addEventListener('click',()=>{chView=b.dataset.v;
+  document.querySelectorAll('.seg[aria-label="화학 진동자 보기 범위"] button').forEach(c=>c.setAttribute('aria-pressed',c===b));chUpdate(true);}));
+$('#chClear').addEventListener('click',()=>{ch.clear();ch.ci=0;});
+$('#chAB').style.aspectRatio='1.6/1';const CAB={xr:[0,50],yr:[0,50]};
+function drawChAB(){const cur=[];for(let i=0;i<=200;i++){const a=Math.sqrt(125/3)+(50-Math.sqrt(125/3))*i/200;cur.push([a,3*a/5-25/a]);}
+  plot($('#chAB'),{xr:CAB.xr,yr:CAB.yr,xl:'a',yl:'b',series:[{pts:cur,col:C.ink,lw:2}],
+    pre:(c,X,Y)=>{c.fillStyle=rgba(C.green,.18);c.beginPath();c.moveTo(X(cur[0][0]),Y(0));cur.forEach(q=>c.lineTo(X(q[0]),Y(Math.max(0,q[1]))));c.lineTo(X(50),Y(0));c.closePath();c.fill();
+      c.fillStyle=C.muted;c.font="11px 'Noto Sans KR',sans-serif";c.textAlign='left';c.fillText('안정된 고정점',X(14),Y(36));c.fillText('안정적인 극한 주기 궤도',X(26),Y(5));},
+    post:(c,X,Y)=>{c.fillStyle=chFP().tau>0?C.pink:C.cyan;c.strokeStyle=C.panel;c.lineWidth=2;c.beginPath();c.arc(X(cA),Y(cB),6,0,7);c.fill();c.stroke();}});}
+$('#chAB').addEventListener('pointerdown',e=>{const[a,b]=clickToParams($('#chAB'),e,CAB.xr,CAB.yr);cA=Math.min(40,Math.max(7,Math.round(a*2)/2));cB=Math.min(20,Math.max(.5,Math.round(b*10)/10));$('#ca').value=cA;$('#cb').value=cB;chUpdate(true);});
+new ResizeObserver(drawChAB).observe($('#chAB'));
+chUpdate(true);
+
+/* ================= 8.4 global bifurcations ================= */
+const MUC_HOM=-0.8645;
+const GB={
+  snc:{eq:'ṙ = μr + r³ − r⁵,  θ̇ = 1',mu:[-.4,0,-.2,.005],dom:{x0:-1.5,x1:1.5,y0:-1.5,y1:1.5},
+    f:m=>(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?(m*r+r**3-r**5)/r:0;return[g*x-y,g*y+x];},seeds:[[.3,0],[.75,0],[1.45,.3],[-.6,-.2]],aux:'반지름 방향 위상 그림 ṙ = μr + r³ − r⁵'},
+  inf:{eq:'ṙ = r(1 − r²),  θ̇ = μ − sin θ',mu:[.5,1.5,1.1,.005],dom:{x0:-1.5,x1:1.5,y0:-1.5,y1:1.5},
+    f:m=>(x,y)=>{const r=Math.hypot(x,y);if(r<1e-12)return[0,0];const c=x/r,s=y/r;const rd=r*(1-r*r),td=m-s;return[rd*c-r*td*s,rd*s+r*td*c];},seeds:[[.2,0],[1.4,.4],[-.3,1.2]],aux:'주기 T와 μ: T = 2π/√(μ² − 1)'},
+  hom:{eq:'ẋ = y,  ẏ = μy + x − x² + xy',mu:[-1.05,-.75,-.92,.005],dom:{x0:-1.5,x1:2.5,y0:-2,y1:2},
+    f:m=>(x,y)=>[y,m*y+x-x*x+x*y],seeds:[[1.15,0],[.5,-1.2]],aux:'극한 주기 궤도의 주기와 μ (수치), 세로선 μ_c ≈ −0.8645'}
+};
+let gbK='snc',gbMu=-.2,homPeriods=null;
+const gb=new Plane($('#gb'),{dom:GB.snc.dom,f:GB.snc.f(-.2),tmax:60,maxTraj:6,sub:4,dt:.01,
+  decor:(s,p)=>{if(gbK==='snc'){const R0=Math.abs(p.X(1)-p.X(0));if(gbMu>=-.25){const q=Math.sqrt(Math.max(0,1+4*gbMu));for(const[r,st]of[[Math.sqrt((1+q)/2),true],[Math.sqrt((1-q)/2),false]]){if(r<.01)continue;
+        s.strokeStyle=rgba(st?C.green:C.pink,.65);s.lineWidth=3;s.setLineDash(st&&q>.02?[]:[7,5]);s.beginPath();s.arc(p.X(0),p.Y(0),r*R0,0,7);s.stroke();}s.setLineDash([]);}}
+    if(gbK==='inf'){const R0=Math.abs(p.X(1)-p.X(0));s.strokeStyle=rgba(C.green,.5);s.lineWidth=3;s.beginPath();s.arc(p.X(0),p.Y(0),R0,0,7);s.stroke();
+      s.fillStyle=rgba(C.amber,.9);s.font="12px 'Noto Sans KR',sans-serif";if(gbMu>1)s.fillText('병목',p.X(0)+4,p.Y(1)-8);}
+    if(gbK==='hom'){const m=gbMu;const lam=(m+Math.sqrt(m*m+4))/2;const f=GB.hom.f(m);for(const sg of[1,-1]){let x=sg*1e-4,y=sg*1e-4*lam;s.strokeStyle=sg>0?C.pink:rgba(C.muted,.8);s.lineWidth=sg>0?3:1.8;s.beginPath();s.moveTo(p.X(0),p.Y(0));
+        for(let i=0;i<6000;i++){[x,y]=rk4(f,x,y,.01);if(x<-3||x>4||Math.abs(y)>4)break;s.lineTo(p.X(x),p.Y(y));}s.stroke();}
+      s.fillStyle=C.pink;s.font="bold 14px 'Noto Sans KR',sans-serif";s.fillText('U',p.X(.25),p.Y(.45));}}});
+$('#gbAux').style.aspectRatio='2.6/1';
+function homPeriod(m){const f=GB.hom.f(m);const lam=(m+Math.sqrt(m*m+4))/2;let x=1e-4,y=1e-4*lam,t=0;const dt=.01;const z=[];let py=y;
+  while(t<500){[x,y]=rk4(f,x,y,dt);t+=dt;if(x<-3||x>4||Math.abs(y)>6)return NaN;if(t>200&&py>0&&y<=0&&x>1)z.push(t);py=y;}
+  if(z.length<3)return NaN;const p1=z[z.length-1]-z[z.length-2],p2=z[z.length-2]-z[z.length-3];return Math.abs(p1-p2)<.05*p1?p1:NaN;}
+function drawGbAux(){const cv=$('#gbAux');
+  if(gbK==='snc'){const pts=[];for(let i=0;i<=200;i++){const r=1.3*i/200;pts.push([r,gbMu*r+r**3-r**5]);}
+    plot(cv,{xr:[0,1.3],yr:[-.3,.25],xl:'r',yl:'ṙ',series:[{pts,col:C.pink}],post:(c,X,Y)=>{const fps=[0];if(gbMu>=-.25){const q=Math.sqrt(1+4*gbMu);fps.push(Math.sqrt((1-q)/2),Math.sqrt((1+q)/2));}
+      for(const r of fps){const d=gbMu+3*r*r-5*r**4;c.lineWidth=1.6;c.strokeStyle=C.ink;c.fillStyle=d<-1e-6?C.ink:C.panel;c.beginPath();c.arc(X(r)+(r===0?5:0),Y(0),5,0,7);c.fill();c.stroke();}}});}
+  else if(gbK==='inf'){const pts=[];for(let i=1;i<=200;i++){const m=1+.5*i/200;pts.push([m,TAU/Math.sqrt(m*m-1)]);}
+    plot(cv,{xr:[.5,1.5],yr:[0,40],xl:'μ',yl:'T',series:[{pts,col:C.pink}],pre:(c,X,Y)=>{c.strokeStyle=rgba(C.muted,.8);c.setLineDash([4,4]);c.beginPath();c.moveTo(X(1),Y(0));c.lineTo(X(1),Y(40));c.stroke();c.setLineDash([]);},
+      post:(c,X,Y)=>{if(gbMu>1){const T=TAU/Math.sqrt(gbMu*gbMu-1);c.fillStyle=C.ink;c.beginPath();c.arc(X(gbMu),Y(Math.min(T,40)),5,0,7);c.fill();}}});}
+  else{if(!homPeriods){homPeriods=[];const ms=[-.98,-.96,-.94,-.92,-.9,-.89,-.88,-.875,-.87,-.867];let i=0;(function nxt(){if(i>=ms.length){drawGbAux();return;}homPeriods.push([ms[i],homPeriod(ms[i])]);i++;if(gbK==='hom')drawGbAux();setTimeout(nxt,0);})();}
+    const dots=homPeriods.filter(q=>isFinite(q[1]));
+    plot(cv,{xr:[-1.05,-.75],yr:[0,40],xl:'μ',yl:'T',series:[],pre:(c,X,Y)=>{c.strokeStyle=rgba(C.muted,.8);c.setLineDash([4,4]);c.beginPath();c.moveTo(X(MUC_HOM),Y(0));c.lineTo(X(MUC_HOM),Y(40));c.stroke();
+        c.beginPath();c.moveTo(X(-1),Y(0));c.lineTo(X(-1),Y(40));c.stroke();c.setLineDash([]);c.fillStyle=C.muted;c.font="11px 'Noto Sans KR',sans-serif";c.fillText('호프',X(-1)+3,Y(36));c.fillText('같은 모임',X(MUC_HOM)+3,Y(36));
+        c.strokeStyle=rgba(C.green,.8);c.lineWidth=1.5;c.beginPath();c.moveTo(X(gbMu),Y(0));c.lineTo(X(gbMu),Y(40));c.stroke();},
+      post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[m,T]of dots){c.beginPath();c.arc(X(m),Y(Math.min(T,40)),4,0,7);c.fill();}}});}}
+function gbRead(){let h='';
+  if(gbK==='snc'){h=gbMu<-.25?'<span>μ &lt; −1/4: 극한 주기 궤도 없음. 원점이 유일한 끌개</span>':Math.abs(gbMu+.25)<.003?'<span>μ ≈ −1/4: 반쯤 안정한 주기가 난데없이 생김</span>':'<span>안정적인 궤도 r = '+Math.sqrt((1+Math.sqrt(1+4*gbMu))/2).toFixed(3)+', 불안정한 궤도 r = '+Math.sqrt((1-Math.sqrt(1+4*gbMu))/2).toFixed(3)+' (원점은 늘 안정)</span>';}
+  else if(gbK==='inf'){h=gbMu>1?'<span>극한 주기 궤도 r = 1, 주기 T = 2π/√(μ² − 1) = <b>'+(TAU/Math.sqrt(gbMu*gbMu-1)).toFixed(2)+'</b></span>':'<span>μ ≤ 1: 단위 원 위에 고정점 2개(안정점과 안장점). sin θ = μ인 두 불변 반직선</span>';}
+  else{h=gbMu<-1?'<span>μ &lt; −1: (1, 0)이 안정적인 나선. 극한 주기 궤도 없음</span>':gbMu<MUC_HOM?'<span>안정적인 극한 주기 궤도가 (1, 0)을 둘러쌈. 불안정한 다양체 U가 궤도로 감김</span>':'<span>μ &gt; μ<sub>c</sub>: 안장점 연결이 끊어지고 고리가 사라짐</span>';}
+  $('#gbRead').innerHTML=h;}
+function gbFixed(){if(gbK==='snc')return[{x:0,y:0,k:'s'}];
+  if(gbK==='inf'){if(gbMu>1)return[{x:0,y:0,k:'u'}];const t1=Math.asin(Math.min(1,gbMu)),t2=Math.PI-t1;return[{x:0,y:0,k:'u'},{x:Math.cos(t1),y:Math.sin(t1),k:'s'},{x:Math.cos(t2),y:Math.sin(t2),k:'saddle'}];}
+  const c=classify(gbMu+1,1);return[{x:0,y:0,k:'saddle'},{x:1,y:0,k:c.k}];}
+function gbUpdate(reseed){const K=GB[gbK];$('#gbMuOut').textContent=fmtS(gbMu,3);$('#gbEq').textContent=K.eq;$('#gbAuxCap').textContent=K.aux;gb.o.dom=K.dom;gb.o.f=K.f(gbMu);gb.o.fixed=gbFixed();
+  gb.o.tmax=gbK==='inf'?80:60;gb.renderStatic();if(reseed){gb.clear();gb.ci=0;for(const[x,y]of K.seeds)gb.add(x,y);}gb.dirty=true;drawGbAux();gbRead();}
+function gbMode(k){gbK=k;const K=GB[k];const s=$('#gbMu');s.min=K.mu[0];s.max=K.mu[1];s.step=K.mu[3];s.value=K.mu[2];gbMu=K.mu[2];
+  document.querySelectorAll('.seg[aria-label="전역적 갈래치기 종류"] button').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===k));gbUpdate(true);}
+document.querySelectorAll('.seg[aria-label="전역적 갈래치기 종류"] button').forEach(b=>b.addEventListener('click',()=>gbMode(b.dataset.k)));
+let gbT=null;$('#gbMu').addEventListener('input',e=>{gbMu=+e.target.value;$('#gbMuOut').textContent=fmtS(gbMu,3);clearTimeout(gbT);gbT=setTimeout(()=>gbUpdate(true),100);});
+$('#gbClear').addEventListener('click',()=>{gb.clear();gb.ci=0;});
+new ResizeObserver(drawGbAux).observe($('#gbAux'));
+gbMode('snc');
+
+/* ================= 8.5 Josephson junction ================= */
+let jA=.3,jI=1.2;
+const jF=(x,y)=>[y,jI-Math.sin(x)-jA*y];
+function jYmax(){return Math.min(40,Math.max(3,1.25*(jI+1)/jA));}
+function jDom(){return{x0:0,x1:TAU,y0:-Math.max(1.5,.25*jYmax()),y1:jYmax()};}
+const piX=[[0,'0'],[Math.PI/2,'π/2'],[Math.PI,'π'],[1.5*Math.PI,'3π/2'],[TAU,'2π']];
+const jj=new Plane($('#jj'),{dom:jDom(),aspect:.8,f:jF,wrapX:true,dt:.01,sub:5,tmax:80,maxTraj:5,xl:'φ',yl:'y = φ′',xticks:piX,n:17,
+  decor:(s,p)=>{const d=p.d;s.strokeStyle=rgba(C.cyan,.85);s.lineWidth=2;s.beginPath();for(let i=0;i<=200;i++){const x=TAU*i/200;const y=(jI-Math.sin(x))/jA;i?s.lineTo(p.X(x),p.Y(y)):s.moveTo(p.X(x),p.Y(y));}s.stroke();
+    if(jI<1){const ps=Math.PI-Math.asin(jI);const J=[[0,1],[-Math.cos(ps),-jA]];const tr=-jA,det=Math.cos(ps);const lam=(tr+Math.sqrt(tr*tr-4*det))/2;
+      let x=ps+1e-4,y=1e-4*lam;s.strokeStyle=C.pink;s.lineWidth=2.6;s.beginPath();s.moveTo(p.X(ps),p.Y(0));let px=x;
+      for(let i=0;i<9000;i++){[x,y]=rk4(jF,x,y,.01);let wx=((x%TAU)+TAU)%TAU;if(Math.abs(wx-px)>Math.PI)s.moveTo(p.X(wx),p.Y(y));else s.lineTo(p.X(wx),p.Y(y));px=wx;}s.stroke();
+      s.fillStyle=C.pink;s.font="bold 14px 'Noto Sans KR',sans-serif";s.fillText('U',p.X(ps)+10,p.Y(0)-12);}}});
+$('#jP').style.aspectRatio='2/1';
+let jPmap=null,jTok=0;
+function poincare(y0){let x=0,y=y0,t=0;const dt=.01;while(t<80){[x,y]=rk4(jF,x,y,dt);t+=dt;if(x>=TAU)return y;if(x<-TAU)return NaN;}return NaN;}
+function jComputeMap(tok){const lo=.02,hi=Math.min(40,(jI+1)/jA*1.1+.5);const pts=[];let i=0;const n=60;
+  (function chunk(){if(tok!==jTok)return;for(let k=0;k<8&&i<=n;k++,i++){const y=lo+(hi-lo)*i/n;pts.push([y,poincare(y)]);}
+    jPmap={lo,hi,pts};drawJP();if(i<=n)setTimeout(chunk,0);else jFinish(tok);})();}
+function jFinish(tok){if(tok!==jTok)return;const pts=jPmap.pts;let ys=null;
+  for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];if(!isFinite(a[1])||!isFinite(b[1]))continue;const fa=a[1]-a[0],fb=b[1]-b[0];if(fa*fb<=0){let l=a[0],h=b[0];for(let k=0;k<30;k++){const m=(l+h)/2;const fm=poincare(m)-m;if(!isFinite(fm))break;if((poincare(l)-l)*fm<=0)h=m;else l=m;}ys=(l+h)/2;break;}}
+  jPmap.ys=ys;drawJP();let html='';
+  if(ys!==null){let x=0,y=ys,integ=0;const dt=.005;while(x<TAU){const yy=y;[x,y]=rk4(jF,x,y,dt);integ+=dt*(yy*yy+y*y)/2;}
+    html='<span>고정점 P(y*) = y*: y* = <b>'+ys.toFixed(3)+'</b></span><span>∫₀<sup>2π</sup> y dφ = <b>'+integ.toFixed(3)+'</b>, 2πI/α = '+(TAU*jI/jA).toFixed(3)+'</span>';}
+  else html='<span>P(y) = y인 점이 없음: 회전하는 해가 없습니다.</span>';
+  if(jI<1)html+='<span>I &lt; 1: 고정점 2개(싱크와 안장점). 정의되지 않은 P(y)는 싱크로 빨려 든 궤적</span>';
+  $('#jRead').innerHTML=html;}
+function drawJP(){if(!jPmap)return;const{lo,hi,pts}=jPmap;const ok=pts.filter(q=>isFinite(q[1]));const segs=[];let cur=[];for(const q of pts){if(isFinite(q[1]))cur.push(q);else{if(cur.length>1)segs.push(cur);cur=[];}}if(cur.length>1)segs.push(cur);
+  plot($('#jP'),{xr:[0,hi],yr:[0,hi],xl:'y',yl:'P(y)',series:[{pts:[[0,0],[hi,hi]],col:C.muted,dash:[5,4],lw:1.4}].concat(segs.map(sg=>({pts:sg,col:C.pink,lw:2.2}))),
+    post:(c,X,Y)=>{c.fillStyle=C.pink;for(const q of ok){if(segs.length===0){c.beginPath();c.arc(X(q[0]),Y(q[1]),2.5,0,7);c.fill();}}
+      if(jPmap.ys!=null){c.fillStyle=C.ink;c.beginPath();c.arc(X(jPmap.ys),Y(jPmap.ys),5.5,0,7);c.fill();}}});}
+function jUpdate(reseed){$('#jAOut').textContent=jA.toFixed(2);$('#jIOut').textContent=jI.toFixed(2);jj.o.dom=jDom();
+  if(jI<1){const p1=Math.asin(jI),p2=Math.PI-p1;const c1=classify(-jA,Math.cos(p1));jj.o.fixed=[{x:p1,y:0,k:c1.k},{x:p2,y:0,k:'saddle'}];}else jj.o.fixed=[];
+  jj.renderStatic();if(reseed){jj.clear();jj.ci=0;const Y=jYmax();for(const[x,y]of[[.3,.3],[Math.PI,.9*Y],[4.5,-.2*Y*.5]])jj.add(x,y);}jj.dirty=true;
+  jRead0();jComputeMap(++jTok);drawJST();}
+function jRead0(){$('#jRead').innerHTML='<span>푸앵카레 사상 계산 중…</span>';}
+let jT0=null;for(const id of['#jA','#jI'])$(id).addEventListener('input',()=>{jA=+$('#jA').value;jI=+$('#jI').value;$('#jAOut').textContent=jA.toFixed(2);$('#jIOut').textContent=jI.toFixed(2);clearTimeout(jT0);jT0=setTimeout(()=>jUpdate(true),150);});
+$('#jClear').addEventListener('click',()=>{jj.clear();jj.ci=0;});
+new ResizeObserver(drawJP).observe($('#jP'));
+
+// stability diagram with numerically computed homoclinic / infinite-period curve
+$('#jST').style.aspectRatio='1.6/1';const JST={xr:[0,2],yr:[0,2]};let homCurve=[];
+function rotates(a,I){const f=(x,y)=>[y,I-Math.sin(x)-a*y];let x=0,y=(I+1)/a+.5,t=0;const dt=.02;let x40=0;
+  while(t<160){[x,y]=rk4(f,x,y,dt);t+=dt;if(Math.abs(t-120)<dt/2)x40=x;}return(x-x40)>Math.PI;}
+(function buildHom(){const as=[];for(let a=.05;a<=1.5001;a+=.05)as.push(+a.toFixed(2));let i=0;
+  (function nxt(){if(i>=as.length){drawJST();return;}const a=as[i];let lo=0,hi=1.0;if(!rotates(a,hi-1e-3)){homCurve.push([a,1]);}else{for(let k=0;k<14;k++){const m=(lo+hi)/2;if(rotates(a,m))hi=m;else lo=m;}homCurve.push([a,(lo+hi)/2]);}
+    i++;drawJST();setTimeout(nxt,0);})();})();
+function drawJST(){const lin=[[0,0],[2,8/Math.PI]];
+  plot($('#jST'),{xr:JST.xr,yr:JST.yr,xl:'α',yl:'I',series:[{pts:[[0,1],[2,1]],col:C.muted,dash:[5,4],lw:1.5},{pts:lin,col:C.pink,dash:[4,4],lw:1.4},{pts:homCurve,col:C.ink,lw:2.6}],
+    pre:(c,X,Y)=>{c.fillStyle=rgba(C.green,.12);c.fillRect(X(0),Y(2),X(2)-X(0),Y(1)-Y(2));if(homCurve.length>1){c.fillStyle=rgba(C.amber,.16);c.beginPath();c.moveTo(X(0),Y(0));homCurve.forEach(q=>c.lineTo(X(q[0]),Y(q[1])));c.lineTo(X(homCurve[homCurve.length-1][0]),Y(1));c.lineTo(X(0),Y(1));c.closePath();c.fill();}
+      c.fillStyle=C.muted;c.font="11px 'Noto Sans KR',sans-serif";c.textAlign='left';c.fillText('안정적인 극한 주기 궤도',X(.6),Y(1.6));c.fillText('쌍안정함',X(.08),Y(.82));c.fillText('안정된 고정점',X(1.1),Y(.45));
+      if(homCurve.length<30)c.fillText('같은 모임 갈래치기 곡선 계산 중…',X(.9),Y(1.15));},
+    post:(c,X,Y)=>{c.fillStyle=C.pink;c.strokeStyle=C.panel;c.lineWidth=2;c.beginPath();c.arc(X(jA),Y(Math.min(2,jI)),6,0,7);c.fill();c.stroke();}});}
+$('#jST').addEventListener('pointerdown',e=>{const[a,I]=clickToParams($('#jST'),e,JST.xr,JST.yr);jA=Math.min(2,Math.max(.05,Math.round(a*100)/100));jI=Math.min(2,Math.max(0,Math.round(I*100)/100));$('#jA').value=jA;$('#jI').value=jI;jUpdate(true);});
+new ResizeObserver(drawJST).observe($('#jST'));
+jUpdate(true);
+
+// I-V hysteresis sweep
+let ivRun=false,ivX=0,ivY=0,ivT=0,ivV=0,ivTrace=[];const IVLEG=320;
+function ivI(t){const ph=(t%(2*IVLEG))/IVLEG;return ph<1?2*ph:2*(2-ph);}
+$('#jIV').style.aspectRatio='2/1';
+function drawIV(){const vmax=Math.max(2.5,2.1/jA);plot($('#jIV'),{xr:[0,2],yr:[0,vmax],xl:'I',yl:'〈φ′〉',series:[{pts:[[0,0],[2,2/jA]],col:C.muted,dash:[5,4],lw:1.2}],
+  pre:(c,X,Y)=>{c.strokeStyle=rgba(C.muted,.6);c.setLineDash([3,4]);c.beginPath();c.moveTo(X(1),Y(0));c.lineTo(X(1),Y(vmax));c.stroke();c.setLineDash([]);},
+  post:(c,X,Y)=>{c.lineWidth=2.2;for(let i=1;i<ivTrace.length;i++){const a=ivTrace[i-1],b=ivTrace[i];c.strokeStyle=b[2]>0?C.cyan:C.amber;c.beginPath();c.moveTo(X(a[0]),Y(a[1]));c.lineTo(X(b[0]),Y(Math.min(vmax,b[1])));c.stroke();}
+    if(ivTrace.length){const L=ivTrace[ivTrace.length-1];c.fillStyle=C.ink;c.beginPath();c.arc(X(L[0]),Y(Math.min(vmax,L[1])),5,0,7);c.fill();}}});}
+function ivReset(){ivRun=false;$('#ivPlay').textContent='I 쓸기 시작';ivX=0;ivY=0;ivT=0;ivV=0;ivTrace=[];ivInfo();drawIV();}
+function ivInfo(){$('#ivI').textContent=ivI(ivT).toFixed(3);$('#ivV').textContent=ivV.toFixed(3);$('#ivDir').textContent=(ivT%(2*IVLEG))<IVLEG?'I 증가 중 →':'← I 감소 중';}
+function ivStep(){const dt=.02;for(let k=0;k<40;k++){const I=ivI(ivT);const f=(x,y)=>[y,I-Math.sin(x)-jA*y];[ivX,ivY]=rk4(f,ivX,ivY,dt);ivT+=dt;ivV+=(ivY-ivV)*dt/12;}
+  ivX=((ivX%TAU)+TAU)%TAU;ivTrace.push([ivI(ivT),Math.max(0,ivV),(ivT%(2*IVLEG))<IVLEG?1:-1]);if(ivT>=2*IVLEG){ivRun=false;$('#ivPlay').textContent='I 쓸기 시작';}ivInfo();drawIV();}
+(function ivLoop(){requestAnimationFrame(ivLoop);if(ivRun)ivStep();})();
+$('#ivPlay').addEventListener('click',()=>{if(ivT>=2*IVLEG)ivReset();ivRun=!ivRun;$('#ivPlay').textContent=ivRun?'일시 정지':'I 쓸기 계속';if(reduceMotion&&ivRun){while(ivT<2*IVLEG)ivStep();ivRun=false;}});
+$('#ivReset').addEventListener('click',ivReset);
+$('#jA').addEventListener('change',ivReset);
+new ResizeObserver(drawIV).observe($('#jIV'));
+ivReset();
+
+/* ---------------- loop & theme ---------------- */
+function loop(){for(const p of planes){if(!p.visible||!p.W)continue;const busy=p.step();if(busy||p.dirty){p.draw();p.dirty=false;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function redrawAll(){drawChAB();drawGbAux();drawJP();drawJST();drawIV();}
+function retheme(){readTheme();for(const p of planes){for(const t of p.trajs){if(t.cidx!==undefined)t.col=TRAJ()[t.cidx];}p.renderStatic();p.dirty=true;}redrawAll();}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(()=>{for(const p of planes){p.renderStatic();p.dirty=true;}redrawAll();});
+})();
+</script>
+</body>
+</html>

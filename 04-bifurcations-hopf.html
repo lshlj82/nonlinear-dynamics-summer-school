@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>제8장 갈래치기 다시 보기: 안장점, 초월임계, 갈퀴, 호프 갈래치기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
+  --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --hl-pink:rgba(232,67,147,.22); --hl-green:rgba(70,200,95,.28); --hl-cyan:rgba(60,180,230,.22);
+  --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --math:'STIX Two Text','Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+    --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+  --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;gap:18px;align-items:center;overflow-x:auto}
+.bar-in .t{font-family:var(--serif);font-weight:700;white-space:nowrap;margin-right:auto}
+.bar-in a{color:var(--ink);text-decoration:none;white-space:nowrap;font-size:.92rem;padding:4px 2px;border-bottom:2px solid transparent}
+.bar-in a:hover{border-bottom-color:var(--pink)}
+.bar-in a b{font-family:var(--math);font-weight:600;color:var(--pink);margin-right:4px}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:40px 20px 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.12;margin:0 0 6px;letter-spacing:-.01em}
+.hero h1 .en{display:block;font-family:var(--math);font-style:italic;font-weight:400;font-size:.5em;color:var(--muted);margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:1.05rem;max-width:34em;margin:18px 0}
+.credit{font-size:.88rem;color:var(--muted);border-left:3px solid var(--green);padding:4px 0 4px 12px;max-width:36em}
+.credit strong{color:var(--ink);font-weight:500}
+.hero-fig{position:relative}
+#hero{width:100%;aspect-ratio:1/1;display:block;cursor:crosshair;touch-action:manipulation}
+.hero-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* sections */
+.sec{max-width:1180px;margin:0 auto;padding:56px 20px 8px}
+.sec-h{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.sec-h .no{font-family:var(--math);font-size:2.4rem;font-weight:600;color:var(--pink);line-height:1}
+.sec-h h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);margin:0;line-height:1.25}
+.sec-h h2 span{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted);font-size:.72em;margin-left:6px}
+.sec > .intro{max-width:46em;margin:6px 0 10px}
+h3{font-family:var(--serif);font-size:1.32rem;margin:40px 0 8px;line-height:1.35}
+h3 .en{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start;margin-top:16px}
+.row.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.row.flip > .txt{order:2}
+.txt p{margin:0 0 14px}
+.txt ul{margin:0 0 14px;padding-left:1.2em}
+.txt li{margin-bottom:6px}
+.en{font-family:var(--math);font-style:italic}
+.hl{background:linear-gradient(transparent 58%,var(--hl-green) 58%)}
+.hlp{background:linear-gradient(transparent 58%,var(--hl-pink) 58%)}
+.hlc{background:linear-gradient(transparent 58%,var(--hl-cyan) 58%)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap;font-size:1.06em}
+.m sup,.m sub{font-style:normal;font-size:.72em}
+.eq{font-family:var(--math);font-size:1.22rem;margin:10px 0 16px;padding:8px 16px;display:inline-block;border:2px solid var(--pink);border-radius:5px;background:var(--panel);line-height:1.6}
+.eq i{font-style:italic}
+.eq.plain{border-color:var(--rule)}
+.pen{font-weight:500;font-size:.95rem;line-height:1.6;color:var(--pink);margin:4px 0 16px;display:block;border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pen::before{content:'강의노트 메모';display:block;font-size:.75rem;font-weight:400;color:var(--muted)}
+.no-wrap{white-space:nowrap}
+.pen.g{color:var(--green)} .pen.c{color:var(--cyan)}
+.box{border:2px solid var(--green);border-radius:6px;padding:12px 16px;margin:12px 0 16px;background:var(--panel)}
+.box.amber{border-color:var(--amber)}
+.box.pink{border-color:var(--pink)}
+.box p:last-child{margin-bottom:0}
+.box .lbl{font-weight:700;margin-right:6px}
+
+/* demo panel */
+.demo{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.demo canvas{width:100%;display:block;touch-action:manipulation}
+.demo canvas.pp{cursor:crosshair}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.92rem}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--hl-cyan)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);background:var(--pink)}
+label.sl{display:inline-flex;align-items:center;gap:8px}
+label.sl output{font-family:var(--math);min-width:3.2em;font-size:1.05rem}
+input[type=range]{accent-color:var(--pink);width:180px;max-width:42vw}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:4px 8px}
+.hint{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.read{font-size:.92rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.read b{font-family:var(--math);font-weight:600}
+.verdict{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:.93rem;border:1px solid var(--rule)}
+.verdict.ok{border-color:var(--green);background:var(--hl-green)}
+.verdict.no{border-color:var(--pink);background:var(--hl-pink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{font-size:.86rem;text-align:center;margin:4px 0 0}
+.cap .amp{font-family:var(--math);font-weight:600}
+.sub{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+footer{max-width:1180px;margin:40px auto 0;padding:24px 20px 40px;border-top:2px solid var(--ink);font-size:.9rem;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:60em}
+footer strong{color:var(--ink);font-weight:500}
+.refs{max-width:52em;padding-left:1.4em;margin:12px 0 0;font-size:.95rem}
+.refs li{margin-bottom:10px}
+.refs i{font-family:var(--math)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero-fig{order:-1}
+  .row,.row.flip{grid-template-columns:1fr;gap:18px}
+  .row.flip > .txt{order:0}
+  body{font-size:16px}
+}
+@media (max-width:520px){
+  .two{grid-template-columns:1fr}
+  .bar-in .t{display:none}
+}
+
+:root{--hl-amber:rgba(214,140,30,.22)}
+.hero .kicker{color:var(--muted);margin:0 0 10px;font-size:.95rem}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem)}
+.check{list-style:none;padding:0;margin:10px 0 0;font-size:.9rem;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.check li{display:flex;gap:6px;align-items:baseline}
+.check li span{font-weight:700;width:1em}
+.check li.y span{color:var(--green)}
+.check li.n span{color:var(--pink)}
+.check li.n{color:var(--pink)}
+@media (max-width:520px){.check{grid-template-columns:1fr}}
+
+.ctl input[type=checkbox]{accent-color:var(--pink);margin-right:4px}
+
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="섹션 이동">
+  <div class="bar-in">
+    <a class="t" href="index.html" style="border:0;color:var(--ink)">갈래치기 다시 보기</a>
+    <a href="#s80"><b>8.0</b>소개</a>
+    <a href="#s81"><b>8.1</b>안장점, 초월임계, 갈퀴</a>
+    <a href="#s82"><b>8.2</b>호프 갈래치기</a>
+    <a href="#refs">참고문헌</a>
+    <a href="index.html">전체 목록</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <p class="kicker">제8장 갈래치기 다시 보기</p>
+    <h1>안장점, 초월임계, 갈퀴, 그리고 호프 갈래치기<span class="en">Saddle-Node, Transcritical, Pitchfork, and Hopf Bifurcations</span></h1>
+    <p class="lead">3장에서 배운 1차원 갈래치기(bifurcation)가 2차원에서는 어떻게 보이는지, 그리고 1차원에는 대응하는 것이 없는 근본적으로 새로운 갈래치기인 호프 갈래치기(Hopf bifurcation)를 다룬다. 매개변수를 움직이며 고정점이 생기고 사라지는 순간, 진동이 켜지고 꺼지는 순간을 직접 지켜본다.</p>
+    <p class="credit">이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트(<a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>, 7~8장 강의)를 기반으로 합니다.</p>
+  </div>
+  <figure class="hero-fig" style="margin:0">
+    <canvas id="hero" aria-label="μ가 천천히 변하는 초임계 호프 갈래치기 애니메이션. 클릭하면 입자가 추가됩니다."></canvas>
+    <figcaption><span class="m">ṙ = μr − r³, θ̇ = 1</span>. μ가 천천히 오르내립니다. μ &lt; 0이면 모든 입자가 원점으로 빨려 들어가고, μ &gt; 0이면 반지름 <span class="m">√μ</span>인 극한 주기 궤도가 태어납니다. 눌러서 입자를 뿌려 보세요.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ 8.0 ============ -->
+<section class="sec" id="s80">
+  <div class="sec-h"><span class="no">8.0</span><h2>소개<span>introduction</span></h2></div>
+  <div class="row">
+    <div class="txt">
+      <p>이 장에서는 3장의 1차원 갈래치기에 대한 논의를 2차원으로 확장한다. 2차원에서도 매개변수들이 변할 때 고정점이 생성되거나 파괴되거나 불안정해질 수 있고, <b>닫힌 궤도에 대해서도 마찬가지다.</b> 따라서 진동이 켜지거나 꺼질 수 있는 방식을 설명할 수 있게 된다.</p>
+      <p>이렇게 더 넓은 맥락에서 갈래치기란 무엇인가? 일반적인 정의는 6.3절의 ‘위상학적 동등성(topological equivalence)’ 개념을 포함한다. <span class="hlp">매개변수가 변함에 따라 위상 그림의 위상 구조가 변하면 갈래치기가 발생했다고 말한다.</span> 고정점, 닫힌 궤도, 안장 연결의 개수 또는 안정성이 바뀌는 경우가 그 예다.</p>
+    </div>
+    <div class="txt">
+      <span class="pen">갈래치기는 각각의 매개변수 값이 변할 때 발생: 통계물리의 상전이(phase transition)에서 조절 매개변수(control parameter)의 역할!</span>
+      <p>8.1절에서 다룰 고정점의 갈래치기들은 사실 기본적으로 <b>1차원 부분 공간(subspace)에 국한된다.</b> 추가된 차원에서의 흐름은 해당 부분 공간으로 단순하게 끌려가거나 그곳으로부터 멀어질 뿐이다. 반면 8.2절의 호프 갈래치기는 1차원 시스템에는 대응하는 것이 없는, 근본적으로 새로운 종류다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.1 ============ -->
+<section class="sec" id="s81">
+  <div class="sec-h"><span class="no">8.1</span><h2>안장점, 초월임계, 갈퀴 갈래치기<span>saddle-node, transcritical, pitchfork</span></h2></div>
+  <p class="intro">3장에서 논의한 고정점에 대한 갈래치기는 2차원(그리고 실제로는 모든 차원)에서도 비슷한 것들이 있다. 하지만 더 많은 차원이 추가될 때 실제로 새로운 일이 발생하지는 않는다. <span class="m">x</span> 방향의 동역학은 3장에서 논의한 표준형으로 주고, <span class="m">y</span> 방향의 운동은 지수함수적으로 사라지게 하면 각 갈래치기의 대표적인 예를 만들 수 있다.</p>
+
+  <div class="row">
+    <div class="txt">
+      <h3 style="margin-top:8px">안장점 갈래치기 <span class="en">(saddle-node bifurcation)</span></h3>
+      <p>고정점의 생성과 소멸에 대한 기본적인 작동 원리다. 2차원에서의 표준적인 예시는</p>
+      <div class="eq">ẋ = μ − <i>x</i>²,&emsp;ẏ = −<i>y</i></div>
+      <p>이다. <span class="m">x</span> 방향으로는 3.1절의 갈래치기가 나타나지만, <span class="m">y</span> 방향으로는 <span class="m">y(t) = y₀e<sup>−t</sup></span>로 지수함수적으로 감쇠한다. <span class="m">μ &gt; 0</span>일 때 <span class="m">(√μ, 0)</span>에 안정된 고정점이, <span class="m">(−√μ, 0)</span>에 안장점이 있다. <span class="m">μ</span>가 감소하면 둘이 서로 접근하다가 <span class="m">μ = 0</span>에서 충돌하고 <span class="m">μ &lt; 0</span>에서 사라진다.</p>
+      <p>고정점들은 쌍소멸한 후에도 흐름에 계속 영향을 미친다. 궤적을 빨아들이고 다른 쪽으로 넘어가기까지의 시간을 지연시키는 병목 영역인 <b>허깨비(ghost)</b>를 남기는 것이다. 병목현상에 소요되는 시간은 일반적으로 <span class="m">(μ − μ<sub>c</sub>)<sup>−1/2</sup></span>로 증가한다. 강의노트에서는 이 척도 조정 법칙(scaling law)을 직접 계산했다. <span class="m">r = |μ|</span>로 두면</p>
+      <div class="eq plain"><i>T</i><sub>병목</sub> ≈ ∫<sub>−∞</sub><sup>∞</sup> d<i>x</i>/(<i>r</i> + <i>x</i>²) = π/√<i>r</i></div>
+
+      <h3>초월임계 및 갈퀴 갈래치기</h3>
+      <div class="eq plain">ẋ = μ<i>x</i> − <i>x</i>² (초월임계),&ensp;ẋ = μ<i>x</i> − <i>x</i>³ (초임계 갈퀴),&ensp;ẋ = μ<i>x</i> + <i>x</i>³ (준임계 갈퀴),&emsp;ẏ = −<i>y</i></div>
+      <p><b>예제 8.1.2</b>는 초임계 갈퀴 시스템의 위상 그림이다. <span class="m">μ &lt; 0</span>일 때 유일한 고정점은 원점의 안정점이다. <span class="m">μ = 0</span>이면 원점은 여전히 안정적이지만 <span class="m">x</span> 방향을 따라 매우 느린 (대수적) 감소를 하게 된다. 3.4절에서 다룬 <b>임계 감속(critical slowing down)</b>이다. <span class="m">μ &gt; 0</span>일 때 원점은 안장점이 되고, 대칭적으로 위치한 <span class="m">(±√μ, 0)</span>에 새로운 안정점이 생긴다. 원점의 야코비 행렬은 <span class="m">diag(μ, −1)</span>이니 <span class="m">μ &gt; 0</span>에서 <span class="m">Δ = −μ &lt; 0</span>, 새 고정점에서는 <span class="m">τ = −2μ − 1 &lt; 0</span>, <span class="m">Δ = 2μ &gt; 0</span>이다.</p>
+      <span class="pen">야코비 행렬이 대칭(symmetric)인 것이 매우 중요한 성질: 다음 절 호프 갈래치기에서 다시 등장!</span>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="표준형 선택">
+          <button data-k="sn" aria-pressed="true">안장점</button>
+          <button data-k="tc" aria-pressed="false">초월임계</button>
+          <button data-k="pf" aria-pressed="false">초임계 갈퀴</button>
+          <button data-k="spf" aria-pressed="false">준임계 갈퀴</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="nfMu" min="-1" max="1" step="0.01" value="0.25" aria-label="매개변수 mu"><output id="nfMuOut">0.25</output></label>
+        <button class="btn" id="nfClear">지우기</button>
+      </div>
+      <p class="hint" id="nfEq" style="margin:0 0 6px"></p>
+      <canvas id="nf" class="pp" aria-label="표준형 갈래치기의 위상 평면"></canvas>
+      <p class="sub">갈래치기 도표: 고정점의 위치 <span class="m">x*</span>와 <span class="m">μ</span> (실선 안정, 점선 불안정)</p>
+      <canvas id="nfBD" aria-label="갈래치기 도표"></canvas>
+      <p class="sub">마지막 궤적의 <span class="m">x(t)</span></p>
+      <canvas id="nfX" aria-label="마지막 궤적의 x(t)"></canvas>
+      <div class="read" id="nfRead"></div>
+    </div>
+  </div>
+
+  <h3>좀 더 일반적인 상황: 영점선이 접선이 될 때</h3>
+  <div class="row flip">
+    <div class="txt">
+      <p>매개변수 <span class="m">μ</span>로 결정되는 <span class="m">ẋ = f(x, y), ẏ = g(x, y)</span>를 생각하자. 영점선들의 교차점에서는 <span class="m">ẋ = 0</span>과 <span class="m">ẏ = 0</span>이 동시에 성립하니 고정점이다. <span class="m">μ</span>가 변함에 따라 영점선들이 서로 멀어지고 <span class="m">μ<sub>c</sub></span>에서 접선(tangent)이 된다면, 그 과정에서 고정점들은 서로 접근하고 <span class="m">μ<sub>c</sub></span>일 때 충돌하게 된다. 영점선들이 분리된 후에는 교차점이 없고, 고정점은 짠 하고 사라진다. <span class="hlp">모든 안장점 갈래치기가 국소적으로 이러한 특성을 갖는다.</span></p>
+      <h3>예제 8.1.1 유전자 제어 시스템</h3>
+      <p>그리피스[Griffith 1971]는 유전자 제어 시스템의 모형으로 다음 시스템을 논의했다. 유전자는 그 자체의 산물에 의해 자극되어 잠재적으로 자가촉매 피드백 과정으로 이어진다.</p>
+      <div class="eq">ẋ = −<i>ax</i> + <i>y</i>,&emsp;ẏ = <i>x</i>²/(1 + <i>x</i>²) − <i>by</i></div>
+      <p><span class="m">x</span>와 <span class="m">y</span>는 각각 번역(translate)되는 단백질과 메신저 RNA(mRNA)의 농도에 비례하고, <span class="m">a, b &gt; 0</span>은 분해 속도를 제어하는 매개변수다.</p>
+      <p><b>풀이.</b> 영점선은 직선 <span class="m">y = ax</span>와 시그모이드(sigmoid) 곡선 <span class="m">y = x²/[b(1 + x²)]</span>이다. <span class="m">x* = 0</span> 외의 교차점은 <span class="m">x*² − x*/(ab) + 1 = 0</span>의 해</p>
+      <div class="eq plain"><i>x</i>* = [1 ± √(1 − 4<i>a</i>²<i>b</i>²)] / (2<i>ab</i>)</div>
+      <p>이고, <span class="m">2ab &lt; 1</span>일 때 2개가 있다. 둘은 <span class="m">2ab = 1</span>에서 합쳐지므로 <span class="m">a<sub>c</sub> = 1/(2b)</span>이며, 이 갈래치기 지점에서 <span class="m">x* = 1</span>이다.</p>
+      <p>야코비 행렬의 대각합은 <span class="m">τ = −(a + b) &lt; 0</span>이므로 모든 고정점은 싱크이거나 안장점이다. 원점은 <span class="m">Δ = ab &gt; 0</span>, <span class="m">τ² − 4Δ = (a − b)² ≥ 0</span>이니 안정점이다. 다른 두 고정점에서는 식을 정리하면 <span class="m">Δ = ab[(x*² − 1)/(1 + x*²)]</span>이니, <span class="m">0 &lt; x* &lt; 1</span>인 ‘중간’ 고정점은 안장점이고 <span class="m">x* &gt; 1</span>인 고정점은 안정점이다.</p>
+      <p><b>생물학적 해석.</b> 시스템은 <b>생화학적 스위치</b>처럼 작동할 수 있지만, mRNA와 단백질이 충분히 천천히 분해되는 경우, 곧 <span class="m">ab &lt; 1/2</span>일 때만 그렇다. 두 가지 안정한 정상 상태(steady state)가 있다. 원점(유전자가 발현되지 않음)과 <span class="m">x, y</span>가 큰 상태(유전자가 활성화되어 유지됨)다. <span class="hl">안장점의 안정한 다양체가 전체 평면을 두 끌림 영역으로 나누는 임곗값 역할을 한다.</span></p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">a <input type="range" id="gsA" min="0.15" max="0.8" step="0.005" value="0.4" aria-label="매개변수 a"><output id="gsAOut">0.400</output></label>
+        <label class="sl">b <input type="range" id="gsB" min="0.6" max="1.6" step="0.01" value="1" aria-label="매개변수 b"><output id="gsBOut">1.00</output></label>
+      </div>
+      <div class="ctl"><button class="btn" id="gsClear">지우기</button><label><input type="checkbox" id="gsBasin" checked> 끌림 영역 칠하기</label></div>
+      <canvas id="gs" class="pp" aria-label="유전자 제어 시스템의 위상 평면"></canvas>
+      <div class="legend"><span><i style="background:var(--cyan)"></i>ẋ = 0: y = ax</span><span><i style="background:var(--amber)"></i>ẏ = 0: 시그모이드 곡선</span><span><i style="background:var(--ink)"></i>안장점의 안정한 다양체(임곗값)</span></div>
+      <div class="read" id="gsRead"></div>
+      <div class="verdict" id="gsV"></div>
+      <p class="hint">a를 키워 a<sub>c</sub> = 1/(2b)를 넘기면 시그모이드 곡선과 직선이 접선이 되었다가 떨어지면서, 위쪽 두 고정점이 충돌해 사라집니다.</p>
+    </div>
+  </div>
+
+  <h3>예제 8.1.3 대칭성과 갈퀴 갈래치기</h3>
+  <div class="row">
+    <div class="txt">
+      <p>갈퀴 갈래치기는 대칭성을 가진 시스템에서 흔하게 나타난다.</p>
+      <div class="eq">ẋ = μ<i>x</i> + <i>y</i> + sin <i>x</i>,&emsp;ẏ = <i>x</i> − <i>y</i></div>
+      <p>이 시스템은 변수 변환 <span class="m">x → −x, y → −y</span>에 대해 변하지 않으므로 위상 그림은 원점 대칭이다. 원점은 모든 <span class="m">μ</span>에 대해 고정점이며, 야코비 행렬 <span class="m">A = [[μ + 1, 1], [1, −1]]</span>의 대각합은 <span class="m">τ = μ</span>, 행렬식은 <span class="m">Δ = −(μ + 2)</span>이다. 따라서 원점은 <span class="m">μ &lt; −2</span>이면 안정된 고정점이고 <span class="m">μ &gt; −2</span>이면 안장점이다. 갈퀴 갈래치기가 <span class="m">μ<sub>c</sub> = −2</span>에서 일어난다.</p>
+      <p>다른 고정점은 <span class="m">y = x</span>, <span class="m">(μ + 1)x + sin x = 0</span>을 만족한다. <span class="m">x</span>가 작지만 0은 아니라고 가정하고 <span class="m">sin x ≈ x − x³/6</span>으로 전개한 뒤 <span class="m">x</span>로 나누면 <span class="m">μ + 2 − x²/6 ≈ 0</span>, 곧 <span class="m">x* ≈ ±√(6(μ + 2))</span>이다. <span class="m">μ</span>가 −2보다 약간 클 때 존재하므로 <b>초임계</b>다(준임계였다면 원점이 안장점이 된 후가 아니라 안정적일 때 한 쌍의 고정점이 존재했을 것이다).</p>
+      <p>위상 그림은 원점에서 야코비 행렬의 고유벡터로 그릴 수 있다. 갈래치기 지점의 행렬 <span class="m">[[−1, 1], [1, −1]]</span>의 고유벡터 <span class="m">(1, 1)</span>, <span class="m">(1, −1)</span>에 해당하는 고윳값은 <span class="m">λ = 0, −2</span>다. 이 근사는 매개변수와 위상 공간 모두에서 <b>국소적으로만 유효하다.</b></p>
+      <div class="box amber"><p><span class="lbl">정리</span>위의 모든 예시에서 갈래치기는 <span class="m">Δ = 0</span>, 다시 말해 고윳값 중 적어도 하나가 0일 때 일어난다. 안장점, 초월임계, 갈퀴 갈래치기는 모두 <b>고윳값이 0인 갈래치기</b>의 예시이며, 항상 2개 이상의 고정점이 충돌하는 상황이 개입한다.</p></div>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="e3Mu" min="-3" max="-1" step="0.01" value="-1.8" aria-label="매개변수 mu"><output id="e3MuOut">−1.80</output></label>
+        <button class="btn" id="e3Clear">지우기</button>
+      </div>
+      <canvas id="e3" class="pp" aria-label="예제 8.1.3의 위상 평면"></canvas>
+      <div class="legend"><span><i style="background:var(--green)"></i>고유벡터 (1, 1): λ ≈ 0 방향</span><span><i style="background:var(--muted)"></i>고유벡터 (1, −1): λ ≈ −2 방향</span></div>
+      <p class="sub">고정점의 위치 <span class="m">x*</span>와 <span class="m">μ</span></p>
+      <canvas id="e3BD" aria-label="예제 8.1.3의 갈래치기 도표"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>(μ + 1)x + sin x = 0의 수치해</span><span><i style="background:var(--pink)"></i>근사 ±√(6(μ + 2))</span></div>
+      <div class="read" id="e3Read"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8.2 ============ -->
+<section class="sec" id="s82">
+  <div class="sec-h"><span class="no">8.2</span><h2>호프 갈래치기<span>Hopf bifurcation</span></h2></div>
+  <p class="intro">2차원 시스템에 안정된 고정점이 있다고 하자. 매개변수 <span class="m">μ</span>가 변할 때 안정성을 잃을 수 있는 모든 가능한 방법은 무엇인가? <b>야코비 행렬의 고윳값(eigenvalue)들이 핵심이다.</b></p>
+  <div class="row">
+    <div class="txt">
+      <p>고정점이 안정적이면 고윳값 <span class="m">λ₁, λ₂</span>는 모두 복소평면의 왼쪽 절반 <span class="m">Re λ &lt; 0</span>에 있다. <span class="m">λ</span>는 실수 계수가 있는 2차 방정식의 근이므로 가능한 상황은 두 가지다.</p>
+      <ul>
+        <li>고윳값들이 모두 음의 실수다. 하나가 <span class="m">λ = 0</span>을 지나 오른쪽으로 가면 8.1절의 갈래치기들이 된다.</li>
+        <li>고윳값들이 켤레복소수(complex conjugate) 쌍이다. 이 쌍이 <b>동시에</b> 허수 축을 가로질러 오른쪽 절반으로 가는 것이 새로운 시나리오다.</li>
+      </ul>
+      <div class="box"><p><span class="lbl">강의노트 보충: 대칭 행렬</span>야코비 행렬이 에르미트(Hermitian) 행렬, 실수 성분만 있을 때는 대칭(symmetric) 행렬이면 고윳값이 항상 실수다. 따라서 켤레복소수 쌍이 생길 수 없고 호프 갈래치기도 일어날 수 없다. 단, 역은 성립하지 않는다. 예제 8.1.1의 갈래치기 지점 <span class="m">a = 1/(2b)</span>, <span class="m">x* = 1</span>에서 <span class="m">A = [[−a, 1], [1/2, −b]]</span>는 대칭이 아니지만 고윳값 하나가 0인 실수다.</p></div>
+
+      <h3>초임계 호프 갈래치기 <span class="en">(supercritical Hopf bifurcation)</span></h3>
+      <p>지수함수적으로 줄어드는 진동을 통해 평형 상태에 도달하는 물리적인 시스템이 있다고 하자. 감쇠율이 조절 매개변수 <span class="m">μ</span>에 따라 점점 느려지다가 임곗값 <span class="m">μ<sub>c</sub></span>에서 증폭으로 바뀌면, 평형 상태는 안정성을 잃고 작은 진폭의 사인파 극한 주기 궤도 진동이 나타난다. 위상 공간에서 보면 <span class="hl">안정적인 나선이 작고 거의 타원형에 가까운 극한 주기 궤도로 둘러싸인 불안정한 나선으로 바뀐다.</span></p>
+      <div class="eq">ṙ = μ<i>r</i> − <i>r</i>³,&emsp;θ̇ = ω + <i>br</i>²</div>
+      <p><span class="m">μ</span>는 원점에 있는 고정점의 안정성을, <span class="m">ω</span>는 무한소 진동의 진동수를, <span class="m">b</span>는 진동수가 진폭에 의존하는 정도를 결정한다(데모에서는 <span class="m">ω = 1, b = 0</span>). <span class="m">μ = 0</span>일 때 원점은 여전히 안정적인 나선이지만 대수적으로 감쇠하는 매우 약한 나선이다. 선형 근사는 원점을 중심(center)으로 잘못 예측한다. <span class="m">μ &gt; 0</span>이면 원점에 불안정한 나선이 있고 <span class="m">r = √μ</span>인 안정적인 원형 극한 주기 궤도가 있다.</p>
+      <p>직교 좌표계로 다시 쓰면 <span class="m">ẋ = μx − ωy + (3차 항)</span>, <span class="m">ẏ = ωx + μy + (3차 항)</span>이니 원점의 야코비 행렬은 <span class="m">[[μ, −ω], [ω, μ]]</span>이다. 대칭이 아니어서 켤레복소수 고윳값 <span class="m">λ = μ ± iω</span>를 가지며, <span class="m">μ</span>가 음수에서 양수로 증가함에 따라 허수 축을 왼쪽에서 오른쪽으로 가로지른다.</p>
+      <div class="box pink">
+        <p><span class="lbl">경험 법칙</span>(1) 극한 주기 궤도의 크기는 0에서 연속적으로 증가하고, <span class="m">μ</span>가 <span class="m">μ<sub>c</sub></span>에 가까워지면 <span class="m">√(μ − μ<sub>c</sub>)</span>에 비례해서 증가한다.<br>(2) 극한 주기 궤도의 진동수는 근사적으로 <span class="m">μ = μ<sub>c</sub></span>에서 계산한 <span class="m">ω = Im λ</span>로 주어진다. 따라서 주기는 <span class="m">T = (2π/Im λ) + O(μ − μ<sub>c</sub>)</span>이다.</p>
+      </div>
+      <p>이 이상적인 예시는 기하학적으로가 아니라 위상적으로만 전형적이다. 실제 호프 갈래치기에서 극한 주기 궤도는 타원형이며, 고윳값들은 휘어진 경로로 움직여 기울기가 0이 아닌 방향으로 허수 축을 지난다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="호프 갈래치기 종류">
+          <button data-k="sup" aria-pressed="true">초임계</button>
+          <button data-k="sub" aria-pressed="false">준임계</button>
+          <button data-k="deg" aria-pressed="false">겹쳐진</button>
+          <button data-k="ex" aria-pressed="false">예제 8.2.1</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="sl">μ <input type="range" id="hpMu" min="-0.5" max="0.5" step="0.01" value="0.2" aria-label="매개변수 mu"><output id="hpMuOut">0.20</output></label>
+        <button class="btn" id="hpClear">지우기</button>
+      </div>
+      <p class="hint" id="hpEq" style="margin:0 0 6px"></p>
+      <canvas id="hp" class="pp" aria-label="호프 갈래치기의 위상 평면"></canvas>
+      <div class="two" style="margin-top:8px">
+        <div><p class="sub" style="margin-top:0">원점의 고윳값 (복소평면)</p><canvas id="hpEig" aria-label="고윳값의 위치"></canvas></div>
+        <div><p class="sub" style="margin-top:0" id="hpBDcap">극한 주기 궤도의 반지름과 μ</p><canvas id="hpBD" aria-label="극한 주기 궤도의 크기와 매개변수의 관계"></canvas></div>
+      </div>
+      <div class="read" id="hpRead"></div>
+    </div>
+  </div>
+
+  <h3>준임계 호프 갈래치기 <span class="en">(subcritical Hopf bifurcation)</span></h3>
+  <div class="row flip">
+    <div class="txt">
+      <p>갈퀴 갈래치기와 마찬가지로 호프 갈래치기도 초임계와 준임계 형태가 모두 가능하다. 준임계 형태가 항상 훨씬 더 극적이며, 공학적인 응용에 있어 잠재적으로 위험하다. 갈래치기 후에는 궤적이 <b>먼 끌개로 점프해야</b> 하며, 이 끌개는 고정점, 다른 극한 주기 궤도, 무한대 지점, 또는 3차원 이상에서 카오스 끌개(9장의 로렌츠(Lorenz) 방정식)일 수 있다.</p>
+      <span class="pen">초임계에 비해 훨씬 극적이고 위험할 수 있음: 통계물리의 1차 상전이에 해당</span>
+      <div class="eq">ṙ = μ<i>r</i> + <i>r</i>³ − <i>r</i>⁵,&emsp;θ̇ = ω + <i>br</i>²</div>
+      <p>초임계 사례와의 중요한 차이점은 3차 항 <span class="m">r³</span>이 이제 불안정하게 만든다는 것이다. <span class="m">μ &lt; 0</span>일 때는 안정적인 극한 주기 궤도와 원점의 안정된 고정점이라는 2개의 끌개가 있고, 그 사이에 불안정한 원형 궤도가 있다. <span class="m">μ</span>가 증가함에 따라 이 불안정한 궤도가 고정점 주변을 올가미처럼 조여든다. <span class="m">μ = 0</span>에서 그 진폭이 0으로 축소되면서 원점을 덮어버리고 불안정하게 만든다. 그러면 진폭이 큰 극한 주기 궤도가 갑자기 이 구역의 유일한 끌개가 된다.</p>
+      <p><span class="m">r(μ + r² − r⁴) = 0</span>에서 <span class="m">r² = [1 ± √(1 + 4μ)]/2</span>이니, 0이 아닌 실근은 <span class="m">μ &gt; −1/4</span>일 때 존재한다. <span class="m">−1/4 &lt; μ &lt; 0</span>이면 4개(±), <span class="m">μ &gt; 0</span>이면 2개다.</p>
+      <p>이 시스템은 <b>다른길오고감(hysteresis)</b> 성질을 보여준다. 큰 진폭의 진동이 시작되면 <span class="m">μ</span>를 0으로 되돌리는 것으로 진동을 없앨 수 없다. 이 큰 진동은 <span class="m">μ = −1/4</span>에서 안정한 원형 궤도와 불안정한 원형 궤도가 서로 충돌하여 소멸될 때까지 지속된다. 이 소멸은 8.4절에서 소개할 또 다른 유형의 갈래치기다. 3장의 <span class="m">ẋ = rx + x³ − x⁵</span>(그림 3.4.8)에서 <span class="m">x → r, r → μ</span>로 바꾸면 정확히 같다.</p>
+      <p>준임계 호프 갈래치기는 신경세포의 동역학, 비행기 날개의 공탄성 플러터(aeroelastic flutter)와 다른 진동, 유체 흐름의 불안정성에서 발생한다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <div class="seg" role="group" aria-label="쓸기 실험 종류">
+          <button data-k="sub" aria-pressed="true">준임계</button>
+          <button data-k="sup" aria-pressed="false">초임계</button>
+        </div>
+        <button class="btn primary" id="hyPlay">μ 쓸기 시작</button>
+        <button class="btn" id="hyReset">처음으로</button>
+      </div>
+      <div class="two">
+        <div><p class="sub" style="margin-top:0">갈래치기 도표 위의 자취 <span class="m">(μ(t), r(t))</span></p><canvas id="hyBD" aria-label="μ를 천천히 바꿀 때 진폭의 자취"></canvas></div>
+        <div><p class="sub" style="margin-top:0">위상 평면</p><canvas id="hyPP" aria-label="쓸기 실험의 위상 평면"></canvas></div>
+      </div>
+      <div class="read"><span>μ = <b id="hyMu">–</b></span><span>r = <b id="hyR">–</b></span><span id="hyDir"></span></div>
+      <p class="hint">μ를 천천히 올렸다가 다시 내립니다. 준임계에서는 올라갈 때 μ = 0에서 큰 진폭으로 점프하고, 내려올 때는 μ = −1/4까지 큰 진동이 유지됩니다. 초임계에서는 같은 길을 되밟아 다른길오고감이 없습니다.</p>
+    </div>
+  </div>
+
+  <h3>준임계, 초임계, 또는 겹쳐진 갈래치기?</h3>
+  <div class="row">
+    <div class="txt">
+      <p>호프 갈래치기가 준임계인지 초임계인지는 <b>선형화를 통해서는 구분할 수 없다.</b> 두 경우 모두 한 쌍의 고윳값이 복소평면의 왼쪽에서 오른쪽으로 이동하기 때문이다. 해석적 기준이 있지만(연습문제 8.2.12~8.2.15) 사용하기 어려울 수 있다. 다소 부정확하지만 손쉬운 접근법은 컴퓨터를 이용하는 것이다. 고정점이 불안정해진 직후 작은 극한 주기 궤도가 나타나고, 매개변수 변화의 방향이 반대일 때 진폭이 다시 0으로 줄어들면 초임계다. 그렇지 않으면 아마 준임계일 것이다.</p>
+      <p><b>겹쳐진 호프 갈래치기(degenerate Hopf bifurcation)</b>의 예로는 감쇠 진자 <span class="m">ẍ + μẋ + sin x = 0</span>이 있다. 감쇠 변수 <span class="m">μ</span>가 양수에서 음수로 바뀌면 원점이 안정적인 나선에서 불안정한 나선으로 바뀐다. 그러나 갈래치기의 어떤 쪽에도 극한 주기 궤도가 없으니 진짜 갈래치기는 없다. <span class="m">μ = 0</span>에서는 원점을 둘러싼 연속적인 닫힌 궤도의 무리(단진자)가 있다. 이것은 극한 주기 궤도가 아니다! 일반적으로 비보존계가 갈래치기점에서 갑자기 보존계가 될 때 발생하며, 고정점은 약한 나선이 아니라 비선형 중심이 된다.</p>
+    </div>
+    <div class="txt">
+      <h3 style="margin-top:8px">예제 8.2.1</h3>
+      <div class="eq">ẋ = μ<i>x</i> − <i>y</i> + <i>xy</i>²,&emsp;ẏ = <i>x</i> + μ<i>y</i> + <i>y</i>³</div>
+      <p>원점의 야코비 행렬은 <span class="m">[[μ, −1], [1, μ]]</span>이고 <span class="m">τ = 2μ</span>, <span class="m">Δ = μ² + 1 &gt; 0</span>, <span class="m">λ = μ ± i</span>다. <span class="m">μ</span>가 증가하며 0을 지나갈 때 원점은 안정적인 나선에서 불안정한 나선으로 바뀐다. 어떤 종류의 호프 갈래치기가 일어날 수 있다는 뜻이다.</p>
+      <p>극좌표로 변환하면 <span class="m">ṙ = μr + ry²</span>이다(직접 확인해 보라). 따라서 <span class="m">ṙ ≥ μr</span>이고, <span class="m">μ &gt; 0</span>일 때 <span class="m">r(t)</span>는 적어도 <span class="m">r₀e<sup>μt</sup></span>만큼 빠르게 커진다. 모든 궤적이 무한대로 밀려나니 <b>초임계일 수 없다.</b> <span class="m">μ = 0</span>이면 <span class="m">y ≠ 0</span>에서 <span class="m">ṙ &gt; 0</span>이니 닫힌 궤도가 불가능하여 <b>겹쳐진 것도 아니다.</b> 소거법에 의해 <span class="hl">준임계</span>라고 예상할 수 있다. 위 탐색기에서 “예제 8.2.1”을 골라 <span class="m">μ = −0.2</span>로 놓으면, 불안정한 극한 주기 궤도가 안정된 고정점을 둘러싸고 있는 것을 확인할 수 있다. 이 주기 궤도는 거의 타원형이며 완만하게 구불구불한 나선을 둘러싸고 있는데, 이것들은 종류와 관계없는 호프 갈래치기의 전형적인 특징이다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="refs">
+  <div class="sec-h"><h2>참고문헌<span>references</span></h2></div>
+  <ol class="refs">
+    <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 8장 「갈래치기 다시 보기」. 이 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
+    <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
+    <li>Shane D. Ross, <a href="https://youtu.be/20O6v1X92P4" target="_blank" rel="noopener">초임계와 준임계 호프 갈래치기 강의 영상</a>.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 Shane Ross 교수의 강의 영상을 통해 소개한 위상 평면 도구로, 더 다양한 시스템을 직접 그려 볼 수 있습니다.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트를 기반으로 합니다. 강의는 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>에서 진행되었습니다.</p>
+  <p>수치 적분은 4차 룽게-쿠타(Runge–Kutta) 방법으로 브라우저에서 실시간 계산합니다.</p>
+  <p><a href="index.html">전체 데모 목록으로 돌아가기</a></p>
+</footer>
+
+<script>
+
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};
+function readTheme(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+  C={paper:g('--paper'),panel:g('--panel'),ink:g('--ink'),muted:g('--muted'),rule:g('--rule'),pink:g('--pink'),green:g('--green'),cyan:g('--cyan'),amber:g('--amber')};}
+readTheme();
+function hexRGB(h){h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];}
+function rgba(h,a){const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;}
+const TRAJ=()=>[C.ink,C.pink,C.cyan,C.amber,C.green];
+
+function rk4(f,x,y,h){const a=f(x,y),b=f(x+h/2*a[0],y+h/2*a[1]),c=f(x+h/2*b[0],y+h/2*b[1]),d=f(x+h*c[0],y+h*c[1]);
+  return[x+h/6*(a[0]+2*b[0]+2*c[0]+d[0]),y+h/6*(a[1]+2*b[1]+2*c[1]+d[1])];}
+function polar(R){return(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-y,g*y+x];};}
+
+function niceStep(span){const raw=span/5;const p=Math.pow(10,Math.floor(Math.log10(raw)));const m=raw/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;}
+function fmt(v){const a=Math.abs(v);if(a<1e-9)return'0';if(a>=100)return v.toFixed(0);return(+v.toFixed(2)).toString();}
+function fit(cv){const dpr=Math.min(2,window.devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return null;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h,dpr};}
+
+/* ---------------- Phase plane ---------------- */
+const planes=[];
+class Plane{
+  constructor(cv,o){
+    this.cv=cv;
+    this.o=Object.assign({arrows:true,n:15,aspect:1,dt:0.01,sub:3,tmax:40,maxTraj:6,trail:0,wrapY:false,rec:1,fixed:[],xl:'x',yl:'y'},o);
+    this.trajs=[];this.ci=0;this.st=document.createElement('canvas');this.visible=true;this.dirty=true;
+    cv.style.aspectRatio=String(1/this.o.aspect);
+    planes.push(this);
+    cv.addEventListener('pointerdown',e=>{if(this.o.click===false)return;const r=cv.getBoundingClientRect();
+      const x=this.ix(e.clientX-r.left),y=this.iy(e.clientY-r.top);if(this.o.onClick)this.o.onClick(x,y);else this.add(x,y);});
+    new ResizeObserver(()=>{this.layout();}).observe(cv);
+    new IntersectionObserver(es=>{this.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(cv);
+  }
+  get d(){return this.o.dom;}
+  layout(){const F=fit(this.cv);if(!F)return;this.W=F.w;this.H=F.h;this.dpr=F.dpr;
+    this.m={l:this.W<300?30:38,r:8,t:8,b:this.W<300?24:28};
+    this.st.width=this.cv.width;this.st.height=this.cv.height;this.renderStatic();this.draw();}
+  X(x){const d=this.d;return this.m.l+(x-d.x0)/(d.x1-d.x0)*(this.W-this.m.l-this.m.r);}
+  Y(y){const d=this.d;return this.H-this.m.b-(y-d.y0)/(d.y1-d.y0)*(this.H-this.m.t-this.m.b);}
+  ix(px){const d=this.d;return d.x0+(px-this.m.l)/(this.W-this.m.l-this.m.r)*(d.x1-d.x0);}
+  iy(py){const d=this.d;return d.y0+(this.H-this.m.b-py)/(this.H-this.m.t-this.m.b)*(d.y1-d.y0);}
+  renderStatic(){
+    if(!this.W)return;const s=this.st.getContext('2d');s.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const o=this.o,d=this.d,m=this.m,pw=this.W-m.l-m.r,ph=this.H-m.t-m.b;
+    s.fillStyle=C.panel;s.fillRect(0,0,this.W,this.H);
+    if(o.bg){const Nx=Math.min(160,Math.round(pw/3)),Ny=Math.max(2,Math.round(Nx*ph/pw));const t=document.createElement('canvas');t.width=Nx;t.height=Ny;
+      const tc=t.getContext('2d');const img=tc.createImageData(Nx,Ny);
+      for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);const c=o.bg(x,y);const k=4*(j*Nx+i);
+        if(c){img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=Math.round(255*c[3]);}}
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,m.l,m.t,pw,ph);}
+    // grid & ticks
+    s.font=`${this.W<300?10:11}px 'Noto Sans KR',sans-serif`;s.fillStyle=C.muted;s.strokeStyle=rgba(C.muted,.18);s.lineWidth=1;
+    const xs=o.xticks||ticks(d.x0,d.x1),ys=o.yticks||ticks(d.y0,d.y1);
+    s.textAlign='center';s.textBaseline='top';
+    for(const[v,l]of xs){const px=this.X(v);s.beginPath();s.moveTo(px,m.t);s.lineTo(px,this.H-m.b);s.stroke();s.fillText(l,px,this.H-m.b+4);}
+    s.textAlign='right';s.textBaseline='middle';
+    for(const[v,l]of ys){const py=this.Y(v);s.beginPath();s.moveTo(m.l,py);s.lineTo(this.W-m.r,py);s.stroke();s.fillText(l,m.l-4,py);}
+    s.strokeStyle=rgba(C.ink,.55);s.lineWidth=1;
+    if(d.x0<=0&&d.x1>=0){s.beginPath();s.moveTo(this.X(0),m.t);s.lineTo(this.X(0),this.H-m.b);s.stroke();}
+    if(d.y0<=0&&d.y1>=0){s.beginPath();s.moveTo(m.l,this.Y(0));s.lineTo(this.W-m.r,this.Y(0));s.stroke();}
+    s.strokeStyle=C.rule;s.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+    s.save();s.font=`italic ${this.W<300?12:14}px 'STIX Two Text',serif`;s.fillStyle=C.ink;s.textAlign='right';s.textBaseline='bottom';
+    s.fillText(o.xl,this.W-m.r-4,this.H-m.b-3);s.textAlign='left';s.textBaseline='top';s.fillText(o.yl,m.l+5,m.t+3);s.restore();
+    s.save();s.beginPath();s.rect(m.l,m.t,pw,ph);s.clip();
+    if(o.decor)o.decor(s,this);
+    if(o.arrows){const n=this.W<320?Math.round(o.n*.75):o.n;const cw=pw/n,chh=ph/Math.max(1,Math.round(n*ph/pw));const ny=Math.round(ph/cw);
+      s.strokeStyle=rgba(C.muted,.7);s.fillStyle=rgba(C.muted,.7);s.lineWidth=1.1;
+      for(let i=0;i<n;i++)for(let j=0;j<ny;j++){const px=m.l+(i+.5)*cw,py=m.t+(j+.5)*(ph/ny);const x=this.ix(px),y=this.iy(py);const v=o.f(x,y);
+        if(!isFinite(v[0])||!isFinite(v[1]))continue;
+        let vx=v[0]/(d.x1-d.x0)*pw,vy=-v[1]/(d.y1-d.y0)*ph;const L=Math.hypot(vx,vy);if(L<1e-9)continue;const len=cw*.36;vx=vx/L*len;vy=vy/L*len;
+        s.beginPath();s.moveTo(px-vx,py-vy);s.lineTo(px+vx,py+vy);s.stroke();
+        const a=Math.atan2(vy,vx),hh=3.2;s.beginPath();s.moveTo(px+vx,py+vy);s.lineTo(px+vx-hh*Math.cos(a-.5),py+vy-hh*Math.sin(a-.5));s.lineTo(px+vx-hh*Math.cos(a+.5),py+vy-hh*Math.sin(a+.5));s.closePath();s.fill();}}
+    for(const p of o.fixed){const px=this.X(p.x),py=this.Y(p.y);s.lineWidth=1.6;s.strokeStyle=C.ink;s.beginPath();s.arc(px,py,4.5,0,7);
+      if(p.k==='s'){s.fillStyle=C.ink;s.fill();}else if(p.k==='saddle'){s.fillStyle=C.panel;s.fill();s.stroke();s.beginPath();s.arc(px,py,4.5,-Math.PI/2,Math.PI/2);s.lineTo(px,py-4.5);s.fillStyle=C.ink;s.fill();}else{s.fillStyle=C.panel;s.fill();s.stroke();}}
+    s.restore();
+  }
+  add(x,y,opt){opt=opt||{};const col=opt.col||TRAJ()[this.ci++%5];
+    const tr={x,y,t:0,c:0,pts:[[x,y,0]],col,alive:true,cidx:(this.ci-1)%5};
+    this.trajs.push(tr);while(this.trajs.length>this.o.maxTraj)this.trajs.shift();
+    if(reduceMotion&&!this.o.trail){while(tr.alive)this.stepTraj(tr,200);}
+    this.dirty=true;return tr;}
+  clear(){this.trajs=[];this.dirty=true;}
+  stepTraj(tr,k){const o=this.o,d=this.d;const W=(d.x1-d.x0),Hh=(d.y1-d.y0);
+    for(let i=0;i<k&&tr.alive;i++){let[nx,ny]=rk4(o.f,tr.x,tr.y,o.dt);tr.t+=o.dt;
+      if(o.wrapY){if(ny>d.y1)ny-=Hh;else if(ny<d.y0)ny+=Hh;}
+      tr.x=nx;tr.y=ny;
+      if(!isFinite(nx)||!isFinite(ny)||nx<d.x0-W*1.5||nx>d.x1+W*1.5||ny<d.y0-Hh*1.5||ny>d.y1+Hh*1.5){tr.alive=false;break;}
+      if(++tr.c%o.rec===0)tr.pts.push([nx,ny,tr.t]);
+      if(o.trail&&tr.pts.length>o.trail)tr.pts.splice(0,tr.pts.length-o.trail);
+      if(!o.trail&&tr.t>=o.tmax)tr.alive=false;}
+  }
+  step(){let any=false;for(const tr of this.trajs){if(tr.c===undefined)tr.c=0;if(tr.alive){this.stepTraj(tr,this.o.sub);any=true;}}return any;}
+  draw(){if(!this.W)return;const F=fit(this.cv);if(!F)return;const ctx=F.ctx;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(this.st,0,0);ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const m=this.m,d=this.d;ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,this.W-m.l-m.r,this.H-m.t-m.b);ctx.clip();
+    const Hh=d.y1-d.y0;
+    for(const tr of this.trajs){const P=tr.pts;if(P.length<1)continue;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';
+      if(this.o.trail){for(let i=1;i<P.length;i++){const a=i/P.length;ctx.strokeStyle=rgba(tr.col,.08+.9*a);ctx.beginPath();ctx.moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));ctx.stroke();}}
+      else if(this.o.segColor){const paths={};for(let i=1;i<P.length;i++){const k=this.o.segColor(P[i-1],P[i]);(paths[k]||(paths[k]=new Path2D())).moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));paths[k].lineTo(this.X(P[i][0]),this.Y(P[i][1]));}
+        for(const k in paths){ctx.strokeStyle=k;ctx.stroke(paths[k]);}
+        ctx.fillStyle=C.panel;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      else{ctx.strokeStyle=tr.col;ctx.beginPath();ctx.moveTo(this.X(P[0][0]),this.Y(P[0][1]));
+        for(let i=1;i<P.length;i++){if(this.o.wrapY&&Math.abs(P[i][1]-P[i-1][1])>Hh/2)ctx.moveTo(this.X(P[i][0]),this.Y(P[i][1]));else ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));}ctx.stroke();
+        ctx.fillStyle=C.panel;ctx.strokeStyle=tr.col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      const L=P[P.length-1];ctx.fillStyle=tr.col;ctx.beginPath();ctx.arc(this.X(L[0]),this.Y(L[1]),tr.alive||this.o.trail?5:3.5,0,7);ctx.fill();}
+    ctx.restore();if(this.o.onDraw)this.o.onDraw(this);}
+}
+function ticks(a,b){const st=niceStep(b-a);const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push([v,fmt(v)]);return out;}
+
+/* ---------------- simple time-series plot ---------------- */
+function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const m={l:w<300?34:42,r:8,t:8,b:22};const pw=w-m.l-m.r,ph=h-m.t-m.b;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.panel;ctx.fillRect(0,0,w,h);
+  const[x0,x1]=o.xr,[y0,y1]=o.yr;const X=x=>m.l+(x-x0)/(x1-x0)*pw,Y=y=>h-m.b-(y-y0)/(y1-y0)*ph;
+  ctx.font=`${w<300?10:11}px 'Noto Sans KR',sans-serif`;ctx.fillStyle=C.muted;ctx.strokeStyle=rgba(C.muted,.18);ctx.lineWidth=1;
+  ctx.textAlign='center';ctx.textBaseline='top';for(const[v,l]of(o.xticks||ticks(x0,x1))){ctx.beginPath();ctx.moveTo(X(v),m.t);ctx.lineTo(X(v),h-m.b);ctx.stroke();ctx.fillText(l,X(v),h-m.b+4);}
+  ctx.textAlign='right';ctx.textBaseline='middle';for(const[v,l]of(o.yticks||ticks(y0,y1))){ctx.beginPath();ctx.moveTo(m.l,Y(v));ctx.lineTo(w-m.r,Y(v));ctx.stroke();ctx.fillText(l,m.l-4,Y(v));}
+  ctx.strokeStyle=rgba(C.ink,.5);if(y0<0&&y1>0){ctx.beginPath();ctx.moveTo(m.l,Y(0));ctx.lineTo(w-m.r,Y(0));ctx.stroke();}
+  ctx.strokeStyle=C.rule;ctx.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+  ctx.save();ctx.font=`italic ${w<300?12:13}px 'STIX Two Text',serif`;ctx.fillStyle=C.ink;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xl||'t',w-m.r-4,h-m.b-2);
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(o.yl||'',m.l+5,m.t+2);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  if(o.pre)o.pre(ctx,X,Y);
+  for(const sr of o.series){if(!sr.pts||sr.pts.length<2)continue;ctx.strokeStyle=sr.col;ctx.lineWidth=sr.lw||2;ctx.setLineDash(sr.dash||[]);ctx.beginPath();
+    let st=Math.max(1,Math.floor(sr.pts.length/(pw*2)));ctx.moveTo(X(sr.pts[0][0]),Y(sr.pts[0][1]));for(let i=st;i<sr.pts.length;i+=st)ctx.lineTo(X(sr.pts[i][0]),Y(sr.pts[i][1]));
+    const L=sr.pts[sr.pts.length-1];ctx.lineTo(X(L[0]),Y(L[1]));ctx.stroke();ctx.setLineDash([]);
+    if(sr.head){ctx.fillStyle=sr.col;ctx.beginPath();ctx.arc(X(L[0]),Y(L[1]),4,0,7);ctx.fill();}}
+  if(o.post)o.post(ctx,X,Y);ctx.restore();}
+
+
+/* ---------------- helpers ---------------- */
+function classify(tau,det){if(Math.abs(det)<1e-9)return{k:'u',name:'비쌍곡(Δ = 0)'};if(det<0)return{k:'saddle',name:'안장점'};
+  const disc=tau*tau-4*det;if(Math.abs(tau)<1e-9)return{k:'u',name:'중심(선형)'};
+  if(tau<0)return{k:'s',name:disc<0?'안정적인 나선':'안정점'};return{k:'u',name:disc<0?'불안정한 나선':'불안정한 점'};}
+const polarCart=(R,w)=>(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-w*y,g*y+w*x];};
+function fmtS(v,d){return(v<0?'−':'')+Math.abs(v).toFixed(d);}
+
+/* ================= HERO: supercritical Hopf sweep ================= */
+(function hero(){
+  const cv=$('#hero');let P=[];let W=0,H=0,dpr=1,S=1,cx=0,cy=0;const R=1.25;let tt=0;let mu=0;
+  const f=(x,y)=>{const r2=x*x+y*y;const g=mu-r2;return[g*x-y,g*y+x];};
+  function size(){const F=fit(cv);if(!F)return;W=F.w;H=F.h;dpr=F.dpr;S=Math.min(W,H)/2/R;cx=W/2;cy=H/2;F.ctx.clearRect(0,0,W,H);}
+  function spawn(x,y){return{x,y,age:0,life:12+Math.random()*16};}
+  function rand(){const r=Math.sqrt(Math.random())*R*1.3,a=Math.random()*7;return spawn(r*Math.cos(a),r*Math.sin(a));}
+  const N=matchMedia('(max-width:600px)').matches?320:600;
+  for(let i=0;i<N;i++){const p=rand();p.age=Math.random()*p.life*.5;P.push(p);}
+  new ResizeObserver(size).observe(cv);size();
+  let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
+  cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();const x=(e.clientX-r.left-cx)/S,y=-(e.clientY-r.top-cy)/S;
+    for(let i=0;i<60;i++)P.push(spawn(x+(Math.random()-.5)*.15,y+(Math.random()-.5)*.15));if(P.length>N+500)P.splice(0,P.length-(N+500));});
+  function label(c){c.save();c.globalCompositeOperation='source-over';c.clearRect(W-120,H-34,120,34);c.fillStyle=C.ink;c.font="italic 17px 'STIX Two Text',serif";c.textAlign='right';
+    c.fillText('μ = '+fmtS(mu,2),W-10,H-12);c.restore();}
+  if(reduceMotion){mu=.25;setTimeout(()=>{const F=fit(cv);if(!F)return;const c=F.ctx;
+      for(const[x0,y0]of[[.05,0],[1.2,0],[-1,.6],[0,-.04]]){let x=x0,y=y0;c.strokeStyle=rgba(x0*x0+y0*y0<.25?C.cyan:C.pink,.85);c.lineWidth=1.3;c.beginPath();c.moveTo(cx+x*S,cy-y*S);for(let i=0;i<3000;i++){[x,y]=rk4(f,x,y,.02);c.lineTo(cx+x*S,cy-y*S);}c.stroke();}label(c);},60);return;}
+  function frame(){requestAnimationFrame(frame);if(!vis||!W)return;tt+=1;mu=.08+.27*Math.sin(tt/260);
+    const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.07)';c.fillRect(0,0,W,H);c.globalCompositeOperation='source-over';
+    if(mu>0){c.strokeStyle=rgba(C.green,.08);c.lineWidth=3;c.beginPath();c.arc(cx,cy,Math.sqrt(mu)*S,0,7);c.stroke();}
+    const pi=new Path2D(),po=new Path2D();
+    for(const p of P){const x0=p.x,y0=p.y;for(let k=0;k<3;k++)[p.x,p.y]=rk4(f,p.x,p.y,.02);p.age+=.06;const path=(x0*x0+y0*y0<Math.max(mu,0))?pi:po;path.moveTo(cx+x0*S,cy-y0*S);path.lineTo(cx+p.x*S,cy-p.y*S);}
+    c.lineWidth=1.3;c.strokeStyle=rgba(C.cyan,.85);c.stroke(pi);c.strokeStyle=rgba(C.pink,.85);c.stroke(po);
+    for(let i=0;i<P.length;i++){const p=P[i];if(p.age>p.life||p.x*p.x+p.y*p.y<1e-5)P[i]=i<N?rand():null;}P=P.filter(Boolean);label(c);}
+  frame();
+})();
+
+/* ================= 8.1 normal forms ================= */
+const NF={
+  sn:{eq:'ẋ = μ − x²,  ẏ = −y',fx:(x,m)=>m-x*x,dfx:(x,m)=>-2*x,fp:m=>m>=0?(m===0?[0]:[Math.sqrt(m),-Math.sqrt(m)]):[],
+    br:[[0,1,m=>Math.sqrt(m)],[0,1,m=>-Math.sqrt(m)]]},
+  tc:{eq:'ẋ = μx − x²,  ẏ = −y',fx:(x,m)=>m*x-x*x,dfx:(x,m)=>m-2*x,fp:m=>m===0?[0]:[0,m],br:[[-1,1,m=>0],[-1,1,m=>m]]},
+  pf:{eq:'ẋ = μx − x³,  ẏ = −y',fx:(x,m)=>m*x-x*x*x,dfx:(x,m)=>m-3*x*x,fp:m=>m>0?[0,Math.sqrt(m),-Math.sqrt(m)]:[0],br:[[-1,1,m=>0],[0,1,m=>Math.sqrt(m)],[0,1,m=>-Math.sqrt(m)]]},
+  spf:{eq:'ẋ = μx + x³,  ẏ = −y',fx:(x,m)=>m*x+x*x*x,dfx:(x,m)=>m+3*x*x,fp:m=>m<0?[0,Math.sqrt(-m),-Math.sqrt(-m)]:[0],br:[[-1,1,m=>0],[-1,0,m=>Math.sqrt(-m)],[-1,0,m=>-Math.sqrt(-m)]]}
+};
+let nfK='sn',nfMu=.25;
+const nf=new Plane($('#nf'),{dom:{x0:-2,x1:2,y0:-1.4,y1:1.4},aspect:.7,f:(x,y)=>[NF[nfK].fx(x,nfMu),-y],tmax:20,maxTraj:6,sub:3,n:19,
+  decor:(s,p)=>{if(nfK==='sn'&&nfMu<0){s.fillStyle=rgba(C.amber,.16);const w=Math.max(.15,Math.min(.6,Math.sqrt(-nfMu)*1.2));s.fillRect(p.X(-w),p.m.t,p.X(w)-p.X(-w),p.H-p.m.t-p.m.b);
+    s.fillStyle=C.amber;s.font="13px 'Noto Sans KR',sans-serif";s.textAlign='center';s.fillText('허깨비(ghost)',p.X(0),p.m.t+16);}},
+  onDraw:()=>drawNfX()});
+$('#nfBD').style.aspectRatio='2.4/1';$('#nfX').style.aspectRatio='3.4/1';
+function nfFixedMarks(){const K=NF[nfK];nf.o.fixed=K.fp(nfMu).map(x=>{const d=K.dfx(x,nfMu);return{x,y:0,k:Math.abs(d)<1e-9?'u':d<0?'s':'saddle'};});}
+function drawNfBD(){const K=NF[nfK];const ser=[];
+  for(const[m0,m1,fn]of K.br){let cur=null,st=null;for(let i=0;i<=200;i++){const m=m0+(m1-m0)*i/200;const x=fn(m);const s=K.dfx(x,m)<0;
+      if(st!==s){if(cur&&cur.length>1)ser.push({pts:cur,col:st?C.ink:C.pink,dash:st?[]:[6,4],lw:2.2});cur=cur?[cur[cur.length-1]]:[];st=s;}cur.push([m,x]);}
+    if(cur&&cur.length>1)ser.push({pts:cur,col:st?C.ink:C.pink,dash:st?[]:[6,4],lw:2.2});}
+  plot($('#nfBD'),{xr:[-1,1],yr:[-1.4,1.4],xl:'μ',yl:'x*',series:ser,
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.green,.8);c.lineWidth=1.5;c.beginPath();c.moveTo(X(nfMu),Y(-1.4));c.lineTo(X(nfMu),Y(1.4));c.stroke();}});}
+function drawNfX(){const tr=nf.trajs[nf.trajs.length-1];const ser=tr?[{pts:tr.pts.map(p=>[p[2],p[0]]),col:tr.col,head:tr.alive}]:[];
+  plot($('#nfX'),{xr:[0,20],yr:[-2,2],xl:'t',yl:'x',series:ser});}
+function nfRead(){const r=$('#nfRead');let h='';
+  if(nfK==='sn'){h=nfMu>0?'<span>고정점: 안정점 (√μ, 0) = ('+Math.sqrt(nfMu).toFixed(3)+', 0), 안장점 (−√μ, 0)</span>':nfMu===0?'<span>μ = 0: 두 고정점이 충돌</span>':'<span>고정점 없음. 병목 통과 시간 ≈ π/√|μ| = <b>'+(Math.PI/Math.sqrt(-nfMu)).toFixed(2)+'</b></span>';}
+  else if(nfK==='pf'&&Math.abs(nfMu)<.005)h='<span>μ = 0: 원점은 여전히 안정적이지만 x 방향으로 대수적으로 감소합니다(임계 감속).</span>';
+  else h='<span>고정점 '+NF[nfK].fp(nfMu).length+'개</span>';r.innerHTML=h;}
+function nfSeed(){nf.clear();nf.ci=0;const seeds=nfK==='sn'?[[1.9,1.1],[1.9,-.6],[.6,1.3],[-.3,-1.3]]:[[-1.9,1.1],[-.6,-1.3],[.6,1.3],[1.9,-1.1],[.15,.9]];for(const[x,y]of seeds)nf.add(x,y);}
+function nfUpdate(reseed){$('#nfMuOut').textContent=fmtS(nfMu,2);$('#nfEq').textContent=NF[nfK].eq;nfFixedMarks();nf.renderStatic();if(reseed)nfSeed();nf.dirty=true;drawNfBD();nfRead();}
+document.querySelectorAll('.seg[aria-label="표준형 선택"] button').forEach(b=>b.addEventListener('click',()=>{nfK=b.dataset.k;
+  document.querySelectorAll('.seg[aria-label="표준형 선택"] button').forEach(c=>c.setAttribute('aria-pressed',c===b));nfUpdate(true);}));
+let nfT=null;$('#nfMu').addEventListener('input',e=>{nfMu=+e.target.value;if(Math.abs(nfMu)<.005)nfMu=0;$('#nfMuOut').textContent=fmtS(nfMu,2);clearTimeout(nfT);nfT=setTimeout(()=>nfUpdate(true),80);});
+$('#nfClear').addEventListener('click',()=>{nf.clear();nf.ci=0;});
+new ResizeObserver(drawNfBD).observe($('#nfBD'));
+nfUpdate(true);
+
+/* ================= 8.1.1 genetic switch ================= */
+let gsA=.4,gsB=1;const gsF=(x,y)=>[-gsA*x+y,x*x/(1+x*x)-gsB*y];
+function gsFixed(){const a=gsA,b=gsB;const out=[{x:0,y:0}];const D=1-4*a*a*b*b;if(D>=0){for(const s of[1,-1]){const x=(1+s*Math.sqrt(D))/(2*a*b);out.push({x,y:a*x});}}
+  return out.map(p=>{const J21=2*p.x/((1+p.x*p.x)**2);const tau=-gsA-gsB,det=gsA*gsB-J21;const c=classify(tau,det);return Object.assign(p,{tau,det,J21,cls:c});});}
+let gsFP=[];let basinCache=null;
+function gsDom(){return{x0:0,x1:3,y0:0,y1:1.2/gsB};}
+function gsSink(x,y){for(let i=0;i<700;i++){[x,y]=rk4(gsF,x,y,.08);}let best=-1,bd=1e9;gsFP.forEach((p,i)=>{if(p.cls.k!=='s')return;const d=Math.hypot(x-p.x,y-p.y);if(d<bd){bd=d;best=i;}});return bd<.15?best:-1;}
+function gsManifold(){const sd=gsFP.find(p=>p.cls.k==='saddle');if(!sd)return[];const a=gsA,b=gsB;
+  // stable eigenvector of J = [[-a,1],[J21,-b]] with negative eigenvalue
+  const tr=-a-b,det=a*b-sd.J21;const lam=(tr-Math.sqrt(tr*tr-4*det))/2;let vx=1,vy=lam+a;const n=Math.hypot(vx,vy);vx/=n;vy/=n;
+  const back=(x,y)=>{const v=gsF(x,y);return[-v[0],-v[1]];};const curves=[];
+  for(const sg of[1,-1]){let x=sd.x+sg*1e-3*vx,y=sd.y+sg*1e-3*vy;const c=[[sd.x,sd.y]];for(let i=0;i<3000;i++){[x,y]=rk4(back,x,y,.01);c.push([x,y]);if(x<-.05||y<-.05||x>3.2||y>1.4/gsB)break;}curves.push(c);}
+  return curves;}
+const gs=new Plane($('#gs'),{dom:gsDom(),aspect:.62,f:gsF,tmax:60,maxTraj:6,sub:6,n:21,
+  decor:(s,p)=>{const d=p.d;
+    if($('#gsBasin').checked&&gsFP.filter(q=>q.cls.k==='s').length>1){const key=gsA+','+gsB;
+      if(!basinCache||basinCache.key!==key){const Nx=54,Ny=Math.round(54*.62);const g=[];for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);g.push(gsSink(x,y));}basinCache={key,Nx,Ny,g};}
+      const t=document.createElement('canvas');t.width=basinCache.Nx;t.height=basinCache.Ny;const tc=t.getContext('2d');const img=tc.createImageData(t.width,t.height);
+      const c0=hexRGB(C.cyan),c1=hexRGB(C.green);basinCache.g.forEach((v,k)=>{if(v<0)return;const c=gsFP[v].x===0?c0:c1;img.data[4*k]=c[0];img.data[4*k+1]=c[1];img.data[4*k+2]=c[2];img.data[4*k+3]=38;});
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,p.m.l,p.m.t,p.W-p.m.l-p.m.r,p.H-p.m.t-p.m.b);}
+    const nc=(fn,col)=>{s.strokeStyle=col;s.lineWidth=2.2;s.beginPath();for(let i=0;i<=300;i++){const x=d.x0+(d.x1-d.x0)*i/300;const y=fn(x);i?s.lineTo(p.X(x),p.Y(y)):s.moveTo(p.X(x),p.Y(y));}s.stroke();};
+    nc(x=>gsA*x,rgba(C.cyan,.9));nc(x=>x*x/(gsB*(1+x*x)),rgba(C.amber,.95));
+    s.strokeStyle=C.ink;s.lineWidth=2.4;s.setLineDash([7,4]);for(const c of gsManifold()){s.beginPath();c.forEach((q,i)=>i?s.lineTo(p.X(q[0]),p.Y(q[1])):s.moveTo(p.X(q[0]),p.Y(q[1])));s.stroke();}s.setLineDash([]);
+    s.strokeStyle=rgba(C.muted,.6);s.setLineDash([2,4]);s.beginPath();s.moveTo(p.X(d.x0),p.Y(1/gsB));s.lineTo(p.X(d.x1),p.Y(1/gsB));s.stroke();s.setLineDash([]);
+    s.fillStyle=C.muted;s.font="12px 'Noto Sans KR',sans-serif";s.fillText('1/b',p.X(d.x0)+4,p.Y(1/gsB)-4);}});
+function gsUpdate(reseed){$('#gsAOut').textContent=gsA.toFixed(3);$('#gsBOut').textContent=gsB.toFixed(2);gsFP=gsFixed();
+  gs.o.dom=gsDom();gs.o.fixed=gsFP.map(p=>({x:p.x,y:p.y,k:p.cls.k}));gs.renderStatic();
+  $('#gsRead').innerHTML='<span>a<sub>c</sub> = 1/(2b) = <b>'+(1/(2*gsB)).toFixed(3)+'</b></span>'+gsFP.map(p=>'<span>('+p.x.toFixed(3)+', '+p.y.toFixed(3)+'): '+p.cls.name+'</span>').join('');
+  const v=$('#gsV');if(gsFP.length===3){v.className='verdict ok';v.innerHTML='<span class="m">ab = '+(gsA*gsB).toFixed(3)+' &lt; 1/2</span>: 안정점이 2개 있어 생화학적 스위치로 작동합니다. 초깃값이 임곗값(점선)의 어느 쪽에 있는지에 따라 유전자가 켜지거나 꺼집니다.';}
+  else{v.className='verdict no';v.innerHTML='<span class="m">ab = '+(gsA*gsB).toFixed(3)+(gsFP.length===2?' = 1/2':' &gt; 1/2')+'</span>: 위쪽 두 고정점이 '+(gsFP.length===2?'막 충돌했습니다.':'충돌해 사라졌습니다.')+' 모든 궤적이 원점(유전자가 꺼진 상태)으로 갑니다.';}
+  if(reseed){gs.clear();gs.ci=0;const d=gs.o.dom;for(const[x,y]of[[2.9,.05],[.4,.9*d.y1],[2.9,.95*d.y1],[1.2,.05]])gs.add(x,y);}gs.dirty=true;}
+let gsT=null;for(const id of['#gsA','#gsB'])$(id).addEventListener('input',()=>{gsA=+$('#gsA').value;gsB=+$('#gsB').value;$('#gsAOut').textContent=gsA.toFixed(3);$('#gsBOut').textContent=gsB.toFixed(2);clearTimeout(gsT);gsT=setTimeout(()=>gsUpdate(true),140);});
+$('#gsBasin').addEventListener('change',()=>{gs.renderStatic();gs.dirty=true;});
+$('#gsClear').addEventListener('click',()=>{gs.clear();gs.ci=0;});
+gsUpdate(true);
+
+/* ================= 8.1.3 ================= */
+let e3Mu=-1.8;const e3F=(x,y)=>[e3Mu*x+y+Math.sin(x),x-y];
+function e3Roots(m,L){const g=x=>(m+1)*x+Math.sin(x);const out=[0];const n=1200;for(let i=0;i<n;i++){const a=-L+2*L*i/n,b=-L+2*L*(i+1)/n;if(Math.abs(a)<1e-9||Math.abs(b)<1e-9)continue;
+  if(g(a)*g(b)<0){let lo=a,hi=b;for(let k=0;k<50;k++){const md=(lo+hi)/2;if(g(lo)*g(md)<=0)hi=md;else lo=md;}const r=(lo+hi)/2;if(Math.abs(r)>1e-4)out.push(r);}}return out;}
+const e3=new Plane($('#e3'),{dom:{x0:-3,x1:3,y0:-3,y1:3},f:e3F,tmax:20,maxTraj:8,sub:3,n:19,
+  decor:(s,p)=>{s.lineWidth=2;s.strokeStyle=rgba(C.green,.7);s.beginPath();s.moveTo(p.X(-3),p.Y(-3));s.lineTo(p.X(3),p.Y(3));s.stroke();
+    s.strokeStyle=rgba(C.muted,.6);s.beginPath();s.moveTo(p.X(-3),p.Y(3));s.lineTo(p.X(3),p.Y(-3));s.stroke();}});
+$('#e3BD').style.aspectRatio='2.4/1';
+function drawE3BD(){const dots=[];for(let i=0;i<=120;i++){const m=-3+2*i/120;for(const r of e3Roots(m,3.2))dots.push([m,r]);}
+  const ap1=[],ap2=[];for(let i=0;i<=200;i++){const m=-2+1*i/200;const v=Math.sqrt(6*(m+2));ap1.push([m,v]);ap2.push([m,-v]);}
+  plot($('#e3BD'),{xr:[-3,-1],yr:[-3.2,3.2],xl:'μ',yl:'x*',series:[{pts:ap1,col:C.pink,dash:[6,4],lw:1.8},{pts:ap2,col:C.pink,dash:[6,4],lw:1.8}],
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.green,.8);c.lineWidth=1.5;c.beginPath();c.moveTo(X(e3Mu),Y(-3.2));c.lineTo(X(e3Mu),Y(3.2));c.stroke();},
+    post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[m,x]of dots){c.beginPath();c.arc(X(m),Y(x),1.8,0,7);c.fill();}}});}
+function e3Update(reseed){$('#e3MuOut').textContent=fmtS(e3Mu,2);const rs=e3Roots(e3Mu,3.2);
+  e3.o.fixed=rs.map(x=>{const a=e3Mu+Math.cos(x);const c=classify(a-1,-a-1);return{x,y:x,k:c.k,name:c.name};});e3.renderStatic();
+  $('#e3Read').innerHTML=e3.o.fixed.slice().sort((p,q)=>p.x-q.x).map(p=>'<span>('+fmtS(p.x,3)+', '+fmtS(p.y,3)+'): '+p.name+'</span>').join('')+(e3Mu>-2?'<span>근사 x* ≈ ±√(6(μ + 2)) = ±'+Math.sqrt(6*(e3Mu+2)).toFixed(3)+'</span>':'');
+  if(reseed){e3.clear();e3.ci=0;for(const[x,y]of[[-2.8,2.8],[2.8,-2.8],[.3,-2.9],[-.3,2.9],[2.9,1],[-2.9,-1]])e3.add(x,y);}e3.dirty=true;drawE3BD();}
+let e3T=null;$('#e3Mu').addEventListener('input',e=>{e3Mu=+e.target.value;$('#e3MuOut').textContent=fmtS(e3Mu,2);clearTimeout(e3T);e3T=setTimeout(()=>e3Update(true),80);});
+$('#e3Clear').addEventListener('click',()=>{e3.clear();e3.ci=0;});
+new ResizeObserver(drawE3BD).observe($('#e3BD'));
+e3Update(true);
+
+/* ================= 8.2 Hopf explorer ================= */
+const HP={
+  sup:{eq:'ṙ = μr − r³,  θ̇ = 1',mu:[-.5,.5,.2],dom:1.2,f:m=>polarCart(r=>m*r-r*r*r,1),eig:m=>[[m,1],[m,-1]],seeds:[[.05,0],[1.15,.3],[-.9,-.9]]},
+  sub:{eq:'ṙ = μr + r³ − r⁵,  θ̇ = 1',mu:[-.5,.3,-.15],dom:1.6,f:m=>polarCart(r=>m*r+r**3-r**5,1),eig:m=>[[m,1],[m,-1]],seeds:[[.2,0],[.45,0],[1.55,.3],[-1.2,-1]]},
+  deg:{eq:'ẍ + μẋ + sin x = 0 (감쇠 진자),  y = ẋ',mu:[-.5,.5,.1],dom:3.5,f:m=>(x,y)=>[y,-m*y-Math.sin(x)],
+    eig:m=>{const d=m*m-4;if(d<0)return[[-m/2,Math.sqrt(-d)/2],[-m/2,-Math.sqrt(-d)/2]];return[[(-m+Math.sqrt(d))/2,0],[(-m-Math.sqrt(d))/2,0]];},seeds:[[.5,0],[1.5,0],[2.5,0]]},
+  ex:{eq:'ẋ = μx − y + xy²,  ẏ = x + μy + y³',mu:[-.5,.3,-.2],dom:1.5,f:m=>(x,y)=>[m*x-y+x*y*y,x+m*y+y*y*y],eig:m=>[[m,1],[m,-1]],seeds:[[.3,0],[.5,.0],[-.2,.35]]}
+};
+let hpK='sup',hpMu=.2;let exCycle=null;
+const hp=new Plane($('#hp'),{dom:{x0:-1.2,x1:1.2,y0:-1.2,y1:1.2},f:HP.sup.f(.2),tmax:60,maxTraj:6,sub:4,dt:.01,fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{const R0=Math.abs(p.X(1)-p.X(0));const circ=(r,stable)=>{s.strokeStyle=rgba(stable?C.green:C.pink,.6);s.lineWidth=3;s.setLineDash(stable?[]:[7,5]);s.beginPath();s.arc(p.X(0),p.Y(0),r*R0,0,7);s.stroke();s.setLineDash([]);};
+    if(hpK==='sup'&&hpMu>0)circ(Math.sqrt(hpMu),true);
+    if(hpK==='sub'&&hpMu>-.25){const q=Math.sqrt(1+4*hpMu);circ(Math.sqrt((1+q)/2),true);if(hpMu<0)circ(Math.sqrt((1-q)/2),false);}}});
+$('#hpEig').style.aspectRatio='1/1';$('#hpBD').style.aspectRatio='1/1';
+function hpCycleEx(m){// x-intercept of the unstable cycle for example 8.2.1 (mu<0) by bisection
+  const f=HP.ex.f(m);const fate=r0=>{let x=r0,y=0;for(let i=0;i<8000;i++){[x,y]=rk4(f,x,y,.02);const r=x*x+y*y;if(r>9)return 1;if(r<1e-4)return-1;}return 0;};
+  let lo=.01,hi=1.5;if(fate(hi)<0)return NaN;for(let k=0;k<16;k++){const md=(lo+hi)/2;if(fate(md)>0)hi=md;else lo=md;}return(lo+hi)/2;}
+function drawHpEig(){const K=HP[hpK];const [m0,m1]=K.mu;const path1=[],path2=[];for(let i=0;i<=120;i++){const m=m0+(m1-m0)*i/120;const e=K.eig(m);path1.push(e[0]);path2.push(e[1]);}
+  const cur=K.eig(hpMu);const XR=hpK==='deg'?[-1.2,1.2]:[-.7,.7];
+  plot($('#hpEig'),{xr:XR,yr:[-1.4,1.4],xl:'Re λ',yl:'Im λ',xticks:[[XR[0]/2,fmt(XR[0]/2)],[0,'0'],[XR[1]/2,fmt(XR[1]/2)]],series:[{pts:path1,col:rgba(C.muted,.8),lw:1.4},{pts:path2,col:rgba(C.muted,.8),lw:1.4}],
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.ink,.55);c.beginPath();c.moveTo(X(0),Y(-1.4));c.lineTo(X(0),Y(1.4));c.stroke();c.fillStyle=rgba(C.pink,.06);c.fillRect(X(0),Y(1.4),X(XR[1])-X(0),Y(-1.4)-Y(1.4));},
+    post:(c,X,Y)=>{for(const e of cur){c.fillStyle=e[0]>1e-9?C.pink:C.ink;c.beginPath();c.arc(X(e[0]),Y(e[1]),5.5,0,7);c.fill();}}});}
+function drawHpBD(){const K=HP[hpK];const[m0,m1]=K.mu;const ser=[];const seg=(pts,st)=>ser.push({pts,col:st?C.ink:C.pink,dash:st?[]:[6,4],lw:2.2});
+  let yr=[0,1.4];let cap='극한 주기 궤도의 반지름과 μ';
+  if(hpK==='sup'){seg([[m0,0],[0,0]],true);seg([[0,0],[m1,0]],false);const b=[];for(let i=0;i<=100;i++){const m=m1*i/100;b.push([m,Math.sqrt(m)]);}seg(b,true);}
+  else if(hpK==='sub'){seg([[m0,0],[0,0]],true);seg([[0,0],[m1,0]],false);const up=[],dn=[];for(let i=0;i<=200;i++){const m=-.25+(m1+.25)*i/200;const q=Math.sqrt(Math.max(0,1+4*m));up.push([m,Math.sqrt((1+q)/2)]);if(m<=0)dn.push([m,Math.sqrt((1-q)/2)]);}seg(up,true);seg(dn,false);}
+  else if(hpK==='deg'){seg([[0,0],[m1,0]],true);seg([[m0,0],[0,0]],false);yr=[0,3];cap='닫힌 궤도의 진폭과 μ (감쇠 계수)';}
+  else{seg([[m0,0],[0,0]],true);seg([[0,0],[m1,0]],false);cap='불안정한 극한 주기 궤도(x축 위 반지름)와 μ';
+    if(!exCycle){exCycle=[];for(const m of[-.5,-.4,-.3,-.25,-.2,-.15,-.1,-.06,-.03])exCycle.push([m,hpCycleEx(m)]);}
+    const pts=exCycle.filter(q=>isFinite(q[1]));pts.push([0,0]);seg(pts,false);}
+  $('#hpBDcap').textContent=cap;
+  plot($('#hpBD'),{xr:[m0,m1],yr,xl:'μ',yl:'r',series:ser,
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.green,.8);c.lineWidth=1.5;c.beginPath();c.moveTo(X(hpMu),Y(yr[0]));c.lineTo(X(hpMu),Y(yr[1]));c.stroke();
+      if(hpK==='deg'){c.fillStyle=rgba(C.amber,.35);c.fillRect(X(0)-2,Y(yr[1]),4,Y(yr[0])-Y(yr[1]));c.fillStyle=C.muted;c.font="11px 'Noto Sans KR',sans-serif";c.fillText('닫힌 궤도의 무리',X(0)+5,Y(2.6));}}});}
+function hpRead(){const K=HP[hpK];const e=K.eig(hpMu);const cls=classify(2*e[0][0],e[0][0]*e[1][0]-e[0][1]*e[1][1]);let h='<span>λ = '+fmtS(e[0][0],3)+(e[0][1]?' ± '+Math.abs(e[0][1]).toFixed(3)+'i':', '+fmtS(e[1][0],3))+'</span>';
+  const kind=e[0][0]<-1e-9?(e[0][1]?'안정적인 나선':'안정점'):e[0][0]>1e-9?(e[0][1]?'불안정한 나선':'불안정한 점'):'선형 근사로는 중심';h+='<span>원점: <b>'+kind+'</b></span>';
+  if(hpK==='sup'&&hpMu>0)h+='<span>경험 법칙: 반지름 √μ = '+Math.sqrt(hpMu).toFixed(3)+', 주기 ≈ 2π/Im λ = '+(2*Math.PI).toFixed(3)+'</span>';
+  if(hpK==='sup'&&Math.abs(hpMu)<.005)h+='<span>μ = 0: 대수적으로 감쇠하는 매우 약한 안정적인 나선</span>';
+  if(hpK==='sub'&&hpMu<0&&hpMu>-.25)h+='<span>끌개 2개: 원점과 큰 극한 주기 궤도. 그 사이에 불안정한 궤도</span>';
+  if(hpK==='sub'&&hpMu<=-.25)h+='<span>μ &lt; −1/4: 원점이 유일한 끌개</span>';
+  if(hpK==='deg'&&Math.abs(hpMu)<.005)h+='<span>μ = 0: 단진자. 원점은 비선형 중심이며 닫힌 궤도의 연속적인 무리가 있음(극한 주기 궤도 아님)</span>';
+  if(hpK==='ex'&&hpMu>0)h+='<span>ṙ ≥ μr: 모든 궤적이 무한대로 밀려남</span>';
+  $('#hpRead').innerHTML=h;}
+function hpUpdate(reseed){const K=HP[hpK];$('#hpMuOut').textContent=fmtS(hpMu,2);$('#hpEq').textContent=K.eq;hp.o.f=K.f(hpMu);const L=K.dom;hp.o.dom=hpK==='deg'?{x0:-L,x1:L,y0:-L,y1:L}:{x0:-L,x1:L,y0:-L,y1:L};
+  hp.o.tmax=hpK==='deg'?40:80;hp.renderStatic();if(reseed){hp.clear();hp.ci=0;for(const[x,y]of K.seeds)hp.add(x,y);}hp.dirty=true;drawHpEig();drawHpBD();hpRead();}
+function hpSetMode(k){hpK=k;const K=HP[k];const s=$('#hpMu');s.min=K.mu[0];s.max=K.mu[1];s.value=K.mu[2];hpMu=K.mu[2];
+  document.querySelectorAll('.seg[aria-label="호프 갈래치기 종류"] button').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===k));hpUpdate(true);}
+document.querySelectorAll('.seg[aria-label="호프 갈래치기 종류"] button').forEach(b=>b.addEventListener('click',()=>hpSetMode(b.dataset.k)));
+let hpT=null;$('#hpMu').addEventListener('input',e=>{hpMu=+e.target.value;if(Math.abs(hpMu)<.005)hpMu=0;$('#hpMuOut').textContent=fmtS(hpMu,2);clearTimeout(hpT);hpT=setTimeout(()=>hpUpdate(true),100);});
+$('#hpClear').addEventListener('click',()=>{hp.clear();hp.ci=0;});
+new ResizeObserver(()=>{drawHpEig();drawHpBD();}).observe($('#hpEig'));
+hpSetMode('sup');
+
+/* ================= hysteresis sweep ================= */
+let hyK='sub',hyRun=false,hyX=.02,hyY=0,hyT=0,hyTrace=[],hyPPtrail=[];
+const HY={sub:{R:(r,m)=>m*r+r**3-r**5,m0:-.4,m1:.15,rmax:1.4},sup:{R:(r,m)=>m*r-r**3,m0:-.4,m1:.4,rmax:.8}};
+const LEG=110;
+function hyMuAt(t){const K=HY[hyK];const ph=(t%(2*LEG))/LEG;return ph<1?K.m0+(K.m1-K.m0)*ph:K.m1-(K.m1-K.m0)*(ph-1);}
+$('#hyBD').style.aspectRatio='1/1';$('#hyPP').style.aspectRatio='1/1';
+function drawHyBD(){const K=HY[hyK];const ser=[];const seg=(pts,st)=>ser.push({pts,col:st?C.muted:C.pink,dash:st?[]:[6,4],lw:1.6});
+  seg([[K.m0,0],[0,0]],true);seg([[0,0],[K.m1,0]],false);
+  if(hyK==='sup'){const b=[];for(let i=0;i<=100;i++){const m=K.m1*i/100;b.push([m,Math.sqrt(m)]);}seg(b,true);}
+  else{const up=[],dn=[];for(let i=0;i<=200;i++){const m=-.25+(K.m1+.25)*i/200;const q=Math.sqrt(Math.max(0,1+4*m));up.push([m,Math.sqrt((1+q)/2)]);if(m<=0)dn.push([m,Math.sqrt((1-q)/2)]);}seg(up,true);seg(dn,false);}
+  plot($('#hyBD'),{xr:[K.m0,K.m1],yr:[0,K.rmax],xl:'μ',yl:'r',series:ser,
+    post:(c,X,Y)=>{const n=hyTrace.length;c.lineWidth=2.2;for(let i=1;i<n;i++){const a=hyTrace[i-1],b=hyTrace[i];c.strokeStyle=b[2]>0?C.cyan:C.amber;c.beginPath();c.moveTo(X(a[0]),Y(a[1]));c.lineTo(X(b[0]),Y(b[1]));c.stroke();}
+      if(n){const L=hyTrace[n-1];c.fillStyle=C.ink;c.beginPath();c.arc(X(L[0]),Y(L[1]),5,0,7);c.fill();}}});}
+function drawHyPP(){const F=fit($('#hyPP'));if(!F)return;const{ctx:c,w,h}=F;c.fillStyle=C.panel;c.fillRect(0,0,w,h);const K=HY[hyK];const S=Math.min(w,h)/2/(K.rmax*1.15),cx=w/2,cy=h/2;
+  c.strokeStyle=rgba(C.muted,.4);c.beginPath();c.moveTo(0,cy);c.lineTo(w,cy);c.moveTo(cx,0);c.lineTo(cx,h);c.stroke();
+  c.strokeStyle=C.ink;c.lineWidth=1.6;c.beginPath();hyPPtrail.forEach((q,i)=>i?c.lineTo(cx+q[0]*S,cy-q[1]*S):c.moveTo(cx+q[0]*S,cy-q[1]*S));c.stroke();
+  c.fillStyle=C.pink;c.beginPath();c.arc(cx+hyX*S,cy-hyY*S,5,0,7);c.fill();}
+function hyReset(){hyRun=false;$('#hyPlay').textContent='μ 쓸기 시작';hyX=.02;hyY=0;hyT=0;hyTrace=[];hyPPtrail=[];hyInfo();drawHyBD();drawHyPP();}
+function hyInfo(){const m=hyMuAt(hyT);$('#hyMu').textContent=fmtS(m,3);$('#hyR').textContent=Math.hypot(hyX,hyY).toFixed(3);$('#hyDir').textContent=(hyT%(2*LEG))<LEG?'μ 증가 중 →':'← μ 감소 중';}
+function hyStep(){const dt=.02;for(let k=0;k<12;k++){const m=hyMuAt(hyT);const f=polarCart(r=>HY[hyK].R(r,m),1);[hyX,hyY]=rk4(f,hyX,hyY,dt);hyT+=dt;
+    const r=Math.hypot(hyX,hyY);if(r<.02){const a=Math.atan2(hyY,hyX);hyX=.02*Math.cos(a);hyY=.02*Math.sin(a);}}
+  const up=(hyT%(2*LEG))<LEG?1:-1;hyTrace.push([hyMuAt(hyT),Math.hypot(hyX,hyY),up]);if(hyTrace.length>4000)hyTrace.shift();
+  hyPPtrail.push([hyX,hyY]);if(hyPPtrail.length>160)hyPPtrail.shift();if(hyT>=4*LEG){hyRun=false;$('#hyPlay').textContent='μ 쓸기 시작';}
+  hyInfo();drawHyBD();drawHyPP();}
+(function hyLoop(){requestAnimationFrame(hyLoop);if(hyRun)hyStep();})();
+$('#hyPlay').addEventListener('click',()=>{if(hyT>=4*LEG)hyReset();hyRun=!hyRun;$('#hyPlay').textContent=hyRun?'일시 정지':'μ 쓸기 계속';
+  if(reduceMotion&&hyRun){while(hyT<4*LEG)hyStep();hyRun=false;}});
+$('#hyReset').addEventListener('click',hyReset);
+document.querySelectorAll('.seg[aria-label="쓸기 실험 종류"] button').forEach(b=>b.addEventListener('click',()=>{hyK=b.dataset.k;
+  document.querySelectorAll('.seg[aria-label="쓸기 실험 종류"] button').forEach(c=>c.setAttribute('aria-pressed',c===b));hyReset();}));
+new ResizeObserver(()=>{drawHyBD();drawHyPP();}).observe($('#hyBD'));
+hyReset();
+
+/* ---------------- loop & theme ---------------- */
+function loop(){for(const p of planes){if(!p.visible||!p.W)continue;const busy=p.step();if(busy||p.dirty){p.draw();p.dirty=false;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function redrawAll(){drawNfBD();drawE3BD();drawHpEig();drawHpBD();drawHyBD();drawHyPP();}
+function retheme(){readTheme();for(const p of planes){for(const t of p.trajs){if(t.cidx!==undefined)t.col=TRAJ()[t.cidx];}p.renderStatic();p.dirty=true;}redrawAll();}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(()=>{for(const p of planes){p.renderStatic();p.dirty=true;}redrawAll();});
+})();
+</script>
+</body>
+</html>
