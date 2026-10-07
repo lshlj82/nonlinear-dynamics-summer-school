@@ -2,7 +2,7 @@
 
 스티븐 스트로가츠(Steven H. Strogatz)의 『[비선형 동역학과 카오스 2/e](https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/)』(에이콘출판사, 2025) 7장 **극한 주기 궤도(limit cycles)** 와 8장 **갈래치기 다시 보기(bifurcations revisited)** 를 위상 평면(phase plane) 위에서 직접 궤적을 그려 보며 배우는 웹 데모 모음입니다.
 
-경상국립대학교 물리학과 이상훈 교수가 한국복잡계학회 주최 [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365)에서 진행한 7~8장 강의의 강의노트를 기반으로, Claude Opus 5.5(Anthropic)가 제작했습니다.
+경상국립대학교 물리학과 이상훈 교수가 [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365)에서 진행한 7~8장 강의의 강의노트를 기반으로, Claude Opus 5.5(Anthropic)가 제작했습니다.
 
 **데모 바로가기:** `https://lshlj82.github.io/nonlinear-dynamics-summer-school/`
 
