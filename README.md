@@ -4,7 +4,7 @@
 
 경상국립대학교 물리학과 이상훈 교수가 한국복잡계학회 주최 [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365)에서 진행한 7~8장 강의의 강의노트를 기반으로, Claude Opus 5.5(Anthropic)가 제작했습니다.
 
-**데모 바로가기:** `https://<사용자명>.github.io/<저장소명>/` (GitHub Pages 설정 후 주소를 채워 넣으세요)
+**데모 바로가기:** `https://lshlj82.github.io/nonlinear-dynamics-summer-school/`
 
 ## 데모 목록
 
@@ -41,23 +41,11 @@
 HTML 파일을 브라우저로 바로 열어도 동작합니다. 로컬 서버로 확인하려면 다음과 같이 실행합니다.
 
 ```bash
-git clone https://github.com/<사용자명>/<저장소명>.git
-cd <저장소명>
+git clone https://github.com/lshlj82/nonlinear-dynamics-summer-school.git
+cd nonlinear-dynamics-summer-school
 python3 -m http.server 8000
 # 브라우저에서 http://localhost:8000 접속
 ```
-
-## GitHub Pages로 공개하기
-
-1. 저장소의 **Settings → Pages**로 이동합니다.
-2. **Build and deployment**의 Source를 **Deploy from a branch**로 두고, 브랜치를 `main`, 폴더를 `/ (root)`로 지정한 뒤 저장합니다.
-3. 몇 분 뒤 `https://<사용자명>.github.io/<저장소명>/`에서 `index.html`이 첫 화면으로 열립니다.
-
-## 새 데모 추가하기
-
-1. 기존 데모 파일을 복사해 `02-파일이름.html`처럼 번호를 붙여 저장합니다. 색상, 글꼴, 레이아웃 규칙은 파일 상단의 CSS 변수(`:root`)에 모여 있으므로 그대로 두면 시리즈 전체의 모양이 통일됩니다.
-2. `index.html`의 `<ol class="lessons">` 안에 있는 주석 처리된 템플릿을 복사해 번호, 제목, 절 범위, 설명, 파일 이름을 채웁니다.
-3. 이 README의 데모 목록 표에 한 줄을 추가합니다.
 
 ## 구현 메모
 
