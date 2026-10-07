@@ -313,7 +313,7 @@ footer strong{color:var(--ink);font-weight:500}
   <div class="row flip">
     <div class="txt">
       <div class="eq">ẍ + (ẋ)³ + <i>x</i> = 0</div>
-      <p>기울기 시스템은 아니지만 비슷한 기술을 쓴다. “에너지 같은” 함수 <span class="m">E(x, ẋ) = ½(x² + ẋ²)</span>를 도입하자. <span class="m">E</span>는 일가 함수이므로, 주기해가 있다면 한 주기 동안 <span class="m">ΔE = 0</span>이어야 한다. 그런데</p>
+      <p>기울기 시스템은 아니지만 비슷한 기술을 쓴다. “에너지 같은” 함수 <span class="m">E(x, ẋ) = (1/2)(x² + ẋ²)</span>를 도입하자. <span class="m">E</span>는 일가 함수이므로, 주기해가 있다면 한 주기 동안 <span class="m">ΔE = 0</span>이어야 한다. 그런데</p>
       <div class="eq plain">d<i>E</i>/d<i>t</i> = <i>x</i>ẋ + ẋẍ = ẋ(<i>x</i> + ẍ) = −(ẋ)⁴ ≤ 0</div>
       <p>이므로 <span class="m">ẋ ≡ 0</span>(고정점)이 아니라면 <span class="m">ΔE &lt; 0</span>이다. 모순이므로 주기해는 없다.</p>
       <span class="pen">(ẋ)³ 항에 의해 매우, 매우 천천히 원점으로 수렴</span>
@@ -321,7 +321,7 @@ footer strong{color:var(--ink);font-weight:500}
     </div>
     <div class="demo">
       <canvas id="en" class="pp" aria-label="비선형 감쇠 진동자의 위상 평면"></canvas>
-      <p class="sub">에너지 같은 함수 <span class="m">E(t) = ½(x² + ẋ²)</span>, 원은 <span class="m">E</span>의 등고선</p>
+      <p class="sub">에너지 같은 함수 <span class="m">E(t) = (1/2)(x² + ẋ²)</span>, 원은 <span class="m">E</span>의 등고선</p>
       <canvas id="ent" aria-label="에너지 함수의 시간 변화"></canvas>
       <div class="ctl" style="margin-top:8px"><button class="btn" id="enClear">지우기</button></div>
     </div>
@@ -350,7 +350,7 @@ footer strong{color:var(--ink);font-weight:500}
       <div class="legend"><span><i style="background:var(--hl-pink)"></i>V̇ &gt; 0(오르막: 조건 위반)</span><span><i style="background:var(--hl-green)"></i>V̇ &lt; 0(내리막)</span><span>타원: <span class="m">V</span>의 등고선</span></div>
       <div class="read"><span>현재 <b id="liaF"></b></span></div>
       <div class="verdict" id="liaV"></div>
-      <p class="hint">궤적은 항상 원점으로 나선을 그리며 들어갑니다. 원점의 야코비 행렬(Jacobian)은 <span class="m">A = [[−1, 4], [−1, 0]]</span>, <span class="m">λ² + λ + 4 = 0</span>이니 <span class="m">λ = −½ ± (√15/2) i</span>: 안정한 나선(stable spiral)이자 끌개(attractor)입니다. 하지만 이 국소 분석만으로는 닫힌 궤도가 없다는 결론을 낼 수 없습니다.</p>
+      <p class="hint">궤적은 항상 원점으로 나선을 그리며 들어갑니다. 원점의 야코비 행렬(Jacobian)은 <span class="m">A = [[−1, 4], [−1, 0]]</span>, <span class="m">λ² + λ + 4 = 0</span>이니 <span class="m">λ = −1/2 ± (√15/2) i</span>: 안정한 나선(stable spiral)이자 끌개(attractor)입니다. 하지만 이 국소 분석만으로는 닫힌 궤도가 없다는 결론을 낼 수 없습니다.</p>
     </div>
   </div>
 

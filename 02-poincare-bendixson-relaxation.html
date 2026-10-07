@@ -241,7 +241,7 @@ footer strong{color:var(--ink);font-weight:500}
       <h3 style="margin-top:24px">예제 7.3.3 고정점이 밀개일 조건</h3>
       <p>고정점은 <span class="m">x* = b</span>, <span class="m">y* = b/(a + b²)</span>이다. 이 점에서 야코비 행렬의 행렬식은 <span class="m">Δ = a + b² &gt; 0</span>이고, 대각합은</p>
       <div class="eq plain">τ = −[<i>b</i>⁴ + (2<i>a</i> − 1)<i>b</i>² + (<i>a</i> + <i>a</i>²)] / (<i>a</i> + <i>b</i>²)</div>
-      <p>이다. 따라서 이 고정점은 <span class="m">τ &gt; 0</span>일 때 불안정하고 <span class="m">τ &lt; 0</span>일 때 안정하다. 경계 <span class="m">τ = 0</span>은 <span class="m">b² = ½(1 − 2a ± √(1 − 8a))</span>로, <span class="m">(a, b)</span> 공간에서 오른쪽 아래 그림의 곡선이다. <span class="m">τ &gt; 0</span>인 영역에서는 시스템이 닫힌 궤도를 갖고 있음이 보장되며, 수치 적분을 통해 실제로 그것이 극한 주기 궤도임을 알 수 있다.</p>
+      <p>이다. 따라서 이 고정점은 <span class="m">τ &gt; 0</span>일 때 불안정하고 <span class="m">τ &lt; 0</span>일 때 안정하다. 경계 <span class="m">τ = 0</span>은 <span class="m">b² = (1/2)(1 − 2a ± √(1 − 8a))</span>로, <span class="m">(a, b)</span> 공간에서 오른쪽 아래 그림의 곡선이다. <span class="m">τ &gt; 0</span>인 영역에서는 시스템이 닫힌 궤도를 갖고 있음이 보장되며, 수치 적분을 통해 실제로 그것이 극한 주기 궤도임을 알 수 있다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -296,7 +296,7 @@ footer strong{color:var(--ink);font-weight:500}
         <p>그러면 이 시스템은 위상 평면의 원점을 둘러싼 유일하고 안정적인 극한 주기 궤도를 갖고 있다.</p>
       </div>
       <p>이 결과는 그럴듯해 보인다. <span class="m">g(x)</span>에 대한 가정은 복원력이 보통의 용수철처럼 작용하고 변위(displacement)를 줄이는 경향이 있다는 뜻이다. <span class="m">g(0) = 0</span>이니 원점은 항상 고정점이다. <span class="m">f(x)</span>에 대한 가정은 작은 <span class="m">|x|</span>에서 감쇠가 음수(증폭)이며 큰 <span class="m">|x|</span>에서는 감쇠가 양수라는 뜻이다. 작은 진동은 증폭되고 큰 진동은 감쇠되니, 시스템이 스스로 지속 가능한 중간 정도의 진폭을 가진 진동으로 정착되는 경향이 있다는 것은 놀랍지 않다.</p>
-      <p><b>예제 7.4.1</b>&ensp;반 데르 폴 방정식은 <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이므로 조건 (1)~(4)를 확실히 만족시킨다. 또 <span class="m">F(x) = μ(⅓x³ − x) = ⅓μx(x² − 3)</span>이니 <span class="m">a = √3</span>에서 (5)번 조건이 만족된다. 따라서 반 데르 폴 방정식은 유일하고 안정적인 극한 주기 궤도를 갖는다.</p>
+      <p><b>예제 7.4.1</b>&ensp;반 데르 폴 방정식은 <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이므로 조건 (1)~(4)를 확실히 만족시킨다. 또 <span class="m">F(x) = μ((1/3)x³ − x) = (1/3)μx(x² − 3)</span>이니 <span class="m">a = √3</span>에서 (5)번 조건이 만족된다. 따라서 반 데르 폴 방정식은 유일하고 안정적인 극한 주기 궤도를 갖는다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -335,12 +335,12 @@ footer strong{color:var(--ink);font-weight:500}
     <div class="txt">
       <p>이 극한에서는 <span class="m">x</span>의 변화가 매우 천천히 쌓였다가 갑작스럽게 사라지고, 다시 천천히 쌓이는 식으로 반복되는 극한 주기 궤도를 볼 수 있다. 느리게 쌓이는 중에 축적된 ‘변형(stress)’이 급격하게 사라지는 과정에서 ‘완화(relax)’되기 때문에 이를 <b>완화 진동(relaxation oscillation)</b>이라고 한다. 휘어진 바이올린 현의 습동(stick-slip) 진동에서부터 일정한 전류에 의해 동작하는 신경세포의 주기적인 발화에 이르기까지 수많은 과학적 상황에서 발생한다.</p>
       <h3>예제 7.5.1 <span class="en">μ ≫ 1에서의 위상 평면</span></h3>
-      <p>일반적인 ‘<span class="m">ẋ = y, ẏ = …</span>’과는 다른 위상 평면 변수를 도입하는 것이 편리하다. <span class="m">F(x) = ⅓x³ − x</span>로 두면</p>
+      <p>일반적인 ‘<span class="m">ẋ = y, ẏ = …</span>’과는 다른 위상 평면 변수를 도입하는 것이 편리하다. <span class="m">F(x) = (1/3)x³ − x</span>로 두면</p>
       <div class="eq plain">ẍ + μẋ(<i>x</i>² − 1) = d/d<i>t</i> [ẋ + μ<i>F</i>(<i>x</i>)]</div>
       <p>이므로 <span class="m">w = ẋ + μF(x)</span>로 두면 <span class="m">ẇ = −x</span>, <span class="m">ẋ = w − μF(x)</span>이다. 변수를 한 번 더 치환해 <span class="m">y = w/μ</span>로 두면</p>
       <div class="eq">ẋ = μ[<i>y</i> − <i>F</i>(<i>x</i>)],&emsp;ẏ = −<i>x</i>/μ</div>
       <p>영점선들이 이 움직임을 이해하기 위한 열쇠다. 초기 조건이 3차 함수 영점선(cubic nullcline) <span class="m">y = F(x)</span>에 너무 가깝지 않으면, 즉 <span class="m">y − F(x) ~ O(1)</span>이면 <span class="m">|ẋ| ~ O(μ) ≫ 1</span>, <span class="m">|ẏ| ~ O(μ⁻¹) ≪ 1</span>이다. 속도가 수평 방향으로 매우 크고 수직 방향으로는 매우 작으니 <span class="hlp">궤적은 사실상 수평으로 이동한다.</span></p>
-      <p>궤적이 영점선에 너무 가까워져서 <span class="m">y − F(x) ~ O(μ⁻²)</span>에 도달하면 <span class="m">ẋ</span>과 <span class="m">ẏ</span>은 둘 다 <span class="m">O(μ⁻¹)</span>이 된다. 궤적은 영점선을 수직으로 가로지른 다음, 3차 함수의 ‘무릎’에 도달해서 다시 옆으로 점프할 수 있을 때까지 <span class="hlc">영점선의 해당 줄기를 따라 천천히 이동한다.</span> 무릎 <span class="m">B(1, −⅔)</span>에 도달하면 <span class="m">C(−2, −⅔)</span>로 점프하고, 다시 무릎 <span class="m">D(−1, ⅔)</span>까지 천천히 올라가 <span class="m">A(2, ⅔)</span>로 점프한다.</p>
+      <p>궤적이 영점선에 너무 가까워져서 <span class="m">y − F(x) ~ O(μ⁻²)</span>에 도달하면 <span class="m">ẋ</span>과 <span class="m">ẏ</span>은 둘 다 <span class="m">O(μ⁻¹)</span>이 된다. 궤적은 영점선을 수직으로 가로지른 다음, 3차 함수의 ‘무릎’에 도달해서 다시 옆으로 점프할 수 있을 때까지 <span class="hlc">영점선의 해당 줄기를 따라 천천히 이동한다.</span> 무릎 <span class="m">B(1, −2/3)</span>에 도달하면 <span class="m">C(−2, −2/3)</span>로 점프하고, 다시 무릎 <span class="m">D(−1, 2/3)</span>까지 천천히 올라가 <span class="m">A(2, 2/3)</span>로 점프한다.</p>
       <p>이 극한 주기 궤도에는 <b>크게 분리된 2개의 시간 척도(time scale)</b>가 있다. 천천히 기어가는 움직임에는 <span class="m">Δt ~ O(μ)</span>, 점프에는 <span class="m">Δt ~ O(μ⁻¹)</span>만큼의 시간이 걸린다.</p>
     </div>
     <div class="demo">
@@ -362,7 +362,7 @@ footer strong{color:var(--ink);font-weight:500}
     <div class="txt">
       <p>점프에 걸리는 시간 <span class="m">Δt ~ O(μ⁻¹)</span>은 무시할 만하므로, 주기는 2개의 느린 줄기를 따라 이동하는 데 필요한 시간이다. 대칭에 의해 각 줄기에서 소요되는 시간은 동일하므로 <span class="hl">느린 이동에 걸리는 시간의 2배를 주기로 추정할 수 있다.</span></p>
       <p>느린 줄기에서는 <span class="m">y ≈ F(x)</span>이므로 <span class="m">dy/dt ≈ F′(x) dx/dt = (x² − 1) dx/dt</span>이다. 한편 <span class="m">dy/dt = −x/μ</span>이므로 <span class="m">dx/dt ≈ −x/[μ(x² − 1)]</span>, 즉 <span class="m">dt ≈ −μ(x² − 1)/x dx</span>이다. <span class="m">x</span>가 양수인 줄기는 <span class="m">x<sub>A</sub> = 2</span>에서 시작해 <span class="m">x<sub>B</sub> = 1</span>에서 끝나므로</p>
-      <div class="eq">T ≈ 2∫₂¹ −(μ/<i>x</i>)(<i>x</i>² − 1) d<i>x</i> = 2μ[½<i>x</i>² − ln <i>x</i>]₁² = μ(3 − 2 ln 2)</div>
+      <div class="eq">T ≈ 2∫₂¹ −(μ/<i>x</i>)(<i>x</i>² − 1) d<i>x</i> = 2μ[(1/2)<i>x</i>² − ln <i>x</i>]₁² = μ(3 − 2 ln 2)</div>
       <p>이며, 예상대로 <span class="m">O(μ)</span>이다(<span class="m">3 − 2 ln 2 ≈ 1.614</span>). 훨씬 많은 과정을 거치면 <span class="m">T ≈ μ[3 − 2 ln 2] + 2αμ<sup>−1/3</sup> + …</span>임을 보일 수 있다. 여기서 <span class="m">α ≈ 2.338</span>은 <span class="m">Ai(−α) = 0</span>의 가장 작은 해이고, <span class="m">Ai(x)</span>는 에어리(Airy) 함수라 불리는 특수 함수다. 보정 항은 점프와 느린 움직임 사이에서 영점선의 구석을 도는 데 필요한 시간에서 나온다(메리 캣라이트(Mary Cartwright, 1952); [Grimshaw 1990]).</p>
       <p>마지막 한마디: 완화 진동에서는 두 가지 시간 척도가 <b>순차적으로</b> 작동한다. 다음 절에서는 2개의 시간 척도가 <b>동시에</b> 작동하는 문제를 만나게 된다.</p>
     </div>

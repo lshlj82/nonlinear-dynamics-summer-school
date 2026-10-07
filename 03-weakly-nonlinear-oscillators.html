@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>제7장 극한 주기 궤도: 약한 비선형 진동자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
+  --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --hl-pink:rgba(232,67,147,.22); --hl-green:rgba(70,200,95,.28); --hl-cyan:rgba(60,180,230,.22);
+  --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --math:'STIX Two Text','Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+    --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A;
+  --hl-pink:rgba(255,111,174,.25); --hl-green:rgba(91,210,125,.22); --hl-cyan:rgba(77,195,236,.22);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;gap:18px;align-items:center;overflow-x:auto}
+.bar-in .t{font-family:var(--serif);font-weight:700;white-space:nowrap;margin-right:auto}
+.bar-in a{color:var(--ink);text-decoration:none;white-space:nowrap;font-size:.92rem;padding:4px 2px;border-bottom:2px solid transparent}
+.bar-in a:hover{border-bottom-color:var(--pink)}
+.bar-in a b{font-family:var(--math);font-weight:600;color:var(--pink);margin-right:4px}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:40px 20px 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.12;margin:0 0 6px;letter-spacing:-.01em}
+.hero h1 .en{display:block;font-family:var(--math);font-style:italic;font-weight:400;font-size:.5em;color:var(--muted);margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:1.05rem;max-width:34em;margin:18px 0}
+.credit{font-size:.88rem;color:var(--muted);border-left:3px solid var(--green);padding:4px 0 4px 12px;max-width:36em}
+.credit strong{color:var(--ink);font-weight:500}
+.hero-fig{position:relative}
+#hero{width:100%;aspect-ratio:1/1;display:block;cursor:crosshair;touch-action:manipulation}
+.hero-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+
+/* sections */
+.sec{max-width:1180px;margin:0 auto;padding:56px 20px 8px}
+.sec-h{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.sec-h .no{font-family:var(--math);font-size:2.4rem;font-weight:600;color:var(--pink);line-height:1}
+.sec-h h2{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);margin:0;line-height:1.25}
+.sec-h h2 span{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted);font-size:.72em;margin-left:6px}
+.sec > .intro{max-width:46em;margin:6px 0 10px}
+h3{font-family:var(--serif);font-size:1.32rem;margin:40px 0 8px;line-height:1.35}
+h3 .en{font-family:var(--math);font-style:italic;font-weight:400;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;align-items:start;margin-top:16px}
+.row.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.row.flip > .txt{order:2}
+.txt p{margin:0 0 14px}
+.txt ul{margin:0 0 14px;padding-left:1.2em}
+.txt li{margin-bottom:6px}
+.en{font-family:var(--math);font-style:italic}
+.hl{background:linear-gradient(transparent 58%,var(--hl-green) 58%)}
+.hlp{background:linear-gradient(transparent 58%,var(--hl-pink) 58%)}
+.hlc{background:linear-gradient(transparent 58%,var(--hl-cyan) 58%)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap;font-size:1.06em}
+.m sup,.m sub{font-style:normal;font-size:.72em}
+.eq{font-family:var(--math);font-size:1.22rem;margin:10px 0 16px;padding:8px 16px;display:inline-block;border:2px solid var(--pink);border-radius:5px;background:var(--panel);line-height:1.6}
+.eq i{font-style:italic}
+.eq.plain{border-color:var(--rule)}
+.pen{font-weight:500;font-size:.95rem;line-height:1.6;color:var(--pink);margin:4px 0 16px;display:block;border-left:3px solid currentColor;padding:2px 0 2px 12px}
+.pen::before{content:'강의노트 메모';display:block;font-size:.75rem;font-weight:400;color:var(--muted)}
+.no-wrap{white-space:nowrap}
+.pen.g{color:var(--green)} .pen.c{color:var(--cyan)}
+.box{border:2px solid var(--green);border-radius:6px;padding:12px 16px;margin:12px 0 16px;background:var(--panel)}
+.box.amber{border-color:var(--amber)}
+.box.pink{border-color:var(--pink)}
+.box p:last-child{margin-bottom:0}
+.box .lbl{font-weight:700;margin-right:6px}
+
+/* demo panel */
+.demo{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px}
+.demo canvas{width:100%;display:block;touch-action:manipulation}
+.demo canvas.pp{cursor:crosshair}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.92rem}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--ink);background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:inherit;padding:5px 12px;cursor:pointer}
+.btn:hover,.seg button:hover:not([aria-pressed="true"]){background:var(--hl-cyan)}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);background:var(--pink)}
+label.sl{display:inline-flex;align-items:center;gap:8px}
+label.sl output{font-family:var(--math);min-width:3.2em;font-size:1.05rem}
+input[type=range]{accent-color:var(--pink);width:180px;max-width:42vw}
+select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:4px 8px}
+.hint{font-size:.84rem;color:var(--muted);margin:8px 0 0}
+.read{font-size:.92rem;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.read b{font-family:var(--math);font-weight:600}
+.verdict{margin-top:10px;padding:8px 12px;border-radius:6px;font-size:.93rem;border:1px solid var(--rule)}
+.verdict.ok{border-color:var(--green);background:var(--hl-green)}
+.verdict.no{border-color:var(--pink);background:var(--hl-pink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap{font-size:.86rem;text-align:center;margin:4px 0 0}
+.cap .amp{font-family:var(--math);font-weight:600}
+.sub{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.82rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+footer{max-width:1180px;margin:40px auto 0;padding:24px 20px 40px;border-top:2px solid var(--ink);font-size:.9rem;color:var(--muted)}
+footer p{margin:0 0 8px;max-width:60em}
+footer strong{color:var(--ink);font-weight:500}
+.refs{max-width:52em;padding-left:1.4em;margin:12px 0 0;font-size:.95rem}
+.refs li{margin-bottom:10px}
+.refs i{font-family:var(--math)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .hero-fig{order:-1}
+  .row,.row.flip{grid-template-columns:1fr;gap:18px}
+  .row.flip > .txt{order:0}
+  body{font-size:16px}
+}
+@media (max-width:520px){
+  .two{grid-template-columns:1fr}
+  .bar-in .t{display:none}
+}
+
+:root{--hl-amber:rgba(214,140,30,.22)}
+.hero .kicker{color:var(--muted);margin:0 0 10px;font-size:.95rem}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem)}
+.check{list-style:none;padding:0;margin:10px 0 0;font-size:.9rem;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.check li{display:flex;gap:6px;align-items:baseline}
+.check li span{font-weight:700;width:1em}
+.check li.y span{color:var(--green)}
+.check li.n span{color:var(--pink)}
+.check li.n{color:var(--pink)}
+@media (max-width:520px){.check{grid-template-columns:1fr}}
+
+.ctl input[type=checkbox]{accent-color:var(--pink);margin-right:4px}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="섹션 이동">
+  <div class="bar-in">
+    <a class="t" href="index.html" style="border:0;color:var(--ink)">극한 주기 궤도</a>
+    <a href="#weak"><b>7.6</b>약한 비선형 진동자</a>
+    <a href="#regular">정규 섭동 이론</a>
+    <a href="#twotiming">두 타이밍</a>
+    <a href="#averaged">평균 방정식</a>
+    <a href="#duffing">더핑 진동자</a>
+    <a href="#refs">참고문헌</a>
+    <a href="index.html">전체 목록</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <p class="kicker">제7장 극한 주기 궤도</p>
+    <h1>약한 비선형 진동자<span class="en">Weakly Nonlinear Oscillators</span></h1>
+    <p class="lead">빠르게 진동하는 동안 진폭은 아주 천천히 변한다. 두 시간 척도가 동시에 작동하는 약한 비선형 진동자를 다룬다. 정규 섭동 이론이 왜 실패하는지 직접 확인하고, 두 타이밍(two-timing)과 평균 방정식(averaged equations)으로 극한 주기 궤도의 반지름과 진동수를 예측한 뒤 수치 해와 비교한다.</p>
+    <p class="credit">이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트(한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>, 7~8장 강의)를 기반으로 합니다.</p>
+  </div>
+  <figure class="hero-fig" style="margin:0">
+    <canvas id="hero" aria-label="반 데르 폴 진동자의 x(t)와 평균화 이론으로 예측한 포락선 애니메이션. 클릭하면 다른 초기 진폭으로 다시 그립니다."></canvas>
+    <figcaption><span class="m">ẍ + x + ε(x² − 1)ẋ = 0</span>, <span class="m">ε = 0.1</span>. 진동(<span class="m">t ~ O(1)</span>)은 빠르고, 포락선(<span class="m">t ~ O(1/ε)</span>)은 느립니다. 누르면 다른 초기 진폭에서 다시 그립니다.</figcaption>
+  </figure>
+</header>
+
+<!-- ============ 7.6 intro ============ -->
+<section class="sec" id="weak">
+  <div class="sec-h"><span class="no">7.6</span><h2>약한 비선형 진동자<span>weakly nonlinear oscillator</span></h2></div>
+  <div class="row">
+    <div class="txt">
+      <div class="eq">ẍ + <i>x</i> + ε<i>h</i>(<i>x</i>, ẋ) = 0,&emsp;0 ≤ ε ≪ 1</div>
+      <p>여기서 <span class="m">h(x, ẋ)</span>는 임의의 매끄러운 함수다. 이 방정식은 선형 진동자 <span class="m">ẍ + x = 0</span>에 대한 작은 섭동을 나타내므로 <b>약한 비선형 진동자(weakly nonlinear oscillator)</b>라고 한다. 두 가지 기본적인 예시는 (지난 절과 반대로 이제 약한 비선형성 극한에 해당하는) 반 데르 폴 방정식과 더핑 방정식(Duffing equation)이다.</p>
+      <div class="eq plain">ẍ + <i>x</i> + ε(<i>x</i>² − 1)ẋ = 0,&emsp;&emsp;ẍ + <i>x</i> + ε<i>x</i>³ = 0</div>
+      <p><span class="m">ε = 0.1</span>일 때 원점에 가까운 초기 조건에서 출발한 반 데르 폴 방정식의 궤적은 천천히 감아 돌아가는 나선형이고, 진폭이 크게 증가하려면 많이 돌아야 한다. 궁극적으로 궤적은 <span class="hl">반지름이 2에 가까운 대략적인 원형의 극한 주기 궤도</span>로 접근한다. 이 극한 주기 궤도의 모양, 주기, 반지름을 예측하는 것이 이 절의 목표다.</p>
+
+      <h3>강의노트 보충: 에너지를 이용한 추정</h3>
+      <p>교재에는 나오지 않지만, Shane Ross 교수의 강의(<a href="https://youtu.be/MdJEUqUTf5w" target="_blank" rel="noopener">Limit Cycles, Part 5: Van der Pol Oscillator, Weakly Nonlinear Limit, Energy Method</a>)에서 소개한 방법이다. 극한 주기 궤도는 주기 운동이니 <span class="hlp">한 주기 동안 에너지가 보존되어야 한다.</span> 단순 조화 진동자의 에너지 <span class="m">E = (1/2)ẋ² + (1/2)x²</span>에 대해</p>
+      <div class="eq plain">d<i>E</i>/d<i>t</i> = ẋ(ẍ + <i>x</i>) = −εẋ²(<i>x</i>² − 1)</div>
+      <p>이다. <span class="m">ε ≪ 1</span>이므로 해가 <span class="m">ε = 0</span>일 때의 <span class="m">x = A cos t</span>에 대한 섭동으로 주어진다고 가정하면, 한 주기(<span class="m">2π + O(ε)</span>) 동안의 에너지 변화는</p>
+      <div class="eq plain">Δ<i>E</i> = −2πε[<i>A</i>⁴〈sin²<i>t</i> cos²<i>t</i>〉 − <i>A</i>²〈sin²<i>t</i>〉] + <i>O</i>(ε²) = −2πε((1/8)<i>A</i>⁴ − (1/2)<i>A</i>²) + <i>O</i>(ε²)</div>
+      <p>이다. <span class="m">ΔE = O(ε²)</span>로 무시할 수 있으려면 <span class="m">(1/8)A⁴ = (1/2)A²</span>, 곧 <span class="m">A = 2</span>다. <span class="hl">반지름이 2인 극한 주기 궤도라는 관찰 결과와 일치한다!</span></p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">ε <input type="range" id="wEps" min="0.02" max="0.4" step="0.01" value="0.1" aria-label="매개변수 epsilon"><output id="wEpsOut">0.10</output></label>
+        <button class="btn" id="wClear">지우기</button>
+      </div>
+      <canvas id="wpp" class="pp" aria-label="약한 비선형 반 데르 폴 진동자의 위상 평면"></canvas>
+      <p class="sub">한 주기 동안의 에너지 변화 <span class="m">ΔE/ε</span>와 진폭 <span class="m">A</span></p>
+      <canvas id="wdE" aria-label="에너지 변화와 진폭의 관계"></canvas>
+      <div class="legend"><span><i style="background:var(--pink)"></i>예측 −2π((1/8)A⁴ − (1/2)A²)</span><span><i style="background:var(--ink)"></i>수치 적분: (A, 0)에서 출발해 한 바퀴 돈 뒤 측정</span></div>
+      <p class="hint">ΔE &gt; 0이면 진폭이 커지고 ΔE &lt; 0이면 줄어듭니다. 부호가 바뀌는 A = 2가 극한 주기 궤도입니다. ε를 키우면 수치값이 예측에서 조금씩 벗어납니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ regular perturbation ============ -->
+<section class="sec" id="regular">
+  <div class="sec-h"><h2>정규 섭동 이론과 그것의 실패<span>regular perturbation theory</span></h2></div>
+  <div class="row flip">
+    <div class="txt">
+      <p>첫 번째 접근법으로, <span class="m">ε</span>에 대한 거듭제곱 급수(power series)의 형태로 해를 찾아보자.</p>
+      <div class="eq plain"><i>x</i>(<i>t</i>, ε) = <i>x</i>₀(<i>t</i>) + ε<i>x</i>₁(<i>t</i>) + ε²<i>x</i>₂(<i>t</i>) + ⋯</div>
+      <p>모든 중요한 정보는 처음 몇 개의 항에서 나타나고 고차항들은 아주 작은 보정에 해당하기를 바라는 것이다. 이 기법을 <b>정규 섭동 이론(regular perturbation theory)</b>이라고 한다. 문제의 원인을 드러내기 위해 정확히 풀 수 있는 <b>약한 감쇠 선형 진동자</b>에서 시작하자.</p>
+      <div class="eq">ẍ + 2εẋ + <i>x</i> = 0,&emsp;<i>x</i>(0) = 0,&ensp;ẋ(0) = 1</div>
+      <p>5장의 기법으로 구한 정확한 해는 <span class="m">x(t) = (1 − ε²)<sup>−1/2</sup> e<sup>−εt</sup> sin[(1 − ε²)<sup>1/2</sup> t]</span>이다.</p>
+      <p>급수를 대입하고 <span class="m">ε</span>에 대한 거듭제곱 차수에 따라 정리하면, 모든 충분히 작은 <span class="m">ε</span>에 대해 성립해야 하므로 각 거듭제곱의 계수가 모두 사라져야 한다.</p>
+      <ul>
+        <li><span class="m">O(1)</span>: <span class="m">ẍ₀ + x₀ = 0</span>, 초기 조건 <span class="m">x₀(0) = 0, ẋ₀(0) = 1</span>에서 <span class="m">x₀ = sin t</span>.</li>
+        <li><span class="m">O(ε)</span>: <span class="m">ẍ₁ + x₁ = −2ẋ₀ = −2 cos t</span>. 우변은 <b>공진 강제력(resonant forcing)</b>이다. 문제 발생의 첫 징후다.</li>
+      </ul>
+      <p><span class="m">x₁(0) = ẋ₁(0) = 0</span>일 때 해는 <span class="m">x₁ = −t sin t</span>, 제한 없이 <span class="m">t → ∞</span>로 점점 커지는 <b>고유 항(secular term)</b>이다. 결국 섭동 이론에 따른 해는</p>
+      <div class="eq"><i>x</i>(<i>t</i>, ε) = sin <i>t</i> − ε<i>t</i> sin <i>t</i> + <i>O</i>(ε²)</div>
+      <p>이다. 보정 항(실제로 <span class="m">O(ε²t²)</span>)을 무시할 수 있으려면 <span class="m">εt ≪ 1</span>이 필요하다. 즉 섭동 근사는 <span class="hlp">시간 <span class="m">t ≪ O(1/ε)</span> 동안만 작동한다.</span> 오른쪽 그래프의 세로 점선이 <span class="m">t = 1/ε</span>이다.</p>
+      <p>실패의 원인은 두 가지다.</p>
+      <ul>
+        <li>정확한 해에는 사인파 진동에 해당하는 빠른 시간 척도 <span class="m">t ~ O(1)</span>과 진폭이 감소하는 느린 시간 척도 <span class="m">t ~ 1/ε</span>가 있다. <span class="m">e<sup>−εt</sup> = 1 − εt + O(ε²t²)</span>이니, 이 차수에서는 진폭이 <span class="m">t</span>와 함께 증가하는 것으로 (잘못) 나타난다.</li>
+        <li>진동수 <span class="m">ω = (1 − ε²)<sup>1/2</sup> ≈ 1 − (1/2)ε²</span>는 1과 약간 다르다. 매우 긴 시간 <span class="m">t ~ O(1/ε²)</span> 후에 이 차이는 상당한 누적 효과를 준다. 제3의, 매우 느린 시간 척도다!</li>
+      </ul>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">ε <input type="range" id="pEps" min="0.02" max="0.3" step="0.01" value="0.1" aria-label="매개변수 epsilon"><output id="pEpsOut">0.10</output></label>
+      </div>
+      <div class="ctl">
+        <label><input type="checkbox" id="pShowE" checked> 정확한 해</label>
+        <label><input type="checkbox" id="pShowP" checked> 정규 섭동 이론</label>
+        <label><input type="checkbox" id="pShowT"> 두 타이밍</label>
+      </div>
+      <canvas id="pplot" aria-label="정확한 해, 정규 섭동 해, 두 타이밍 해의 비교"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>정확한 해</span><span><i style="background:var(--pink)"></i>정규 섭동 sin t − εt sin t</span><span><i style="background:var(--green)"></i>두 타이밍 e<sup>−εt</sup> sin t</span></div>
+      <div class="read"><span>최대 오차(정규 섭동) <b id="pErrP">–</b></span><span>최대 오차(두 타이밍) <b id="pErrT">–</b></span></div>
+      <p class="hint">교재 그림 7.6.2와 7.6.3을 한 그래프에 겹쳤습니다. 두 타이밍을 켜 보세요. 정확한 해와 거의 구별할 수 없습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ two-timing ============ -->
+<section class="sec" id="twotiming">
+  <div class="sec-h"><h2>두 타이밍<span>two-timing</span></h2></div>
+  <div class="row">
+    <div class="txt">
+      <p>약한 비선형 진동자에는 (최소) 두 가지의 시간 척도가 있다. <b>두 타이밍(two-timing)</b>은 처음부터 2개의 시간 척도가 있다는 것을 바탕으로 하며, 정규 섭동 이론보다 더 나은 근사치를 제공한다.</p>
+      <p><span class="m">τ = t</span>는 빠른 <span class="m">O(1)</span> 크기의 시간, <span class="m">T = εt</span>는 느린 시간이다. 이 두 시간 척도를 <b>마치 독립 변수인 것처럼</b> 취급하고, 특히 느린 시간 <span class="m">T</span>에 대한 함수들은 빠른 시간 척도에서는 상수로 간주한다.</p>
+      <span class="pen">비유: 키가 하루의 시간 척도에서 일정하다고 말하는 것과 같다</span>
+      <p>해를 <span class="m">x(t, ε) = x₀(τ, T) + εx₁(τ, T) + O(ε²)</span>로 전개하면, 연쇄 법칙에 의해</p>
+      <div class="eq plain">ẋ = ∂<sub>τ</sub><i>x</i> + ε∂<sub><i>T</i></sub><i>x</i> = ∂<sub>τ</sub><i>x</i>₀ + ε(∂<sub><i>T</i></sub><i>x</i>₀ + ∂<sub>τ</sub><i>x</i>₁) + <i>O</i>(ε²)<br>ẍ = ∂<sub>ττ</sub><i>x</i>₀ + ε(∂<sub>ττ</sub><i>x</i>₁ + 2∂<sub><i>T</i>τ</sub><i>x</i>₀) + <i>O</i>(ε²)</div>
+      <h3>예제 7.6.1</h3>
+      <p>감쇠 선형 진동자 <span class="m">ẍ + 2εẋ + x = 0</span>, <span class="m">x(0) = 0, ẋ(0) = 1</span>에 대입해 <span class="m">ε</span>의 차수로 모으면</p>
+      <ul>
+        <li><span class="m">O(1)</span>: <span class="m">∂<sub>ττ</sub>x₀ + x₀ = 0</span>. 단순 조화 진동자이니 <span class="m">x₀ = A sin τ + B cos τ</span>. 그런데 <span class="hlp">여기서 ‘상수’로 쓴 <span class="m">A</span>와 <span class="m">B</span>가 실제로는 느린 시간 <span class="m">T</span>의 함수다.</span></li>
+        <li><span class="m">O(ε)</span>: <span class="m">∂<sub>ττ</sub>x₁ + x₁ = −2(A′ + A) cos τ + 2(B′ + B) sin τ</span>. 우변은 <span class="m">τ sin τ</span>, <span class="m">τ cos τ</span> 같은 고유 항을 생성하는 공진 강제력이다.</li>
+      </ul>
+      <p><b>고유 항이 없는 근사치를 원하기 때문에, 공진 강제력에 해당하는 항의 계수들을 0으로 설정한다.</b> 이 전략이 모든 두 타이밍 계산의 특징이다. <span class="m">A′ + A = 0</span>, <span class="m">B′ + B = 0</span>에서 <span class="m">A = A(0)e<sup>−T</sup></span>, <span class="m">B = B(0)e<sup>−T</sup></span>이고, 초기 조건에서 <span class="m">B(0) = 0</span>, <span class="m">A(0) = 1</span>이므로</p>
+      <div class="eq"><i>x</i> = e<sup>−εt</sup> sin <i>t</i> + <i>O</i>(ε)</div>
+      <p>이다. 위 그래프에서 확인했듯이 <span class="m">ε</span>이 엄청나게 작지 않아도 정확한 해와 거의 구별할 수 없다. 이것이 이 방법의 특징인, 종종 기대를 뛰어넘어 잘 작동한다는 것이다.</p>
+    </div>
+    <div class="txt">
+      <h3 style="margin-top:8px">예제 7.6.2 반 데르 폴 진동자</h3>
+      <p>두 타이밍 기법을 사용해 반 데르 폴 진동자가 <span class="hl">반지름이 <span class="m">2 + O(ε)</span>이고 진동수가 <span class="m">ω = 1 + O(ε²)</span>인 거의 원형의 안정적인 극한 주기 궤도</span>를 갖는다는 것을 보이자.</p>
+      <p><span class="m">O(1)</span> 방정식의 해를 <span class="m">x₀ = r(T) cos(τ + φ(T))</span>로 쓴다. 여기서 <span class="m">r(T)</span>와 <span class="m">φ(T)</span>는 각각 <span class="m">x₀</span>의 천천히 변하는 진폭과 위상이다. 이를 <span class="m">O(ε)</span> 방정식에 대입하면 우변에 공진 항이 나타난다. <span class="m">sin(τ + φ) cos²(τ + φ)</span>에도 삼각함수 공식</p>
+      <div class="eq plain">sin θ cos²θ = (1/4)[sin θ + sin 3θ]</div>
+      <p>때문에 숨어 있는 공진 항이 있다. 고유 항을 피하려면</p>
+      <div class="eq">2<i>r</i>′ − <i>r</i> + (1/4)<i>r</i>³ = 0,&emsp;2<i>rφ</i>′ = 0</div>
+      <span class="pen">sin 3θ 항은 진동수가 달라서 공진 강제력과 다르다</span>
+      <p>첫 식은 반직선 <span class="m">r ≥ 0</span> 위의 벡터장 <span class="m">r′ = (1/8)r(4 − r²)</span>이다. <span class="m">r* = 0</span>은 불안정한 고정점이고 <span class="m">r* = 2</span>는 안정된 고정점이니 <span class="m">T → ∞</span>일 때 <span class="m">r(T) → 2</span>. 또 <span class="m">φ′ = 0</span>이므로 <span class="m">φ(T) = φ₀</span>이다. 따라서 <span class="m">x(t) → 2 cos(t + φ₀) + O(ε)</span>.</p>
+      <p>각진동수는 <span class="m">ω = dθ/dt = 1 + dφ/dT · dT/dt = 1 + εφ′ = 1</span>이니, <span class="m">ε</span>의 1차 항까지 0이고 <span class="m">ω = 1 + O(ε²)</span>이다. 이 보정 항의 실제 공식을 원하면 매우 느린 시간 <span class="m">ℑ = ε²t</span>를 도입하거나, 푸앵카레-린드스테트(Poincaré-Lindstedt) 방법을 사용할 수 있다(Strogatz 교수의 강의: <a href="https://youtu.be/kkN13nEn2WA" target="_blank" rel="noopener">Poincaré–Lindstedt method</a>).</p>
+      <div class="box amber"><p><span class="lbl">교재 오타 메모</span>강의노트에 표시한 대로, 번역서의 식 (37), (39), (40)은 부호를 바로잡아 읽어야 한다. 올바른 식은 <span class="m">∂<sub>ττ</sub>x₁ + x₁ = 2[r′ sin(τ + φ) + rφ′ cos(τ + φ)] + r sin(τ + φ)[r² cos²(τ + φ) − 1]</span>이고, 고유 항을 피하는 조건은 <span class="m">2r′ − r + (1/4)r³ = 0</span>, <span class="m">2rφ′ = 0</span>이다. 이로부터 식 (42) <span class="m">r′ = (1/8)r(4 − r²)</span>가 나온다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ averaged equations ============ -->
+<section class="sec" id="averaged">
+  <div class="sec-h"><h2>평균 방정식<span>averaged equations</span></h2></div>
+  <div class="row flip">
+    <div class="txt">
+      <p>약한 비선형 진동자에 대한 문제에서는 동일한 단계가 계속 반복해서 생긴다. 일반적인 공식을 유도해 놓으면 시간을 절약할 수 있다. 일반적인 두 타이밍 기법을 <span class="m">ẍ + x + εh(x, ẋ) = 0</span>에 쓰면</p>
+      <div class="eq plain"><i>O</i>(1): ∂<sub>ττ</sub><i>x</i>₀ + <i>x</i>₀ = 0,&emsp;<i>O</i>(ε): ∂<sub>ττ</sub><i>x</i>₁ + <i>x</i>₁ = −2∂<sub>τ<i>T</i></sub><i>x</i>₀ − <i>h</i></div>
+      <p>이고, <span class="m">x₀ = r(T) cos(τ + φ(T))</span>를 대입하면 우변은 <span class="m">2[r′ sin(τ + φ) + rφ′ cos(τ + φ)] − h</span>가 된다. 여기서 <span class="m">h = h(r cos θ, −r sin θ)</span>, <span class="m">θ = τ + φ</span>이다. <span class="m">h</span>는 <span class="m">θ</span>에 대한 주기가 <span class="m">2π</span>인 함수이니 푸리에 급수(Fourier series)로 쓸 수 있다.</p>
+      <div class="eq plain"><i>h</i>(θ) = Σ<sub><i>k</i>=0</sub><sup>∞</sup> <i>a<sub>k</sub></i> cos <i>k</i>θ + Σ<sub><i>k</i>=1</sub><sup>∞</sup> <i>b<sub>k</sub></i> sin <i>k</i>θ</div>
+      <p>공진 항은 <span class="m">[2r′ − b₁] sin θ</span>와 <span class="m">[2rφ′ − a₁] cos θ</span>밖에 없다. 이를 0으로 놓고 푸리에 계수(Fourier coefficient) <span class="m">a₁, b₁</span>의 표현식을 쓰면</p>
+      <div class="eq"><i>r</i>′ = 〈<i>h</i> sin θ〉,&emsp;<i>rφ</i>′ = 〈<i>h</i> cos θ〉</div>
+      <p>여기서 꺾쇠 괄호 <span class="m">〈·〉</span>는 한 주기 <span class="m">θ</span>에 대한 평균이다. 이것을 <b>평균(averaged) 또는 느린 시간 방정식(slow-time equation)</b>이라고 한다. 느린 변수 <span class="m">r</span>을 상수로 취급하면서 빠른 변수 <span class="m">θ</span>에 대해 평균을 계산한다. 자주 나타나는 평균:</p>
+      <div class="eq plain" style="font-size:1.05rem">〈cos〉 = 〈sin〉 = 〈sin cos〉 = 〈cos³〉 = 〈cos³ sin〉 = 0<br>〈cos²〉 = 〈sin²〉 = 1/2,&ensp;〈cos⁴〉 = 〈sin⁴〉 = 3/8,&ensp;〈cos² sin²〉 = 1/8</div>
+      <p>오른쪽 데모는 고른 <span class="m">h</span>에 대해 이 평균을 수치로 계산해 <span class="m">r′(r)</span>을 그린다. <span class="m">r′ = 0</span>인 점이 극한 주기 궤도의 반지름 예측이고, 그 점에서 <span class="m">r′</span>의 기울기 부호로 안정성을 판정한다. 진동수는 <span class="m">ω = 1 + εφ′(r)</span>이다.</p>
+
+      <h3>강의노트 보충: 더 간단한 평균화 유도</h3>
+      <p>Shane Ross 교수의 강의(<a href="https://youtu.be/UzQU1nyM-No" target="_blank" rel="noopener">Averaging Theory for Weakly Nonlinear Oscillators</a>)를 참고한 방법이다. <span class="m">ẋ = y, ẏ = −x − εh(x, y)</span>에서 <span class="m">ε = 0</span>일 때의 해 모양을 그대로 써서 <span class="m">x = r(t) cos(t + φ(t))</span>, <span class="m">y = −r(t) sin(t + φ(t))</span>로 두면, <span class="m">r² = x² + y²</span>와 <span class="m">tan(t + φ) = −y/x</span>를 미분해서 정확하게</p>
+      <div class="eq plain">ṙ = ε<i>h</i> sin(<i>t</i> + φ),&emsp;φ̇ = ε(<i>h</i>/<i>r</i>) cos(<i>t</i> + φ)</div>
+      <p>를 얻는다. <span class="m">ṙ, φ̇ = O(ε)</span>이니 <span class="m">r</span>과 <span class="m">φ</span>는 천천히 변한다(slowly varying). “빠른” 진동 한 주기에 대해 평균을 내면 같은 평균 방정식이 나온다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label><span class="m">h(x, ẋ)</span>&ensp;<select id="aH" aria-label="함수 h 선택">
+          <option value="vdp" selected>(x² − 1)ẋ  [반 데르 폴]</option>
+          <option value="two">(x⁴ − 3x² + 1)ẋ  [극한 주기 궤도 2개]</option>
+          <option value="damp">2ẋ  [감쇠 선형 진동자]</option>
+          <option value="ray">ẋ³/3 − ẋ  [레일리]</option>
+          <option value="duff">x³  [더핑]</option>
+        </select></label>
+      </div>
+      <div class="ctl">
+        <label class="sl">ε <input type="range" id="aEps" min="0.02" max="0.3" step="0.01" value="0.1" aria-label="매개변수 epsilon"><output id="aEpsOut">0.10</output></label>
+        <button class="btn" id="aClear">지우기</button>
+      </div>
+      <canvas id="aPP" class="pp" aria-label="실제 시스템의 위상 평면과 평균 방정식이 예측한 극한 주기 궤도"></canvas>
+      <div class="legend"><span><i style="background:var(--green)"></i>예측: 안정적인 극한 주기 궤도</span><span><i style="background:var(--pink)"></i>예측: 불안정한 극한 주기 궤도</span></div>
+      <p class="sub">평균 방정식 <span class="m">r′ = 〈h sin θ〉</span> (반직선 <span class="m">r ≥ 0</span> 위의 벡터장)</p>
+      <canvas id="aR" aria-label="평균 방정식 r 프라임의 그래프"></canvas>
+      <div class="read" id="aRead"></div>
+      <p class="hint">“극한 주기 궤도 2개”를 고르면 <span class="m">r′ = −(r/16)(r² − 2)(r² − 4)</span>가 되어, 반지름 √2인 불안정한 궤도와 2인 안정적인 궤도가 함께 나타납니다. 그 사이와 바깥에서 출발해 보세요.</p>
+    </div>
+  </div>
+
+  <h3>예제 7.6.3 평균 방정식으로 구한 포락선</h3>
+  <div class="row">
+    <div class="txt">
+      <p>초기 조건 <span class="m">x(0) = 1, ẋ(0) = 0</span>인 반 데르 폴 방정식에서 <span class="m">h = (x² − 1)ẋ = (r²cos²θ − 1)(−r sin θ)</span>이므로</p>
+      <div class="eq plain"><i>r</i>′ = 〈<i>h</i> sin θ〉 = (1/2)<i>r</i> − (1/8)<i>r</i>³,&emsp;<i>rφ</i>′ = 〈<i>h</i> cos θ〉 = 0</div>
+      <p>이다. 당연히 그래야 하듯이 예제 7.6.2와 일치한다. 초기 조건에서 <span class="m">r(0) = 1</span>, <span class="m">φ ≡ 0</span>이다. 미분 방정식을 분리하고 부분 분수로 적분하면</p>
+      <div class="eq"><i>r</i>(<i>T</i>) = 2(1 + 3e<sup>−<i>T</i></sup>)<sup>−1/2</sup>,&emsp;<i>x</i>(<i>t</i>, ε) ≈ 2 cos <i>t</i> / √(1 + 3e<sup>−ε<i>t</i></sup>)</div>
+      <p>이다. 이 식은 진동자가 극한 주기 궤도까지 나선형으로 뻗어나갈 때 과도기의 동역학을 설명한다. 오른쪽에서 일반적인 초기 진폭 <span class="m">r₀</span>에 대해 같은 방법으로 구한 <span class="m">r(T) = 2[1 + (4/r₀² − 1)e<sup>−T</sup>]<sup>−1/2</sup></span>을 수치 해와 비교해 보자. 이러한 <b>포락선(envelope)</b>이 놀라울 정도로 잘 일치한다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">ε <input type="range" id="eEps" min="0.02" max="0.5" step="0.01" value="0.1" aria-label="매개변수 epsilon"><output id="eEpsOut">0.10</output></label>
+        <label class="sl">r₀ <input type="range" id="eR0" min="0.1" max="3.5" step="0.05" value="1" aria-label="초기 진폭"><output id="eR0Out">1.00</output></label>
+      </div>
+      <canvas id="eplot" aria-label="수치 해와 평균화 이론으로 예측한 포락선의 비교"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>수치 적분(‘정확한’ 해)</span><span><i style="background:var(--green)"></i>평균화 이론으로 예측한 포락선 ±r(εt)</span><span><i style="background:var(--pink)"></i>근사식 r(εt) cos t</span></div>
+      <div class="read"><span>최대 오차 <b id="eErr">–</b></span><span>ε로 나눈 값 <b id="eErrR">–</b></span></div>
+      <p class="hint">ε를 키울수록 오차가 커지지만, 오차를 ε로 나눈 값은 대체로 비슷한 크기에 머뭅니다. 근사식이 <span class="m">O(ε)</span>만큼 정확하다는 뜻입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Duffing ============ -->
+<section class="sec" id="duffing">
+  <div class="sec-h"><h2>진동수가 진폭에 따라 달라지는 예<span>Duffing oscillator</span></h2></div>
+  <p class="intro">진동자의 진동수가 진폭에 따라 달라지는 것은 흔하게 발생하지만 선형 진동자에서는 있을 수 없는, <b>본질적인 비선형 현상</b>이다.</p>
+  <div class="row flip">
+    <div class="txt">
+      <h3 style="margin-top:8px">예제 7.6.4 더핑 진동자</h3>
+      <p><span class="m">ẍ + x + εx³ = 0</span>의 진폭과 진동수 사이의 대략적인 관계를 찾아보자. <span class="m">ε</span>은 양수, 음수 모두 가능하다. <span class="m">h = x³ = r³cos³θ</span>이므로</p>
+      <div class="eq plain"><i>r</i>′ = 〈<i>h</i> sin θ〉 = <i>r</i>³〈cos³θ sin θ〉 = 0,&emsp;<i>rφ</i>′ = 〈<i>h</i> cos θ〉 = <i>r</i>³〈cos⁴θ〉 = (3/8)<i>r</i>³</div>
+      <p>따라서 어떤 상수 <span class="m">a</span>에 대해 <span class="m">r(T) ≡ a</span>이고 <span class="m">φ′ = (3/8)a²</span>이다. 진동수는</p>
+      <div class="eq">ω = 1 + εφ′ = 1 + (3/8)ε<i>a</i>² + <i>O</i>(ε²)</div>
+      <p><b>물리적 해석.</b> 더핑 방정식은 감쇠가 없는 복원력 <span class="m">F(x) = −x − εx³</span>인 비선형 용수철에 달린 단위 질량의 동작을 기술한다. <span class="m">F(x) = −kx</span>(훅(Hooke)의 법칙)로 쓰면 용수철의 <b>뻣뻣함(stiffness)</b> <span class="m">k = 1 + εx²</span>이 <span class="m">x</span>에 따라 달라진다.</p>
+      <ul>
+        <li><span class="m">ε &gt; 0</span>: 변위 <span class="m">x</span>가 증가함에 따라 용수철이 더 뻣뻣해진다. <b>단단해지는 용수철(hardening spring)</b>이며, 진동수가 증가한다.</li>
+        <li><span class="m">ε &lt; 0</span>: <b>부드러워지는 용수철(softening spring)</b>이며, 진동수가 감소한다. 진자가 그 예다.</li>
+      </ul>
+      <p><span class="m">r′ = 0</span>인 것도 말이 된다. 더핑 방정식은 <span class="m">ε</span>이 충분히 작으면 보존계이며 원점에서 비선형 중심을 갖게 된다. 원점에 가까운 모든 궤도는 주기 운동을 하므로 진폭이 장기적으로 변하지 않는다.</p>
+      <h3>강의노트 보충: 단진자</h3>
+      <p>단진자(simple pendulum) <span class="m">θ̈ + (g/l) sin θ = 0</span>에서 <span class="m">l = g</span>로 두고 <span class="m">sin θ ≈ θ − θ³/6</span>로 근사하면 <span class="m">ε = −1/6</span>인 더핑 방정식과 <span class="m">O(θ⁵)</span>까지 같다. 따라서 주기는</p>
+      <div class="eq plain"><i>T</i> = 2π/ω ≈ 2π[1 − (3/8)ε<i>A</i>²] = 2π(1 + <i>A</i>²/16)</div>
+      <p>이다. <span class="hl">진폭이 클수록 주기가 길어진다.</span> 직관과 일치한다. 오른쪽에서 “단진자”를 누르면 정확한 진자의 주기와 비교할 수 있다.</p>
+    </div>
+    <div class="demo">
+      <div class="ctl">
+        <label class="sl">ε <input type="range" id="dEps" min="-0.3" max="0.3" step="0.01" value="0.1" aria-label="매개변수 epsilon"><output id="dEpsOut">0.10</output></label>
+        <button class="btn" id="dPend">단진자 (ε = −1/6)</button>
+      </div>
+      <canvas id="dPP" class="pp" aria-label="더핑 진동자의 위상 평면"></canvas>
+      <p class="sub">진동수 <span class="m">ω</span>와 진폭 <span class="m">a</span></p>
+      <canvas id="dW" aria-label="진동수와 진폭의 관계"></canvas>
+      <div class="legend"><span><i style="background:var(--pink)"></i>예측 1 + (3/8)εa²</span><span><i style="background:var(--ink)"></i>수치 적분</span><span id="dPendLeg" style="display:none"><i style="background:var(--cyan)"></i>단진자(정확한 값)</span></div>
+      <p class="sub">복원력의 크기 <span class="m">−F(x) = x + εx³</span></p>
+      <canvas id="dF" aria-label="복원력과 변위의 관계"></canvas>
+      <p class="hint">위상 평면의 궤도는 모두 닫혀 있습니다(비선형 중심). 진폭이 다른 궤도는 한 바퀴 도는 데 걸리는 시간이 달라서, 함께 출발한 점들이 점점 어긋납니다.</p>
+    </div>
+  </div>
+
+  <h3>두 타이밍 기법 검증</h3>
+  <div class="row">
+    <div class="txt">
+      <p>경험 법칙에 의하면, <span class="m">x</span>와 <span class="m">x₀</span>가 모두 동일한 초기 조건에서 시작한다고 가정할 때 <span class="hlp"><span class="m">t ~ O(1/ε)</span>을 포함한 모든 시간 동안 1차 근사식 <span class="m">x₀</span>와 실제 해인 <span class="m">x</span>의 차이가 <span class="m">O(ε)</span>만큼의 크기 안에 있다.</span> <span class="m">x</span>가 주기적인 해라면 <span class="m">x₀</span>가 모든 <span class="m">t</span>에서 차이가 <span class="m">O(ε)</span>보다 작은, 더 좋은 상황이다.</p>
+    </div>
+    <div class="txt">
+      <p>정확한 기술과 엄밀한 결과는 [Guckenheimer and Holmes 1983], [Grimshaw 1990]을 참고하라. 이 문헌들은 두 타이밍과 동일한 결과를 산출하는 대체 접근 방식인 평균화 방법(method of averaging)을 사용한다. 공식이 실제 해에 근접한다는 의미에 관한 적절한 개념은 점근적 근사(asymptotic approximation)다([Lin and Segel 1988], [Bender and Orszag 1978]).</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="refs">
+  <div class="sec-h"><h2>참고문헌<span>references</span></h2></div>
+  <ol class="refs">
+    <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 7장 「극한 주기 궤도」. 이 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
+    <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
+    <li>Shane D. Ross, 강의 영상 <a href="https://youtu.be/MdJEUqUTf5w" target="_blank" rel="noopener">Limit Cycles, Part 5: Van der Pol Oscillator, Weakly Nonlinear Limit, Energy Method</a>, <a href="https://youtu.be/UzQU1nyM-No" target="_blank" rel="noopener">Averaging Theory for Weakly Nonlinear Oscillators</a>.</li>
+    <li>Steven H. Strogatz, 강의 영상 <a href="https://youtu.be/kkN13nEn2WA" target="_blank" rel="noopener">Poincaré–Lindstedt method</a>.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 Shane Ross 교수의 강의 영상을 통해 소개한 위상 평면 도구로, 더 다양한 시스템을 직접 그려 볼 수 있습니다.</li>
+  </ol>
+</section>
+
+<footer>
+  <p>이 데모는 <strong>Claude Opus 5.5</strong>가 제작했으며, <strong>경상국립대학교 물리학과 이상훈 교수</strong>의 강의노트를 기반으로 합니다. 강의는 한국복잡계학회 주최 <a href="https://www.complexity.kr/?p=1365" target="_blank" rel="noopener">2026 복잡계 여름학교</a>에서 진행되었습니다.</p>
+  <p>수치 적분은 4차 룽게-쿠타(Runge–Kutta) 방법으로 브라우저에서 실시간 계산합니다.</p>
+  <p><a href="index.html">전체 데모 목록으로 돌아가기</a></p>
+</footer>
+
+<script>
+
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let C={};
+function readTheme(){const cs=getComputedStyle(document.documentElement);const g=n=>cs.getPropertyValue(n).trim();
+  C={paper:g('--paper'),panel:g('--panel'),ink:g('--ink'),muted:g('--muted'),rule:g('--rule'),pink:g('--pink'),green:g('--green'),cyan:g('--cyan'),amber:g('--amber')};}
+readTheme();
+function hexRGB(h){h=(h||'#000').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];}
+function rgba(h,a){const[r,g,b]=hexRGB(h);return`rgba(${r},${g},${b},${a})`;}
+const TRAJ=()=>[C.ink,C.pink,C.cyan,C.amber,C.green];
+
+function rk4(f,x,y,h){const a=f(x,y),b=f(x+h/2*a[0],y+h/2*a[1]),c=f(x+h/2*b[0],y+h/2*b[1]),d=f(x+h*c[0],y+h*c[1]);
+  return[x+h/6*(a[0]+2*b[0]+2*c[0]+d[0]),y+h/6*(a[1]+2*b[1]+2*c[1]+d[1])];}
+function polar(R){return(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?R(r)/r:0;return[g*x-y,g*y+x];};}
+
+function niceStep(span){const raw=span/5;const p=Math.pow(10,Math.floor(Math.log10(raw)));const m=raw/p;return(m<1.5?1:m<3.5?2:m<7.5?5:10)*p;}
+function fmt(v){const a=Math.abs(v);if(a<1e-9)return'0';if(a>=100)return v.toFixed(0);return(+v.toFixed(2)).toString();}
+function fit(cv){const dpr=Math.min(2,window.devicePixelRatio||1);const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return null;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,w,h,dpr};}
+
+/* ---------------- Phase plane ---------------- */
+const planes=[];
+class Plane{
+  constructor(cv,o){
+    this.cv=cv;
+    this.o=Object.assign({arrows:true,n:15,aspect:1,dt:0.01,sub:3,tmax:40,maxTraj:6,trail:0,wrapY:false,rec:1,fixed:[],xl:'x',yl:'y'},o);
+    this.trajs=[];this.ci=0;this.st=document.createElement('canvas');this.visible=true;this.dirty=true;
+    cv.style.aspectRatio=String(1/this.o.aspect);
+    planes.push(this);
+    cv.addEventListener('pointerdown',e=>{if(this.o.click===false)return;const r=cv.getBoundingClientRect();
+      const x=this.ix(e.clientX-r.left),y=this.iy(e.clientY-r.top);if(this.o.onClick)this.o.onClick(x,y);else this.add(x,y);});
+    new ResizeObserver(()=>{this.layout();}).observe(cv);
+    new IntersectionObserver(es=>{this.visible=es[0].isIntersecting;},{rootMargin:'120px'}).observe(cv);
+  }
+  get d(){return this.o.dom;}
+  layout(){const F=fit(this.cv);if(!F)return;this.W=F.w;this.H=F.h;this.dpr=F.dpr;
+    this.m={l:this.W<300?30:38,r:8,t:8,b:this.W<300?24:28};
+    this.st.width=this.cv.width;this.st.height=this.cv.height;this.renderStatic();this.draw();}
+  X(x){const d=this.d;return this.m.l+(x-d.x0)/(d.x1-d.x0)*(this.W-this.m.l-this.m.r);}
+  Y(y){const d=this.d;return this.H-this.m.b-(y-d.y0)/(d.y1-d.y0)*(this.H-this.m.t-this.m.b);}
+  ix(px){const d=this.d;return d.x0+(px-this.m.l)/(this.W-this.m.l-this.m.r)*(d.x1-d.x0);}
+  iy(py){const d=this.d;return d.y0+(this.H-this.m.b-py)/(this.H-this.m.t-this.m.b)*(d.y1-d.y0);}
+  renderStatic(){
+    if(!this.W)return;const s=this.st.getContext('2d');s.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const o=this.o,d=this.d,m=this.m,pw=this.W-m.l-m.r,ph=this.H-m.t-m.b;
+    s.fillStyle=C.panel;s.fillRect(0,0,this.W,this.H);
+    if(o.bg){const Nx=Math.min(160,Math.round(pw/3)),Ny=Math.max(2,Math.round(Nx*ph/pw));const t=document.createElement('canvas');t.width=Nx;t.height=Ny;
+      const tc=t.getContext('2d');const img=tc.createImageData(Nx,Ny);
+      for(let j=0;j<Ny;j++)for(let i=0;i<Nx;i++){const x=d.x0+(i+.5)/Nx*(d.x1-d.x0),y=d.y1-(j+.5)/Ny*(d.y1-d.y0);const c=o.bg(x,y);const k=4*(j*Nx+i);
+        if(c){img.data[k]=c[0];img.data[k+1]=c[1];img.data[k+2]=c[2];img.data[k+3]=Math.round(255*c[3]);}}
+      tc.putImageData(img,0,0);s.imageSmoothingEnabled=true;s.drawImage(t,m.l,m.t,pw,ph);}
+    // grid & ticks
+    s.font=`${this.W<300?10:11}px 'Noto Sans KR',sans-serif`;s.fillStyle=C.muted;s.strokeStyle=rgba(C.muted,.18);s.lineWidth=1;
+    const xs=o.xticks||ticks(d.x0,d.x1),ys=o.yticks||ticks(d.y0,d.y1);
+    s.textAlign='center';s.textBaseline='top';
+    for(const[v,l]of xs){const px=this.X(v);s.beginPath();s.moveTo(px,m.t);s.lineTo(px,this.H-m.b);s.stroke();s.fillText(l,px,this.H-m.b+4);}
+    s.textAlign='right';s.textBaseline='middle';
+    for(const[v,l]of ys){const py=this.Y(v);s.beginPath();s.moveTo(m.l,py);s.lineTo(this.W-m.r,py);s.stroke();s.fillText(l,m.l-4,py);}
+    s.strokeStyle=rgba(C.ink,.55);s.lineWidth=1;
+    if(d.x0<=0&&d.x1>=0){s.beginPath();s.moveTo(this.X(0),m.t);s.lineTo(this.X(0),this.H-m.b);s.stroke();}
+    if(d.y0<=0&&d.y1>=0){s.beginPath();s.moveTo(m.l,this.Y(0));s.lineTo(this.W-m.r,this.Y(0));s.stroke();}
+    s.strokeStyle=C.rule;s.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+    s.save();s.font=`italic ${this.W<300?12:14}px 'STIX Two Text',serif`;s.fillStyle=C.ink;s.textAlign='right';s.textBaseline='bottom';
+    s.fillText(o.xl,this.W-m.r-4,this.H-m.b-3);s.textAlign='left';s.textBaseline='top';s.fillText(o.yl,m.l+5,m.t+3);s.restore();
+    s.save();s.beginPath();s.rect(m.l,m.t,pw,ph);s.clip();
+    if(o.decor)o.decor(s,this);
+    if(o.arrows){const n=this.W<320?Math.round(o.n*.75):o.n;const cw=pw/n,chh=ph/Math.max(1,Math.round(n*ph/pw));const ny=Math.round(ph/cw);
+      s.strokeStyle=rgba(C.muted,.7);s.fillStyle=rgba(C.muted,.7);s.lineWidth=1.1;
+      for(let i=0;i<n;i++)for(let j=0;j<ny;j++){const px=m.l+(i+.5)*cw,py=m.t+(j+.5)*(ph/ny);const x=this.ix(px),y=this.iy(py);const v=o.f(x,y);
+        if(!isFinite(v[0])||!isFinite(v[1]))continue;
+        let vx=v[0]/(d.x1-d.x0)*pw,vy=-v[1]/(d.y1-d.y0)*ph;const L=Math.hypot(vx,vy);if(L<1e-9)continue;const len=cw*.36;vx=vx/L*len;vy=vy/L*len;
+        s.beginPath();s.moveTo(px-vx,py-vy);s.lineTo(px+vx,py+vy);s.stroke();
+        const a=Math.atan2(vy,vx),hh=3.2;s.beginPath();s.moveTo(px+vx,py+vy);s.lineTo(px+vx-hh*Math.cos(a-.5),py+vy-hh*Math.sin(a-.5));s.lineTo(px+vx-hh*Math.cos(a+.5),py+vy-hh*Math.sin(a+.5));s.closePath();s.fill();}}
+    for(const p of o.fixed){const px=this.X(p.x),py=this.Y(p.y);s.lineWidth=1.6;s.strokeStyle=C.ink;s.beginPath();s.arc(px,py,4.5,0,7);
+      if(p.k==='s'){s.fillStyle=C.ink;s.fill();}else if(p.k==='saddle'){s.fillStyle=C.panel;s.fill();s.stroke();s.beginPath();s.arc(px,py,4.5,-Math.PI/2,Math.PI/2);s.lineTo(px,py-4.5);s.fillStyle=C.ink;s.fill();}else{s.fillStyle=C.panel;s.fill();s.stroke();}}
+    s.restore();
+  }
+  add(x,y,opt){opt=opt||{};const col=opt.col||TRAJ()[this.ci++%5];
+    const tr={x,y,t:0,c:0,pts:[[x,y,0]],col,alive:true,cidx:(this.ci-1)%5};
+    this.trajs.push(tr);while(this.trajs.length>this.o.maxTraj)this.trajs.shift();
+    if(reduceMotion&&!this.o.trail){while(tr.alive)this.stepTraj(tr,200);}
+    this.dirty=true;return tr;}
+  clear(){this.trajs=[];this.dirty=true;}
+  stepTraj(tr,k){const o=this.o,d=this.d;const W=(d.x1-d.x0),Hh=(d.y1-d.y0);
+    for(let i=0;i<k&&tr.alive;i++){let[nx,ny]=rk4(o.f,tr.x,tr.y,o.dt);tr.t+=o.dt;
+      if(o.wrapY){if(ny>d.y1)ny-=Hh;else if(ny<d.y0)ny+=Hh;}
+      tr.x=nx;tr.y=ny;
+      if(!isFinite(nx)||!isFinite(ny)||nx<d.x0-W*1.5||nx>d.x1+W*1.5||ny<d.y0-Hh*1.5||ny>d.y1+Hh*1.5){tr.alive=false;break;}
+      if(++tr.c%o.rec===0)tr.pts.push([nx,ny,tr.t]);
+      if(o.trail&&tr.pts.length>o.trail)tr.pts.splice(0,tr.pts.length-o.trail);
+      if(!o.trail&&tr.t>=o.tmax)tr.alive=false;}
+  }
+  step(){let any=false;for(const tr of this.trajs){if(tr.c===undefined)tr.c=0;if(tr.alive){this.stepTraj(tr,this.o.sub);any=true;}}return any;}
+  draw(){if(!this.W)return;const F=fit(this.cv);if(!F)return;const ctx=F.ctx;ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(this.st,0,0);ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const m=this.m,d=this.d;ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,this.W-m.l-m.r,this.H-m.t-m.b);ctx.clip();
+    const Hh=d.y1-d.y0;
+    for(const tr of this.trajs){const P=tr.pts;if(P.length<1)continue;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';
+      if(this.o.trail){for(let i=1;i<P.length;i++){const a=i/P.length;ctx.strokeStyle=rgba(tr.col,.08+.9*a);ctx.beginPath();ctx.moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));ctx.stroke();}}
+      else if(this.o.segColor){const paths={};for(let i=1;i<P.length;i++){const k=this.o.segColor(P[i-1],P[i]);(paths[k]||(paths[k]=new Path2D())).moveTo(this.X(P[i-1][0]),this.Y(P[i-1][1]));paths[k].lineTo(this.X(P[i][0]),this.Y(P[i][1]));}
+        for(const k in paths){ctx.strokeStyle=k;ctx.stroke(paths[k]);}
+        ctx.fillStyle=C.panel;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      else{ctx.strokeStyle=tr.col;ctx.beginPath();ctx.moveTo(this.X(P[0][0]),this.Y(P[0][1]));
+        for(let i=1;i<P.length;i++){if(this.o.wrapY&&Math.abs(P[i][1]-P[i-1][1])>Hh/2)ctx.moveTo(this.X(P[i][0]),this.Y(P[i][1]));else ctx.lineTo(this.X(P[i][0]),this.Y(P[i][1]));}ctx.stroke();
+        ctx.fillStyle=C.panel;ctx.strokeStyle=tr.col;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(this.X(P[0][0]),this.Y(P[0][1]),3.5,0,7);ctx.fill();ctx.stroke();}
+      const L=P[P.length-1];ctx.fillStyle=tr.col;ctx.beginPath();ctx.arc(this.X(L[0]),this.Y(L[1]),tr.alive||this.o.trail?5:3.5,0,7);ctx.fill();}
+    ctx.restore();if(this.o.onDraw)this.o.onDraw(this);}
+}
+function ticks(a,b){const st=niceStep(b-a);const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push([v,fmt(v)]);return out;}
+
+/* ---------------- simple time-series plot ---------------- */
+function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const m={l:w<300?34:42,r:8,t:8,b:22};const pw=w-m.l-m.r,ph=h-m.t-m.b;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle=C.panel;ctx.fillRect(0,0,w,h);
+  const[x0,x1]=o.xr,[y0,y1]=o.yr;const X=x=>m.l+(x-x0)/(x1-x0)*pw,Y=y=>h-m.b-(y-y0)/(y1-y0)*ph;
+  ctx.font=`${w<300?10:11}px 'Noto Sans KR',sans-serif`;ctx.fillStyle=C.muted;ctx.strokeStyle=rgba(C.muted,.18);ctx.lineWidth=1;
+  ctx.textAlign='center';ctx.textBaseline='top';for(const[v,l]of(o.xticks||ticks(x0,x1))){ctx.beginPath();ctx.moveTo(X(v),m.t);ctx.lineTo(X(v),h-m.b);ctx.stroke();ctx.fillText(l,X(v),h-m.b+4);}
+  ctx.textAlign='right';ctx.textBaseline='middle';for(const[v,l]of(o.yticks||ticks(y0,y1))){ctx.beginPath();ctx.moveTo(m.l,Y(v));ctx.lineTo(w-m.r,Y(v));ctx.stroke();ctx.fillText(l,m.l-4,Y(v));}
+  ctx.strokeStyle=rgba(C.ink,.5);if(y0<0&&y1>0){ctx.beginPath();ctx.moveTo(m.l,Y(0));ctx.lineTo(w-m.r,Y(0));ctx.stroke();}
+  ctx.strokeStyle=C.rule;ctx.strokeRect(m.l+.5,m.t+.5,pw-1,ph-1);
+  ctx.save();ctx.font=`italic ${w<300?12:13}px 'STIX Two Text',serif`;ctx.fillStyle=C.ink;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xl||'t',w-m.r-4,h-m.b-2);
+  ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(o.yl||'',m.l+5,m.t+2);ctx.restore();
+  ctx.save();ctx.beginPath();ctx.rect(m.l,m.t,pw,ph);ctx.clip();
+  if(o.pre)o.pre(ctx,X,Y);
+  for(const sr of o.series){if(!sr.pts||sr.pts.length<2)continue;ctx.strokeStyle=sr.col;ctx.lineWidth=sr.lw||2;ctx.setLineDash(sr.dash||[]);ctx.beginPath();
+    let st=Math.max(1,Math.floor(sr.pts.length/(pw*2)));ctx.moveTo(X(sr.pts[0][0]),Y(sr.pts[0][1]));for(let i=st;i<sr.pts.length;i+=st)ctx.lineTo(X(sr.pts[i][0]),Y(sr.pts[i][1]));
+    const L=sr.pts[sr.pts.length-1];ctx.lineTo(X(L[0]),Y(L[1]));ctx.stroke();ctx.setLineDash([]);
+    if(sr.head){ctx.fillStyle=sr.col;ctx.beginPath();ctx.arc(X(L[0]),Y(L[1]),4,0,7);ctx.fill();}}
+  if(o.post)o.post(ctx,X,Y);ctx.restore();}
+
+
+/* ================= HERO: x(t) with envelope ================= */
+const vdpE=e=>(x,y)=>[y,-x-e*(x*x-1)*y];
+function envR(r0,T){return 2/Math.sqrt(1+(4/(r0*r0)-1)*Math.exp(-T));}
+(function hero(){
+  const cv=$('#hero');cv.style.aspectRatio='4/3';const EPS=.1,TM=60,DT=.02;let r0=.4,pts=[],k=0,vis=true,hold=0;
+  function compute(){pts=[];let x=r0,y=0;for(let t=0;t<=TM+1e-9;t+=DT){pts.push([t,x]);[x,y]=rk4(vdpE(EPS),x,y,DT);}k=reduceMotion?pts.length:0;hold=0;}
+  compute();
+  new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
+  cv.addEventListener('pointerdown',()=>{const opts=[.15,.4,.8,1.2,2.8,3.4];let n;do{n=opts[Math.floor(Math.random()*opts.length)];}while(n===r0);r0=n;compute();if(reduceMotion)draw();});
+  function draw(){const F=fit(cv);if(!F)return;const{ctx:c,w,h}=F;c.clearRect(0,0,w,h);
+    const pad=12,X=t=>pad+(t/TM)*(w-2*pad),Y=x=>h/2-x*(h/2-pad)/3.6;
+    c.strokeStyle=rgba(C.muted,.35);c.lineWidth=1;c.beginPath();c.moveTo(pad,h/2);c.lineTo(w-pad,h/2);c.stroke();
+    c.setLineDash([2,6]);for(const v of[2,-2]){c.beginPath();c.moveTo(pad,Y(v));c.lineTo(w-pad,Y(v));c.stroke();}c.setLineDash([]);
+    c.fillStyle=C.muted;c.font="12px 'Noto Sans KR',sans-serif";c.textAlign='left';c.fillText('r = 2',pad+2,Y(2)-6);
+    c.strokeStyle=C.green;c.lineWidth=2.5;for(const sg of[1,-1]){c.beginPath();for(let i=0;i<=300;i++){const t=TM*i/300;const v=sg*envR(r0,EPS*t);i?c.lineTo(X(t),Y(v)):c.moveTo(X(t),Y(v));}c.stroke();}
+    c.strokeStyle=C.ink;c.lineWidth=1.8;c.beginPath();for(let i=0;i<k&&i<pts.length;i++){const[t,x]=pts[i];i?c.lineTo(X(t),Y(x)):c.moveTo(X(t),Y(x));}c.stroke();
+    if(k>0&&k<pts.length){const[t,x]=pts[k-1];c.fillStyle=C.pink;c.beginPath();c.arc(X(t),Y(x),5,0,7);c.fill();}}
+  new ResizeObserver(draw).observe(cv);
+  if(reduceMotion){setTimeout(draw,50);return;}
+  function frame(){requestAnimationFrame(frame);if(!vis)return;if(k<pts.length){k=Math.min(pts.length,k+5);draw();}else if(++hold>150){const opts=[.15,.4,.8,1.2,2.8,3.4];r0=opts[(opts.indexOf(r0)+1)%opts.length];compute();}}
+  frame();
+})();
+
+/* ================= 7.6 intro: vdP weak + energy ================= */
+let wEps=.1;
+function wTset(){return{tmax:Math.min(400,50/wEps),dt:.02};}
+const wpp=new Plane($('#wpp'),{dom:{x0:-3,x1:3,y0:-3,y1:3},f:(x,y)=>[y,-x-wEps*(x*x-1)*y],dt:.02,sub:10,maxTraj:4,rec:2,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{s.strokeStyle=rgba(C.green,.55);s.lineWidth=3;s.setLineDash([6,5]);s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(2)-p.X(0)),0,7);s.stroke();s.setLineDash([]);}});
+function wSetup(){const S=wTset();wpp.o.tmax=S.tmax;wpp.o.sub=Math.max(4,Math.ceil(S.tmax/S.dt/700));}
+function dEnum(A,e){const f=vdpE(e);let x=A,y=0,ang=0,pa=Math.atan2(-y,x);const E0=.5*(x*x+y*y);const dt=.005;
+  for(let i=0;i<20000;i++){[x,y]=rk4(f,x,y,dt);const a=Math.atan2(-y,x);let d=a-pa;if(d<-Math.PI)d+=2*Math.PI;if(d>Math.PI)d-=2*Math.PI;ang+=d;pa=a;if(ang>=2*Math.PI)break;}
+  return(.5*(x*x+y*y)-E0)/e;}
+$('#wdE').style.aspectRatio='2.4/1';
+function drawWdE(){const pred=[];for(let i=0;i<=200;i++){const A=3*i/200;pred.push([A,-2*Math.PI*(A**4/8-A*A/2)]);}
+  const dots=[];for(let A=.25;A<=3.001;A+=.25)dots.push([A,dEnum(A,wEps)]);
+  plot($('#wdE'),{xr:[0,3],yr:[-12,6],xl:'A',yl:'ΔE/ε',series:[{pts:pred,col:C.pink}],
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.green,.6);c.setLineDash([4,4]);c.beginPath();c.moveTo(X(2),Y(-12));c.lineTo(X(2),Y(6));c.stroke();c.setLineDash([]);},
+    post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[A,v]of dots){if(v<-12||v>6)continue;c.beginPath();c.arc(X(A),Y(v),3.8,0,7);c.fill();}}});}
+let wT=null;
+$('#wEps').addEventListener('input',e=>{wEps=+e.target.value;$('#wEpsOut').textContent=wEps.toFixed(2);clearTimeout(wT);wT=setTimeout(()=>{wSetup();wpp.clear();wpp.ci=0;wpp.add(.1,0);wpp.add(3,0);drawWdE();},120);});
+$('#wClear').addEventListener('click',()=>{wpp.clear();wpp.ci=0;});
+new ResizeObserver(drawWdE).observe($('#wdE'));
+wSetup();wpp.add(.1,0);wpp.add(2.9,0);
+
+/* ================= regular perturbation vs exact vs two-timing ================= */
+let pEps=.1;
+$('#pplot').style.aspectRatio='5/3';
+function drawP(){const e=pEps,s=Math.sqrt(1-e*e);const ex=[],pe=[],tt=[];const TM=50;let eP=0,eT=0;
+  for(let i=0;i<=2000;i++){const t=TM*i/2000;const xe=Math.exp(-e*t)*Math.sin(s*t)/s,xp=Math.sin(t)-e*t*Math.sin(t),xt=Math.exp(-e*t)*Math.sin(t);
+    ex.push([t,xe]);pe.push([t,xp]);tt.push([t,xt]);eP=Math.max(eP,Math.abs(xp-xe));eT=Math.max(eT,Math.abs(xt-xe));}
+  const ser=[];if($('#pShowE').checked)ser.push({pts:ex,col:C.ink,lw:2.2});if($('#pShowP').checked)ser.push({pts:pe,col:C.pink,lw:1.6});if($('#pShowT').checked)ser.push({pts:tt,col:C.green,lw:1.6,dash:[6,4]});
+  plot($('#pplot'),{xr:[0,TM],yr:[-3,3],xl:'t',yl:'x',series:ser,
+    pre:(c,X,Y)=>{c.strokeStyle=rgba(C.muted,.8);c.setLineDash([4,4]);c.beginPath();c.moveTo(X(1/e),Y(-3));c.lineTo(X(1/e),Y(3));c.stroke();c.setLineDash([]);
+      c.fillStyle=C.muted;c.font="12px 'Noto Sans KR',sans-serif";c.textAlign='left';if(1/e<46)c.fillText('t = 1/ε',X(1/e)+4,Y(2.7));}});
+  $('#pErrP').textContent=eP.toFixed(2);$('#pErrT').textContent=eT.toFixed(3);}
+$('#pEps').addEventListener('input',e=>{pEps=+e.target.value;$('#pEpsOut').textContent=pEps.toFixed(2);drawP();});
+for(const id of['#pShowE','#pShowP','#pShowT'])$(id).addEventListener('change',drawP);
+new ResizeObserver(drawP).observe($('#pplot'));
+
+/* ================= averaged equations ================= */
+const HS={vdp:(x,y)=>(x*x-1)*y,two:(x,y)=>(x**4-3*x*x+1)*y,damp:(x,y)=>2*y,ray:(x,y)=>y*y*y/3-y,duff:(x,y)=>x*x*x};
+let aK='vdp',aEps=.1;
+function avg(r,fn){const N=256;let s=0,c=0;const h=HS[aK];for(let i=0;i<N;i++){const th=2*Math.PI*(i+.5)/N;const v=h(r*Math.cos(th),-r*Math.sin(th));s+=v*Math.sin(th);c+=v*Math.cos(th);}return[s/N,c/N];}
+function rprime(r){return avg(r)[0];}
+function aFixed(){const out=[];const R=3.2,n=640;let pr=rprime(1e-4);let neutral=true;
+  for(let i=1;i<=n;i++){const r=R*i/n;const v=rprime(r);if(Math.abs(v)>1e-9)neutral=false;
+    if(i>1&&((pr<0&&v>=0)||(pr>0&&v<=0))){let lo=R*(i-1)/n,hi=r;for(let k=0;k<50;k++){const m=(lo+hi)/2;const vm=rprime(m);if((rprime(lo)<0)===(vm<0))lo=m;else hi=m;}
+      const rs=(lo+hi)/2;const d=(rprime(rs+1e-4)-rprime(rs-1e-4))/2e-4;if(rs>.02)out.push({r:rs,stable:d<0,w:1+aEps*avg(rs)[1]/rs});}
+    pr=v;}
+  return{list:out,neutral};}
+let aFP={list:[],neutral:false};
+const aPP=new Plane($('#aPP'),{dom:{x0:-3.2,x1:3.2,y0:-3.2,y1:3.2},f:(x,y)=>[y,-x-aEps*HS[aK](x,y)],dt:.02,sub:10,maxTraj:5,rec:2,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'u'}],
+  decor:(s,p)=>{for(const q of aFP.list){s.strokeStyle=rgba(q.stable?C.green:C.pink,.75);s.lineWidth=3;s.setLineDash(q.stable?[]:[7,5]);s.beginPath();s.arc(p.X(0),p.Y(0),Math.abs(p.X(q.r)-p.X(0)),0,7);s.stroke();}s.setLineDash([]);}});
+$('#aR').style.aspectRatio='3/1';
+function drawAR(){const pts=[];let lo=-.5,hi=.5;for(let i=0;i<=320;i++){const r=3.2*i/320;const v=rprime(r);pts.push([r,v]);lo=Math.min(lo,v);hi=Math.max(hi,v);}
+  lo=Math.max(lo,-3);hi=Math.min(hi,3);const pad=(hi-lo)*.12;
+  plot($('#aR'),{xr:[0,3.2],yr:[lo-pad,hi+pad],xl:'r',yl:'r′',series:[{pts,col:C.pink}],
+    post:(c,X,Y)=>{for(const q of aFP.list){c.lineWidth=1.6;c.strokeStyle=C.ink;c.fillStyle=q.stable?C.ink:C.panel;c.beginPath();c.arc(X(q.r),Y(0),5,0,7);c.fill();c.stroke();}
+      if(!aFP.neutral){const r0=rprime(.05);c.lineWidth=1.6;c.strokeStyle=C.ink;c.fillStyle=r0<0?C.ink:C.panel;c.beginPath();c.arc(X(0)+5,Y(0),5,0,7);c.fill();c.stroke();}}});
+  let html='';
+  if(aFP.neutral)html='<span><b>r′ ≡ 0</b>: 모든 r에서 진폭이 변하지 않습니다(비선형 중심). 진동수 ω(r) = 1 + εφ′ = 1 + '+(avg(1)[1]).toFixed(3)+'εr²</span>';
+  else if(!aFP.list.length)html='<span>r &gt; 0에서 r′ = 0인 점이 없습니다. 극한 주기 궤도가 없다고 예측합니다.</span>';
+  else html=aFP.list.map(q=>'<span>r* = <b>'+q.r.toFixed(3)+'</b> ('+(q.stable?'안정적':'불안정')+'), ω = '+q.w.toFixed(4)+'</span>').join('');
+  $('#aRead').innerHTML=html;}
+function aUpdate(){aFP=aFixed();aPP.renderStatic();aPP.clear();aPP.ci=0;
+  const tm=Math.min(400,40/aEps);aPP.o.tmax=tm;aPP.o.sub=Math.max(4,Math.ceil(tm/.02/700));
+  const seeds={vdp:[[.1,0],[3,0]],two:[[1.2,0],[1.6,0],[2.8,0]],damp:[[2.5,0]],ray:[[.1,0],[3,0]],duff:[[.6,0],[1.4,0],[2.4,0]]}[aK];
+  for(const[x,y]of seeds)aPP.add(x,y);drawAR();}
+$('#aH').addEventListener('change',e=>{aK=e.target.value;aUpdate();});
+let aT=null;$('#aEps').addEventListener('input',e=>{aEps=+e.target.value;$('#aEpsOut').textContent=aEps.toFixed(2);clearTimeout(aT);aT=setTimeout(aUpdate,120);});
+$('#aClear').addEventListener('click',()=>{aPP.clear();aPP.ci=0;});
+new ResizeObserver(drawAR).observe($('#aR'));
+aUpdate();
+
+/* ================= envelope (example 7.6.3) ================= */
+let eEps=.1,eR0=1;
+$('#eplot').style.aspectRatio='5/3';
+function drawE(){const TM=Math.min(300,Math.max(50,6/eEps));const dt=.01;const f=vdpE(eEps);let x=eR0,y=0;const num=[],app=[],up=[],dn=[];let err=0;
+  const n=Math.round(TM/dt);const step=Math.max(1,Math.floor(n/2500));
+  for(let i=0;i<=n;i++){const t=i*dt;if(i%step===0){const r=envR(eR0,eEps*t);const xa=r*Math.cos(t);num.push([t,x]);app.push([t,xa]);up.push([t,r]);dn.push([t,-r]);}
+    err=Math.max(err,Math.abs(x-envR(eR0,eEps*t)*Math.cos(t)));[x,y]=rk4(f,x,y,dt);}
+  const yr=Math.max(3,eR0*1.15);
+  plot($('#eplot'),{xr:[0,TM],yr:[-yr,yr],xl:'t',yl:'x',series:[{pts:num,col:C.ink,lw:1.4},{pts:app,col:C.pink,lw:1.2,dash:[5,4]},{pts:up,col:C.green,lw:2.4},{pts:dn,col:C.green,lw:2.4}]});
+  $('#eErr').textContent=err.toFixed(3);$('#eErrR').textContent=(err/eEps).toFixed(2);}
+let eT=null;
+$('#eEps').addEventListener('input',e=>{eEps=+e.target.value;$('#eEpsOut').textContent=eEps.toFixed(2);clearTimeout(eT);eT=setTimeout(drawE,60);});
+$('#eR0').addEventListener('input',e=>{eR0=+e.target.value;$('#eR0Out').textContent=eR0.toFixed(2);clearTimeout(eT);eT=setTimeout(drawE,60);});
+new ResizeObserver(drawE).observe($('#eplot'));
+
+/* ================= Duffing ================= */
+let dEps=.1,pend=false;
+const duffF=(x,y)=>[y,-x-dEps*x*x*x];
+const dPP=new Plane($('#dPP'),{dom:{x0:-2.4,x1:2.4,y0:-2.4,y1:2.4},f:duffF,dt:.01,sub:4,trail:0,tmax:60,maxTraj:6,xl:'x',yl:'ẋ',fixed:[{x:0,y:0,k:'u'}]});
+function halfPeriod(f,a){let x=a,y=0,t=0;const dt=.002;let py=0,neg=false;for(let i=0;i<40000;i++){const[nx,ny]=rk4(f,x,y,dt);t+=dt;if(ny<0)neg=true;
+  if(neg&&py<0&&ny>=0){return t-dt+dt*(-py)/(ny-py);}x=nx;y=ny;py=ny;}return NaN;}
+function wNum(f,a){const h=halfPeriod(f,a);return Math.PI/h;}
+$('#dW').style.aspectRatio='2.4/1';$('#dF').style.aspectRatio='3/1';
+function drawD(){const amax=pend?2.2:(dEps<0?Math.min(1.7,.9/Math.sqrt(-dEps)):2);const pred=[],dots=[],pen=[];
+  for(let i=0;i<=200;i++){const a=amax*i/200;pred.push([a,1+.375*dEps*a*a]);}
+  for(let a=.2;a<=amax+1e-9;a+=.2)dots.push([a,wNum(duffF,a)]);
+  if(pend)for(let a=.2;a<=amax+1e-9;a+=.2)pen.push([a,wNum((x,y)=>[y,-Math.sin(x)],a)]);
+  let lo=1,hi=1;for(const q of pred.concat(dots,pen)){if(isFinite(q[1])){lo=Math.min(lo,q[1]);hi=Math.max(hi,q[1]);}}const pad=Math.max(.02,(hi-lo)*.15);
+  plot($('#dW'),{xr:[0,amax],yr:[lo-pad,hi+pad],xl:'a',yl:'ω',series:[{pts:pred,col:C.pink}],
+    post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[a,w]of dots){c.beginPath();c.arc(X(a),Y(w),3.8,0,7);c.fill();}
+      c.strokeStyle=C.cyan;c.lineWidth=2;for(const[a,w]of pen){c.beginPath();c.arc(X(a),Y(w),5,0,7);c.stroke();}}});
+  const F0=[],Fe=[];for(let i=0;i<=100;i++){const x=2*i/100;F0.push([x,x]);Fe.push([x,x+dEps*x*x*x]);}
+  plot($('#dF'),{xr:[0,2],yr:[0,Math.max(2.6,2+dEps*8)*1.05],xl:'x',yl:'−F',series:[{pts:F0,col:C.muted,dash:[4,4],lw:1.5},{pts:Fe,col:dEps>=0?C.pink:C.cyan,lw:2.2}],
+    post:(c,X,Y)=>{c.fillStyle=C.muted;c.font="12px 'Noto Sans KR',sans-serif";c.textAlign='left';c.fillText('훅의 법칙',X(1.45),Y(1.45)+16);
+      c.fillStyle=dEps>=0?C.pink:C.cyan;c.fillText(Math.abs(dEps)<1e-9?'':dEps>0?'단단해지는 용수철':'부드러워지는 용수철',X(.15),Y(1.7));}});
+  $('#dPendLeg').style.display=pend?'':'none';}
+function dUpdate(){dPP.renderStatic();dPP.clear();dPP.ci=0;const am=dEps<0?Math.min(2,.9/Math.sqrt(-dEps)):2;for(const a of[.5,1,1.5,2])if(a<=am+1e-9)dPP.add(a,0);drawD();}
+let dT=null;
+$('#dEps').addEventListener('input',e=>{dEps=+e.target.value;pend=false;$('#dEpsOut').textContent=dEps.toFixed(2);clearTimeout(dT);dT=setTimeout(dUpdate,100);});
+$('#dPend').addEventListener('click',()=>{dEps=-1/6;pend=true;$('#dEps').value=dEps;$('#dEpsOut').textContent='−1/6';dUpdate();});
+new ResizeObserver(drawD).observe($('#dW'));
+dUpdate();
+
+/* ---------------- loop & theme ---------------- */
+function loop(){for(const p of planes){if(!p.visible||!p.W)continue;const busy=p.step();if(busy||p.dirty){p.draw();p.dirty=false;}}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+function retheme(){readTheme();for(const p of planes){for(const t of p.trajs){if(t.cidx!==undefined)t.col=TRAJ()[t.cidx];}p.renderStatic();p.dirty=true;}
+  drawWdE();drawP();drawAR();drawE();drawD();}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready.then(()=>{for(const p of planes){p.renderStatic();p.dirty=true;}drawWdE();drawP();drawAR();drawE();drawD();});
+})();
+</script>
+</body>
+</html>

@@ -12,15 +12,17 @@
 |:---:|---|---|:---:|
 | 01 | [`01-limit-cycles.html`](01-limit-cycles.html) | 극한 주기 궤도의 정의와 안정성, 선형 중심과의 비교, 극좌표계 예제, 반 데르 폴 진동자, 기울기 시스템, 에너지 함수, 리아푸노프 함수, 둘락 기준 | 7.0~7.2 |
 | 02 | [`02-poincare-bendixson-relaxation.html`](02-poincare-bendixson-relaxation.html) | 푸앵카레-벤딕슨 정리와 가두는 영역, 해당과정 모형, 위상 평면에는 카오스가 없음, 리에나르의 정리, 완화 진동과 주기 추정 | 7.3~7.5 |
+| 03 | [`03-weakly-nonlinear-oscillators.html`](03-weakly-nonlinear-oscillators.html) | 약한 비선형 진동자, 에너지를 이용한 추정, 정규 섭동 이론과 그것의 실패, 두 타이밍, 평균 방정식, 포락선, 더핑 진동자와 단진자 | 7.6 |
 
 <!-- 새 데모를 추가하면 위 표에 한 줄씩 추가하세요. -->
 
 ## 주요 기능
 
-- **클릭 한 번으로 궤적 그리기**: 위상 평면을 클릭하거나 탭하면 그 점을 초기조건으로 하는 궤적이 실시간으로 그려집니다.
-- **매개변수 조작**: 반 데르 폴 진동자의 μ, 리아푸노프 함수 V = x² + ay²의 계수 a, 둘락 기준의 가중치 함수 g, 해당과정 모형의 a와 b, 리에나르 방정식의 f와 g 등을 바꾸면 벡터장과 배경 지도가 즉시 다시 계산됩니다.
+- **클릭 한 번으로 궤적 그리기**: 위상 평면을 클릭하거나 탭하면 그 점을 초기 조건으로 하는 궤적이 실시간으로 그려집니다.
+- **매개변수 조작**: 반 데르 폴 진동자의 μ, 리아푸노프 함수 V = x² + ay²의 계수 a, 둘락 기준의 가중치 함수 g, 해당과정 모형의 a와 b, 리에나르 방정식의 f와 g, 평균 방정식의 h(x, ẋ), 약한 비선형 진동자의 ε 등을 바꾸면 벡터장과 배경 지도가 즉시 다시 계산됩니다.
 - **조건 자동 점검**: 가두는 영역의 경계에서 흐름이 안쪽을 향하는지, 리에나르의 정리의 다섯 조건을 만족하는지를 화면에서 바로 판정해 보여 줍니다.
 - **연결된 그래프**: 위상 평면의 궤적과 시계열 x(t), 1차원 흐름 ṙ–r, 궤적을 따라 잰 V(t)와 E(t)가 함께 움직입니다.
+- **근사와 수치 해의 비교**: 정규 섭동 이론, 두 타이밍, 평균 방정식으로 얻은 근사식을 같은 화면에서 수치 적분 결과와 겹쳐 보고 최대 오차를 확인할 수 있습니다.
 - **한국어 본문, 영어 원어 병기**: 용어와 예제 번호는 번역서 『비선형 동역학과 카오스 2/e』를 따르고, 중요한 용어는 괄호 안에 영어 원어를 함께 적었습니다.
 - **반응형, 다크 모드, 동작 줄이기 설정 지원**: 휴대폰에서도 사용할 수 있고, 운영체제의 다크 모드와 "동작 줄이기(reduced motion)" 설정을 따릅니다.
 
@@ -31,6 +33,7 @@
 ├── index.html                                 # 전체 데모 목록(첫 화면)
 ├── 01-limit-cycles.html                       # 7.0~7.2절 데모
 ├── 02-poincare-bendixson-relaxation.html      # 7.3~7.5절 데모
+├── 03-weakly-nonlinear-oscillators.html       # 7.6절 데모
 └── README.md
 ```
 
@@ -51,15 +54,19 @@ python3 -m http.server 8000
 
 - 수치 적분은 4차 룽게-쿠타(Runge–Kutta, RK4) 방법을 사용합니다. 반 데르 폴 진동자처럼 μ가 커서 뻣뻣해지는(stiff) 경우에는 시간 간격을 자동으로 줄입니다.
 - 완화 진동처럼 μ가 큰 경우에도 안정적으로 적분되도록 시간 간격을 μ에 맞춰 줄이고, 주기 그래프의 수치값은 페이지를 열 때 브라우저에서 직접 계산합니다.
-- 기울기 시스템 예제(예제 7.2.1)에서는 y가 각도 변수이므로 위아래 경계를 이어 붙이는 주기적 경계조건을 적용했습니다.
+- 기울기 시스템 예제(예제 7.2.1)에서는 y가 각도 변수이므로 위아래 경계를 이어 붙이는 주기적 경계 조건을 적용했습니다.
 - 예제 7.2.4는 교재의 g = 1/(xy) 외에 g = 1로도 ∇·ẋ = −(x − 1)² − y < 0이 되어 양의 사분면에서 둘락 기준이 성립합니다. 데모에는 부호가 섞여 결론을 내리지 못하는 사례로 g = x, g = y를 함께 넣었습니다.
+- 평균 방정식 데모의 ⟨h sin θ⟩, ⟨h cos θ⟩는 고른 h에 대해 한 주기를 256개 점으로 나눠 수치로 평균합니다. r′ = 0인 점(극한 주기 궤도의 반지름 예측)과 그 안정성도 자동으로 찾습니다.
+- 예제 7.6.4의 진동수는 φ′ = (3/8)a²에 따라 ω = 1 + (3/8)εa²로 구현했습니다.
 
 ## 참고문헌
 
 1. 스티븐 스트로가츠, 『[비선형 동역학과 카오스 2/e](https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/)』 (에이콘출판사, 2025).
    * 원서: [Steven H. Strogatz](https://scholar.google.com/citations?user=FxyRWlcAAAAJ), [Nonlinear Dynamics and Chaos: 2nd Edition](https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109) (Westview Press, 2014).
 2. D. W. Jordan and P. Smith, *Nonlinear Ordinary Differential Equations*, 2nd ed. (Oxford University Press, 1987).
-3. Phase Plane Plotter, https://aeb019.hosted.uark.edu/pplane.html
+3. Shane D. Ross, 강의 영상 [Limit Cycles, Part 5: Van der Pol Oscillator, Weakly Nonlinear Limit, Energy Method](https://youtu.be/MdJEUqUTf5w), [Averaging Theory for Weakly Nonlinear Oscillators](https://youtu.be/UzQU1nyM-No)
+4. Steven H. Strogatz, 강의 영상 [Poincaré–Lindstedt method](https://youtu.be/kkN13nEn2WA)
+5. Phase Plane Plotter, https://aeb019.hosted.uark.edu/pplane.html
 
 ## 제작
 
