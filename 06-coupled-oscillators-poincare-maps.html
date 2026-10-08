@@ -162,6 +162,12 @@ footer strong{color:var(--ink);font-weight:500}
 .tbl th{font-weight:500;color:var(--muted)}
 .tbl td.m{white-space:nowrap}
 
+
+/* math typesetting: only variables are italic; radicals get a vinculum */
+.m{font-style:normal}.m i,.eq i{font-style:italic}
+.sqrt{white-space:nowrap}
+.sqrt .rad{font-style:normal}
+.sqrt .rc{display:inline-block;border-top:.065em solid currentColor;padding:.06em .1em 0 .06em;margin-left:-.04em;line-height:1.1}
 </style>
 <script>try { const t = localStorage.getItem("netsci-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
@@ -205,28 +211,28 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <div class="sec-h"><span class="no">8.6</span><h2>결합된 진동자와 준주기성<span>coupled oscillators and quasiperiodicity</span></h2></div>
   <div class="row">
     <div class="txt">
-      <p>토러스는 두 개의 각도 변수를 가진 시스템 <span class="m">θ̇₁ = f₁(θ₁, θ₂)</span>, <span class="m">θ̇₂ = f₂(θ₁, θ₂)</span>의 자연스러운 위상 공간이다. 결합된 진동자(coupled oscillator)에 대한 간단한 모형은</p>
-      <div class="eq">θ̇₁ = ω₁ + <i>K</i>₁ sin(θ₂ − θ₁),&emsp;θ̇₂ = ω₂ + <i>K</i>₂ sin(θ₁ − θ₂)</div>
-      <p>이다. <span class="m">θ₁, θ₂</span>는 진동자들의 위상(phase), <span class="m">ω₁, ω₂ &gt; 0</span>은 고유 진동수(natural frequency), <span class="m">K₁, K₂ ≥ 0</span>은 결합 상수(coupling constant)다. 인간의 일주기(circadian) 리듬과 수면-각성 주기 사이의 상호 작용을 모형화하는 데 사용됐다.</p>
+      <p>토러스는 두 개의 각도 변수를 가진 시스템 <span class="m"><i>θ̇</i>₁ = <i>f</i>₁(<i>θ</i>₁, <i>θ</i>₂)</span>, <span class="m"><i>θ̇</i>₂ = <i>f</i>₂(<i>θ</i>₁, <i>θ</i>₂)</span>의 자연스러운 위상 공간이다. 결합된 진동자(coupled oscillator)에 대한 간단한 모형은</p>
+      <div class="eq"><i>θ̇</i>₁ = <i>ω</i>₁ + <i>K</i>₁ sin(<i>θ</i>₂ − <i>θ</i>₁),&emsp;<i>θ̇</i>₂ = <i>ω</i>₂ + <i>K</i>₂ sin(<i>θ</i>₁ − <i>θ</i>₂)</div>
+      <p>이다. <span class="m"><i>θ</i>₁, <i>θ</i>₂</span>는 진동자들의 위상(phase), <span class="m"><i>ω</i>₁, <i>ω</i>₂ &gt; 0</span>은 고유 진동수(natural frequency), <span class="m"><i>K</i>₁, <i>K</i>₂ ≥ 0</span>은 결합 상수(coupling constant)다. 인간의 일주기(circadian) 리듬과 수면-각성 주기 사이의 상호 작용을 모형화하는 데 사용됐다.</p>
       <span class="pen">2개 진동자로 된 구라모토(Kuramoto) 모형! 원서 3판에는 13장으로 구라모토 모형이 추가됨</span>
-      <p>직관적으로는 원형 트랙에서 조깅하는 두 친구를 상상하면 된다. 각자 선호하는 속력 <span class="m">ω₁, ω₂</span>가 있지만, 친구이니 같이 뛰고 싶어서 <span class="m">K sin(·)</span> 항으로 속력을 조정하며 타협한다. 토러스의 곡면에 위상 그림을 그리기는 어려우니 <b>주기적인 경계 조건(periodic boundary condition)을 갖는 정사각형</b>을 쓴다. 궤적이 가장자리를 벗어나면 비디오 게임에서처럼 반대편 가장자리에 다시 나타난다.</p>
+      <p>직관적으로는 원형 트랙에서 조깅하는 두 친구를 상상하면 된다. 각자 선호하는 속력 <span class="m"><i>ω</i>₁, <i>ω</i>₂</span>가 있지만, 친구이니 같이 뛰고 싶어서 <span class="m"><i>K</i> sin(·)</span> 항으로 속력을 조정하며 타협한다. 토러스의 곡면에 위상 그림을 그리기는 어려우니 <b>주기적인 경계 조건(periodic boundary condition)을 갖는 정사각형</b>을 쓴다. 궤적이 가장자리를 벗어나면 비디오 게임에서처럼 반대편 가장자리에 다시 나타난다.</p>
 
       <h3>분리된 시스템 <span class="en">(K₁ = K₂ = 0)</span></h3>
-      <p>궤적은 기울기 <span class="m">dθ₂/dθ₁ = ω₂/ω₁</span>인 직선들이다. 기울기가 유리수인지 무리수인지에 따라 정성적으로 다른 두 가지 경우가 있다.</p>
+      <p>궤적은 기울기 <span class="m">d<i>θ</i>₂/d<i>θ</i>₁ = <i>ω</i>₂/<i>ω</i>₁</span>인 직선들이다. 기울기가 유리수인지 무리수인지에 따라 정성적으로 다른 두 가지 경우가 있다.</p>
       <ul>
-        <li><b>유리수</b>: 공통 소인수가 없는 정수 쌍 <span class="m">p, q</span>에 대해 <span class="m">ω₁/ω₂ = p/q</span>이면 모든 궤적은 토러스에서 닫힌 궤도다. <span class="m">θ₁</span>이 정확히 <span class="m">p</span>번 회전하는 동안 <span class="m">θ₂</span>가 <span class="m">q</span>번 회전하기 때문이다. <span class="m">p = 3, q = 2</span>이면 토러스 위의 궤적은 <b>세잎매듭(trefoil knot)</b>이다. 일반적으로 <span class="m">p:q</span> 토러스 매듭이라고 한다. 모든 궤적이 닫혀 있으니 고립되어 있지 않아 극한 주기 궤도는 아니다.</li>
+        <li><b>유리수</b>: 공통 소인수가 없는 정수 쌍 <span class="m"><i>p</i>, <i>q</i></span>에 대해 <span class="m"><i>ω</i>₁/<i>ω</i>₂ = <i>p</i>/<i>q</i></span>이면 모든 궤적은 토러스에서 닫힌 궤도다. <span class="m"><i>θ</i>₁</span>이 정확히 <span class="m"><i>p</i></span>번 회전하는 동안 <span class="m"><i>θ</i>₂</span>가 <span class="m"><i>q</i></span>번 회전하기 때문이다. <span class="m"><i>p</i> = 3, <i>q</i> = 2</span>이면 토러스 위의 궤적은 <b>세잎매듭(trefoil knot)</b>이다. 일반적으로 <span class="m"><i>p</i>:<i>q</i></span> 토러스 매듭이라고 한다. 모든 궤적이 닫혀 있으니 고립되어 있지 않아 극한 주기 궤도는 아니다.</li>
         <li><b>무리수</b>: 흐름은 <b>준주기적(quasiperiodic)</b>이다. 모든 궤적은 토러스 주변을 끊임없이 감싸는데, 결코 교차하지도 완전히 닫히지도 않는다. 각 궤적은 토러스에서 <b>조밀하다(dense)</b>. 토러스의 특정 지점에 임의로 가까워진다(실제로 통과한다는 뜻은 아니다).</li>
       </ul>
       <p>준주기성은 고정점, 닫힌 궤도, 같은 모임 궤도와 달리 <span class="hl">토러스에서만 발생하는 새로운 유형의 장기적 행동</span>이다.</p>
 
       <h3>결합된 시스템 <span class="en">(K₁, K₂ &gt; 0)</span></h3>
-      <p>위상차(phase difference) <span class="m">φ = θ₁ − θ₂</span>를 보면</p>
-      <div class="eq">φ̇ = ω₁ − ω₂ − (<i>K</i>₁ + <i>K</i>₂) sin φ</div>
-      <p>로, 4.3절의 불균일한(nonuniform) 진동자다. <span class="m">|ω₁ − ω₂| &lt; K₁ + K₂</span>이면 고정점이 2개, <span class="m">|ω₁ − ω₂| &gt; K₁ + K₂</span>이면 없다. <span class="m">|ω₁ − ω₂| = K₁ + K₂</span>일 때 안장점 갈래치기가 발생한다. 고정점이 있으면 궤적은 일정한 위상차 <span class="m">φ*</span>로 분리된 <b>위상이 고정된(phase-locked)</b> 안정적인 해에 접근한다. 두 진동자는 상수 진동수</p>
-      <div class="eq plain">ω* = (<i>K</i>₁ω₂ + <i>K</i>₂ω₁) / (<i>K</i>₁ + <i>K</i>₂)</div>
-      <p>로 움직인다. 두 고유 진동수 사이에 있으니 <b>절충 진동수(compromise frequency)</b>라고 한다. 진동수는 결합 강도에 비례하는 양만큼 이동한다: <span class="m">|Δω₁/Δω₂| = K₁/K₂</span>.</p>
+      <p>위상차(phase difference) <span class="m"><i>φ</i> = <i>θ</i>₁ − <i>θ</i>₂</span>를 보면</p>
+      <div class="eq"><i>φ̇</i> = <i>ω</i>₁ − <i>ω</i>₂ − (<i>K</i>₁ + <i>K</i>₂) sin <i>φ</i></div>
+      <p>로, 4.3절의 불균일한(nonuniform) 진동자다. <span class="m">|<i>ω</i>₁ − <i>ω</i>₂| &lt; <i>K</i>₁ + <i>K</i>₂</span>이면 고정점이 2개, <span class="m">|<i>ω</i>₁ − <i>ω</i>₂| &gt; <i>K</i>₁ + <i>K</i>₂</span>이면 없다. <span class="m">|<i>ω</i>₁ − <i>ω</i>₂| = <i>K</i>₁ + <i>K</i>₂</span>일 때 안장점 갈래치기가 발생한다. 고정점이 있으면 궤적은 일정한 위상차 <span class="m"><i>φ</i>*</span>로 분리된 <b>위상이 고정된(phase-locked)</b> 안정적인 해에 접근한다. 두 진동자는 상수 진동수</p>
+      <div class="eq plain"><i>ω</i>* = (<i>K</i>₁<i>ω</i>₂ + <i>K</i>₂<i>ω</i>₁) / (<i>K</i>₁ + <i>K</i>₂)</div>
+      <p>로 움직인다. 두 고유 진동수 사이에 있으니 <b>절충 진동수(compromise frequency)</b>라고 한다. 진동수는 결합 강도에 비례하는 양만큼 이동한다: <span class="m">|Δ<i>ω</i>₁/Δ<i>ω</i>₂| = <i>K</i>₁/<i>K</i>₂</span>.</p>
       <span class="pen">질량중심(center of mass)과 같은 느낌: ω₁, ω₂가 좌표, K₁, K₂가 질량</span>
-      <p>토러스 위에서 고정된 해들은 기울기 1인 대각선으로 나타난다. 고유 진동수들을 떨어뜨려 <span class="m">|ω₁ − ω₂| = K₁ + K₂</span>가 되면 안정적인 고정 해와 불안정한 고정 해가 서로 접근해 합쳐진다. <span class="hlp">고정된 해는 순환 궤도의 안장점 갈래치기(8.4절)에서 파괴된다.</span> 그 후의 흐름은 결합되지 않은 경우처럼 준주기 또는 유리수 비율에 해당하는 흐름이며, 궤적이 직선이 아니라 곡선이라는 점만 다르다.</p>
+      <p>토러스 위에서 고정된 해들은 기울기 1인 대각선으로 나타난다. 고유 진동수들을 떨어뜨려 <span class="m">|<i>ω</i>₁ − <i>ω</i>₂| = <i>K</i>₁ + <i>K</i>₂</span>가 되면 안정적인 고정 해와 불안정한 고정 해가 서로 접근해 합쳐진다. <span class="hlp">고정된 해는 순환 궤도의 안장점 갈래치기(8.4절)에서 파괴된다.</span> 그 후의 흐름은 결합되지 않은 경우처럼 준주기 또는 유리수 비율에 해당하는 흐름이며, 궤적이 직선이 아니라 곡선이라는 점만 다르다.</p>
     </div>
     <div class="demo">
       <div class="ctl" style="flex-wrap:wrap">
@@ -248,7 +254,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
         <div><p class="sub" style="margin-top:0">토러스 위의 같은 궤적</p><canvas id="cpT" aria-label="토러스 위의 궤적"></canvas></div>
         <div><p class="sub" style="margin-top:0">원형 트랙의 두 주자 (θ₁ 분홍, θ₂ 파랑)</p><canvas id="cpR" aria-label="원형 트랙에서 달리는 두 주자"></canvas></div>
       </div>
-      <p class="sub">위상차의 흐름 <span class="m">φ̇ = ω₁ − ω₂ − (K₁ + K₂) sin φ</span></p>
+      <p class="sub">위상차의 흐름 <span class="m"><i>φ̇</i> = <i>ω</i>₁ − <i>ω</i>₂ − (<i>K</i>₁ + <i>K</i>₂) sin <i>φ</i></span></p>
       <canvas id="cpPhi" aria-label="위상차 흐름의 그래프"></canvas>
       <div class="read" id="cpRead"></div>
       <div class="verdict" id="cpV"></div>
@@ -262,14 +268,14 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <p class="intro">8.5절에서는 푸앵카레 사상으로 구동 진자와 조지프슨 접합의 주기적 궤도의 존재를 증명했다. 푸앵카레 사상은 주기적 궤도 근처의 흐름(또는 일부 카오스 시스템의 흐름)과 같은 소용돌이 흐름(swirling flow)을 연구하는 데 유용하다.</p>
   <div class="row flip">
     <div class="txt">
-      <p><span class="m">n</span>차원 시스템 <span class="m">ẋ = f(x)</span>에서 <span class="m">S</span>를 단면의 <span class="m">n − 1</span>차원 표면이라고 하자. <span class="m">S</span>는 흐름을 가로질러야 한다. 즉 <span class="m">S</span>에서 시작하는 모든 궤적은 표면과 평행하지 않고 표면을 통해 흘러야 한다. <b>푸앵카레 사상</b> <span class="m">P</span>는 궤적과 <span class="m">S</span>의 한 교차점에서 다음 교차점까지 따라가서 얻는, <span class="m">S</span>에서 자신으로의 사상이다.</p>
+      <p><span class="m"><i>n</i></span>차원 시스템 <span class="m"><i>ẋ</i> = <i>f</i>(<i>x</i>)</span>에서 <span class="m"><i>S</i></span>를 단면의 <span class="m"><i>n</i> − 1</span>차원 표면이라고 하자. <span class="m"><i>S</i></span>는 흐름을 가로질러야 한다. 즉 <span class="m"><i>S</i></span>에서 시작하는 모든 궤적은 표면과 평행하지 않고 표면을 통해 흘러야 한다. <b>푸앵카레 사상</b> <span class="m"><i>P</i></span>는 궤적과 <span class="m"><i>S</i></span>의 한 교차점에서 다음 교차점까지 따라가서 얻는, <span class="m"><i>S</i></span>에서 자신으로의 사상이다.</p>
       <div class="eq"><i>x</i><sub><i>k</i>+1</sub> = <i>P</i>(<i>x<sub>k</sub></i>)</div>
-      <p><span class="m">P(x*) = x*</span>인 고정점이 있으면 <span class="m">x*</span>에서 시작하는 궤적은 일정 시간 <span class="m">T</span> 후에 <span class="m">x*</span>로 돌아오니 원래 시스템의 닫힌 궤도다. 고정점 근처에서 <span class="m">P</span>의 행동을 보면 닫힌 궤도의 안정성도 알 수 있다. <span class="hlp">푸앵카레 사상은 닫힌 궤도에 대한 (어려운) 문제를 사상의 고정점에 대한 문제로 바꾼다.</span> 걸림돌은 일반적으로 <span class="m">P</span>의 공식을 찾는 것이 불가능하다는 점이다.</p>
+      <p><span class="m"><i>P</i>(<i>x</i>*) = <i>x</i>*</span>인 고정점이 있으면 <span class="m"><i>x</i>*</span>에서 시작하는 궤적은 일정 시간 <span class="m"><i>T</i></span> 후에 <span class="m"><i>x</i>*</span>로 돌아오니 원래 시스템의 닫힌 궤도다. 고정점 근처에서 <span class="m"><i>P</i></span>의 행동을 보면 닫힌 궤도의 안정성도 알 수 있다. <span class="hlp">푸앵카레 사상은 닫힌 궤도에 대한 (어려운) 문제를 사상의 고정점에 대한 문제로 바꾼다.</span> 걸림돌은 일반적으로 <span class="m"><i>P</i></span>의 공식을 찾는 것이 불가능하다는 점이다.</p>
       <h3>예제 8.7.1</h3>
-      <p>극좌표에서 <span class="m">ṙ = r(1 − r²), θ̇ = 1</span>이고 <span class="m">S</span>를 양의 <span class="m">x</span>축으로 두자. <span class="m">θ̇ = 1</span>이니 <span class="m">S</span>로 처음 돌아오는 것은 비행 시간(time of flight) <span class="m">t = 2π</span> 후다. <span class="m">∫ dr/[r(1 − r²)] = 2π</span>를 계산하면</p>
+      <p>극좌표에서 <span class="m"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²), <i>θ̇</i> = 1</span>이고 <span class="m"><i>S</i></span>를 양의 <span class="m"><i>x</i></span>축으로 두자. <span class="m"><i>θ̇</i> = 1</span>이니 <span class="m"><i>S</i></span>로 처음 돌아오는 것은 비행 시간(time of flight) <span class="m"><i>t</i> = 2π</span> 후다. <span class="m">∫ d<i>r</i>/[<i>r</i>(1 − <i>r</i>²)] = 2π</span>를 계산하면</p>
       <div class="eq"><i>P</i>(<i>r</i>) = [1 + e<sup>−4π</sup>(<i>r</i><sup>−2</sup> − 1)]<sup>−1/2</sup></div>
-      <p>이다. 고정점은 그래프가 45° 선과 교차하는 <span class="m">r* = 1</span>이다. <b>거미줄(cobweb) 구성</b>으로 사상을 반복할 수 있다. 입력 <span class="m">r<sub>k</sub></span>에서 <span class="m">P</span>의 그래프까지 수직선을 그리면 그 높이가 출력 <span class="m">r<sub>k+1</sub></span>이고, 45° 대각선까지 수평선을 그려 새 입력으로 삼아 반복한다. 거미줄이 <span class="m">r* = 1</span>로 모이니 안정적이고 고유하다.</p>
-      <div class="box amber"><p><span class="lbl">데모 메모</span>교재의 시스템에서는 <span class="m">e<sup>−4π</sup> ≈ 3.5 × 10⁻⁶</span>이라 거미줄이 한 번에 수렴해 눈에 보이지 않는다. 그래서 데모에서는 <span class="m">ṙ = c·r(1 − r²)</span>로 일반화해 <span class="m">c</span>를 줄여 볼 수 있게 했다. 그러면 <span class="m">P(r) = [1 + e<sup>−4πc</sup>(r<sup>−2</sup> − 1)]<sup>−1/2</sup></span>이고, <span class="m">c = 1</span>이 교재의 경우다.</p></div>
+      <p>이다. 고정점은 그래프가 45° 선과 교차하는 <span class="m"><i>r</i>* = 1</span>이다. <b>거미줄(cobweb) 구성</b>으로 사상을 반복할 수 있다. 입력 <span class="m"><i>r</i><sub><i>k</i></sub></span>에서 <span class="m"><i>P</i></span>의 그래프까지 수직선을 그리면 그 높이가 출력 <span class="m"><i>r</i><sub><i>k</i>+1</sub></span>이고, 45° 대각선까지 수평선을 그려 새 입력으로 삼아 반복한다. 거미줄이 <span class="m"><i>r</i>* = 1</span>로 모이니 안정적이고 고유하다.</p>
+      <div class="box amber"><p><span class="lbl">데모 메모</span>교재의 시스템에서는 <span class="m">e<sup>−4π</sup> ≈ 3.5 × 10⁻⁶</span>이라 거미줄이 한 번에 수렴해 눈에 보이지 않는다. 그래서 데모에서는 <span class="m"><i>ṙ</i> = <i>c</i>·<i>r</i>(1 − <i>r</i>²)</span>로 일반화해 <span class="m"><i>c</i></span>를 줄여 볼 수 있게 했다. 그러면 <span class="m"><i>P</i>(<i>r</i>) = [1 + e<sup>−4π<i>c</i></sup>(<i>r</i><sup>−2</sup> − 1)]<sup>−1/2</sup></span>이고, <span class="m"><i>c</i> = 1</span>이 교재의 경우다.</p></div>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -289,11 +295,11 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>예제 8.7.2 사인파로 구동되는 RC 회로</h3>
   <div class="row">
     <div class="txt">
-      <div class="eq">ẋ + <i>x</i> = <i>A</i> sin ω<i>t</i>,&emsp;ω &gt; 0</div>
-      <p>이 책에서 논의한 몇 안 되는 시간 의존 시스템 중 하나다. 이런 시스템은 새로운 변수를 추가해 항상 시간 독립적으로 만들 수 있다. <span class="m">θ = ωt</span>를 도입하면 <span class="m">θ̇ = ω</span>, <span class="m">ẋ + x = A sin θ</span>이니 원통 위의 벡터장이다. 원통 위의 어떤 수직선도 적절한 단면이 되므로 <span class="m">S = {(θ, x): θ = 0 mod 2π}</span>로 하자. 연속되는 교차점 사이의 비행 시간은 <span class="m">2π/ω</span>이다. 물리적으로는 <b>구동 순환당 한 번 시스템을 비추고</b> <span class="m">x</span>의 값들을 보는 것이다.</p>
-      <p>일반해는 동차해(homogeneous solution)와 특수해(particular solution)의 합 <span class="m">x(t) = c₁e<sup>−t</sup> + c₂ sin ωt + c₃ cos ωt</span>이고, <span class="m">c₂, c₃</span>는 초기 조건에 의존하지 않는다. 그러면</p>
-      <div class="eq"><i>P</i>(<i>x</i>₀) = <i>x</i>₀ e<sup>−2π/ω</sup> + <i>c</i>₄,&emsp;<i>c</i>₄ = <i>c</i>₃(1 − e<sup>−2π/ω</sup>)</div>
-      <p>이다. <span class="m">P</span>의 그래프는 기울기 <span class="m">e<sup>−2π/ω</sup> &lt; 1</span>인 직선이니 고유한 점 <span class="m">x* = c₃</span>에서 45° 대각선과 교차하고, 거미줄을 그려 보면 각 반복마다 일정한 비율로 가까워진다. <span class="hl">고정점은 고유하고 전역적으로 안정적이다.</span> RC 회로는 초기 조건에 관계없이 항상 동일한 강제 진동으로 안정화된다. 기초 물리학의 친숙한 결과를 새로운 방식으로 본 것이다.</p>
+      <div class="eq"><i>ẋ</i> + <i>x</i> = <i>A</i> sin <i>ωt</i>,&emsp;<i>ω</i> &gt; 0</div>
+      <p>이 책에서 논의한 몇 안 되는 시간 의존 시스템 중 하나다. 이런 시스템은 새로운 변수를 추가해 항상 시간 독립적으로 만들 수 있다. <span class="m"><i>θ</i> = <i>ωt</i></span>를 도입하면 <span class="m"><i>θ̇</i> = <i>ω</i></span>, <span class="m"><i>ẋ</i> + <i>x</i> = <i>A</i> sin <i>θ</i></span>이니 원통 위의 벡터장이다. 원통 위의 어떤 수직선도 적절한 단면이 되므로 <span class="m"><i>S</i> = {(<i>θ</i>, <i>x</i>): <i>θ</i> = 0 mod 2π}</span>로 하자. 연속되는 교차점 사이의 비행 시간은 <span class="m">2π/<i>ω</i></span>이다. 물리적으로는 <b>구동 순환당 한 번 시스템을 비추고</b> <span class="m"><i>x</i></span>의 값들을 보는 것이다.</p>
+      <p>일반해는 동차해(homogeneous solution)와 특수해(particular solution)의 합 <span class="m"><i>x</i>(<i>t</i>) = <i>c</i>₁e<sup>−<i>t</i></sup> + <i>c</i>₂ sin <i>ωt</i> + <i>c</i>₃ cos <i>ωt</i></span>이고, <span class="m"><i>c</i>₂, <i>c</i>₃</span>는 초기 조건에 의존하지 않는다. 그러면</p>
+      <div class="eq"><i>P</i>(<i>x</i>₀) = <i>x</i>₀ e<sup>−2π/<i>ω</i></sup> + <i>c</i>₄,&emsp;<i>c</i>₄ = <i>c</i>₃(1 − e<sup>−2π/<i>ω</i></sup>)</div>
+      <p>이다. <span class="m"><i>P</i></span>의 그래프는 기울기 <span class="m">e<sup>−2π/<i>ω</i></sup> &lt; 1</span>인 직선이니 고유한 점 <span class="m"><i>x</i>* = <i>c</i>₃</span>에서 45° 대각선과 교차하고, 거미줄을 그려 보면 각 반복마다 일정한 비율로 가까워진다. <span class="hl">고정점은 고유하고 전역적으로 안정적이다.</span> RC 회로는 초기 조건에 관계없이 항상 동일한 강제 진동으로 안정화된다. 기초 물리학의 친숙한 결과를 새로운 방식으로 본 것이다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -302,7 +308,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       </div>
       <div class="ctl"><button class="btn" id="rcClear">지우기</button></div>
       <canvas id="rc" class="pp" aria-label="원통 위의 RC 회로 흐름과 단면 위의 점들"></canvas>
-      <p class="sub">푸앵카레 사상 <span class="m">P(x) = x e<sup>−2π/ω</sup> + c₄</span>와 거미줄</p>
+      <p class="sub">푸앵카레 사상 <span class="m"><i>P</i>(<i>x</i>) = <i>x</i> e<sup>−2π/<i>ω</i></sup> + <i>c</i>₄</span>와 거미줄</p>
       <canvas id="rcP" aria-label="RC 회로의 푸앵카레 사상"></canvas>
       <div class="read" id="rcRead"></div>
       <p class="hint">위 원통(좌우 경계가 이어짐)을 누르면 그 높이에서 궤적이 출발합니다. θ = 0을 지날 때마다 찍히는 점이 푸앵카레 사상의 반복이고, 아래 거미줄과 같은 수열을 이룹니다.</p>
@@ -312,17 +318,17 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>주기적 궤도의 선형 안정성</h3>
   <div class="row flip">
     <div class="txt">
-      <p>닫힌 궤도가 안정적인지는 푸앵카레 사상의 고정점 <span class="m">x*</span>가 안정적인지 묻는 것과 같다. <span class="m">x* + v₀</span>가 <span class="m">S</span>에 있는 무한소 섭동(infinitesimal perturbation)이라 하면, 처음 <span class="m">S</span>로 돌아온 뒤</p>
+      <p>닫힌 궤도가 안정적인지는 푸앵카레 사상의 고정점 <span class="m"><i>x</i>*</span>가 안정적인지 묻는 것과 같다. <span class="m"><i>x</i>* + <i>v</i>₀</span>가 <span class="m"><i>S</i></span>에 있는 무한소 섭동(infinitesimal perturbation)이라 하면, 처음 <span class="m"><i>S</i></span>로 돌아온 뒤</p>
       <div class="eq plain"><i>x</i>* + <i>v</i>₁ = <i>P</i>(<i>x</i>* + <i>v</i>₀) = <i>x</i>* + [<i>DP</i>(<i>x</i>*)]<i>v</i>₀ + <i>O</i>(‖<i>v</i>₀‖²)</div>
-      <p>이고, <span class="m">DP(x*)</span>는 <b>선형화된 푸앵카레 사상(linearized Poincaré map)</b>이라 하는 <span class="m">(n − 1) × (n − 1)</span> 행렬이다. <span class="hlp">닫힌 궤도가 선형적으로 안정적일 필요충분조건은 모든 <span class="m">j = 1, …, n − 1</span>에 대해 <span class="m">|λ<sub>j</sub>| &lt; 1</span>이다.</span> 고유벡터 기저로 전개하면 <span class="m">v<sub>k</sub> = Σ v<sub>j</sub>(λ<sub>j</sub>)<sup>k</sup> e<sub>j</sub></span>이니, 모든 <span class="m">|λ<sub>j</sub>| &lt; 1</span>이면 기하급수적으로 빠르게 <span class="m">‖v<sub>k</sub>‖ → 0</span>이다. 어떤 <span class="m">|λ<sub>j</sub>| &gt; 1</span>이면 불안정하고, 가장 큰 고윳값의 크기가 정확히 1이면 경계에 걸친 경우로 주기적 궤도의 갈래치기에서 발생하며 비선형 안정성 분석이 필요하다.</p>
-      <p><span class="m">λ<sub>j</sub></span>를 주기적 궤도의 <b>특성(characteristic) 또는 플로케 승수(Floquet multiplier)</b>라고 한다. 주기적 궤도를 따라 가해지는 섭동에 해당하는 자명한 승수 <span class="m">λ ≡ 1</span>이 항상 있지만, 단순한 시간 변환(time-translation)이니 무시한다. 일반적으로는 수치 적분이 필요하다.</p>
-      <p><b>예제 8.7.3.</b> 예제 8.7.1의 극한 주기 궤도에서 <span class="m">r = 1 + η</span>로 두고 선형화하면 <span class="m">η̇ = −2η</span>, 비행 시간 <span class="m">2π</span> 후 <span class="m">η₁ = e<sup>−4π</sup>η₀</span>이다. 특성 승수는 <span class="m">e<sup>−4π</sup></span>이고 <span class="m">|e<sup>−4π</sup>| &lt; 1</span>이니 선형적으로 안정적이다. 2차원 시스템에서 선형화된 푸앵카레 사상은 <span class="m">1 × 1</span> 행렬, 곧 숫자 하나다. 위 거미줄 데모의 “수치 P′(r*)”가 바로 이 값이다.</p>
+      <p>이고, <span class="m">DP(<i>x</i>*)</span>는 <b>선형화된 푸앵카레 사상(linearized Poincaré map)</b>이라 하는 <span class="m">(<i>n</i> − 1) × (<i>n</i> − 1)</span> 행렬이다. <span class="hlp">닫힌 궤도가 선형적으로 안정적일 필요충분조건은 모든 <span class="m"><i>j</i> = 1, …, <i>n</i> − 1</span>에 대해 <span class="m">|<i>λ</i><sub><i>j</i></sub>| &lt; 1</span>이다.</span> 고유벡터 기저로 전개하면 <span class="m"><i>v</i><sub><i>k</i></sub> = Σ <i>v</i><sub><i>j</i></sub>(<i>λ</i><sub><i>j</i></sub>)<sup><i>k</i></sup> <i>e</i><sub><i>j</i></sub></span>이니, 모든 <span class="m">|<i>λ</i><sub><i>j</i></sub>| &lt; 1</span>이면 기하급수적으로 빠르게 <span class="m">‖<i>v</i><sub><i>k</i></sub>‖ → 0</span>이다. 어떤 <span class="m">|<i>λ</i><sub><i>j</i></sub>| &gt; 1</span>이면 불안정하고, 가장 큰 고윳값의 크기가 정확히 1이면 경계에 걸친 경우로 주기적 궤도의 갈래치기에서 발생하며 비선형 안정성 분석이 필요하다.</p>
+      <p><span class="m"><i>λ</i><sub><i>j</i></sub></span>를 주기적 궤도의 <b>특성(characteristic) 또는 플로케 승수(Floquet multiplier)</b>라고 한다. 주기적 궤도를 따라 가해지는 섭동에 해당하는 자명한 승수 <span class="m"><i>λ</i> ≡ 1</span>이 항상 있지만, 단순한 시간 변환(time-translation)이니 무시한다. 일반적으로는 수치 적분이 필요하다.</p>
+      <p><b>예제 8.7.3.</b> 예제 8.7.1의 극한 주기 궤도에서 <span class="m"><i>r</i> = 1 + <i>η</i></span>로 두고 선형화하면 <span class="m"><i>η̇</i> = −2<i>η</i></span>, 비행 시간 <span class="m">2π</span> 후 <span class="m"><i>η</i>₁ = e<sup>−4π</sup><i>η</i>₀</span>이다. 특성 승수는 <span class="m">e<sup>−4π</sup></span>이고 <span class="m">|e<sup>−4π</sup>| &lt; 1</span>이니 선형적으로 안정적이다. 2차원 시스템에서 선형화된 푸앵카레 사상은 <span class="m">1 × 1</span> 행렬, 곧 숫자 하나다. 위 거미줄 데모의 “수치 P′(r*)”가 바로 이 값이다.</p>
       <h3>예제 8.7.4 결합된 조지프슨 접합</h3>
-      <div class="eq">φ̇<sub><i>i</i></sub> = Ω + <i>a</i> sin φ<sub><i>i</i></sub> + (1/<i>N</i>) Σ<sub><i>j</i>=1</sub><sup><i>N</i></sup> sin φ<sub><i>j</i></sub>,&emsp;<i>i</i> = 1, …, <i>N</i></div>
-      <p>저항 부하(resistive load)와 병렬로 연결된 과감쇠 조지프슨 접합들을 직렬로 연결했을 때의 동역학이다. 모든 접합이 같은 위상(in-phase)으로 진동하는 해 <span class="m">φ₁ = ⋯ = φ<sub>N</sub> = φ*(t)</span>는 <span class="m">φ̇* = Ω + (a + 1) sin φ*</span>를 따르고, <span class="m">|Ω| &gt; |a + 1|</span>이면 주기적이다.</p>
-      <p><span class="m">φ<sub>i</sub> = φ* + η<sub>i</sub></span>로 두고 선형화한 뒤 <span class="m">ξ<sub>i</sub> = η<sub>i+1</sub> − η<sub>i</sub></span>로 바꾸면 <span class="m">ξ̇<sub>i</sub> = [a cos φ*]ξ<sub>i</sub></span>이고, 식 <span class="m">dφ*/dt = Ω + (a + 1) sin φ*</span>로 <span class="m">dt</span>를 없애 한 바퀴 적분하면</p>
-      <div class="eq plain">ln[ξ<sub><i>i</i></sub>(<i>T</i>)/ξ<sub><i>i</i></sub>(0)] = [<i>a</i>/(<i>a</i> + 1)] ln[Ω + (<i>a</i> + 1) sin φ*]<sub>0</sub><sup>2π</sup> = 0</div>
-      <p>이다. 한 주기가 지나도 모든 섭동이 변하지 않으니 <span class="hlp">모든 특성 승수가 <span class="m">λ<sub>j</sub> = 1</span>이고, 같은 위상 상태는 (선형적으로) 중립적으로 안정하다.</span> 기술적으로는 실망스럽다. 결맞은 진동에 고정되어 출력 전력을 크게 늘리기를 원하기 때문이다. 무시한 비선형 항도 같은 위상 상태를 안정화하지 못한다는 것을 가역성(reversibility)에 기반한 논증으로 보일 수 있다(연습문제 8.7.11).</p>
+      <div class="eq"><i>φ̇</i><sub><i>i</i></sub> = Ω + <i>a</i> sin <i>φ</i><sub><i>i</i></sub> + (1/<i>N</i>) Σ<sub><i>j</i>=1</sub><sup><i>N</i></sup> sin <i>φ</i><sub><i>j</i></sub>,&emsp;<i>i</i> = 1, …, <i>N</i></div>
+      <p>저항 부하(resistive load)와 병렬로 연결된 과감쇠 조지프슨 접합들을 직렬로 연결했을 때의 동역학이다. 모든 접합이 같은 위상(in-phase)으로 진동하는 해 <span class="m"><i>φ</i>₁ = ⋯ = <i>φ</i><sub><i>N</i></sub> = <i>φ</i>*(<i>t</i>)</span>는 <span class="m"><i>φ̇</i>* = Ω + (<i>a</i> + 1) sin <i>φ</i>*</span>를 따르고, <span class="m">|Ω| &gt; |<i>a</i> + 1|</span>이면 주기적이다.</p>
+      <p><span class="m"><i>φ</i><sub>i</sub> = <i>φ</i>* + <i>η</i><sub>i</sub></span>로 두고 선형화한 뒤 <span class="m"><i>ξ</i><sub>i</sub> = <i>η</i><sub>i+1</sub> − <i>η</i><sub>i</sub></span>로 바꾸면 <span class="m"><i>ξ̇</i><sub>i</sub> = [<i>a</i> cos <i>φ</i>*]<i>ξ</i><sub>i</sub></span>이고, 식 <span class="m">d<i>φ</i>*/d<i>t</i> = Ω + (<i>a</i> + 1) sin <i>φ</i>*</span>로 <span class="m">d<i>t</i></span>를 없애 한 바퀴 적분하면</p>
+      <div class="eq plain">ln[<i>ξ</i><sub><i>i</i></sub>(<i>T</i>)/<i>ξ</i><sub><i>i</i></sub>(0)] = [<i>a</i>/(<i>a</i> + 1)] ln[Ω + (<i>a</i> + 1) sin <i>φ</i>*]<sub>0</sub><sup>2π</sup> = 0</div>
+      <p>이다. 한 주기가 지나도 모든 섭동이 변하지 않으니 <span class="hlp">모든 특성 승수가 <span class="m"><i>λ</i><sub><i>j</i></sub> = 1</span>이고, 같은 위상 상태는 (선형적으로) 중립적으로 안정하다.</span> 기술적으로는 실망스럽다. 결맞은 진동에 고정되어 출력 전력을 크게 늘리기를 원하기 때문이다. 무시한 비선형 항도 같은 위상 상태를 안정화하지 못한다는 것을 가역성(reversibility)에 기반한 논증으로 보일 수 있다(연습문제 8.7.11).</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -516,11 +522,11 @@ function drawTorusPath(c,P,pts,col,lw){const NB=6;const paths=[];for(let i=0;i<N
 /* ================= HERO: torus knot ================= */
 (function hero(){
   const cv=$('#hero');const MODES=[{q:2/3,cap:'ω₂/ω₁ = 2/3: θ₁이 3번 도는 동안 θ₂가 2번 돌아 닫히는 세잎매듭(3:2 토러스 매듭)',T:6*Math.PI},
-    {q:(Math.sqrt(5)-1)/2,cap:'ω₂/ω₁ = (√5 − 1)/2 (무리수): 준주기적. 궤적은 닫히지 않고 토러스를 조밀하게 덮어 갑니다',T:70*Math.PI},
+    {q:(Math.sqrt(5)-1)/2,cap:'ω₂/ω₁ = (<span class="sqrt"><span class="rad">√</span><span class="rc">5</span></span> − 1)/2 (무리수): 준주기적. 궤적은 닫히지 않고 토러스를 조밀하게 덮어 갑니다',T:70*Math.PI},
     {q:2/5,cap:'ω₂/ω₁ = 2/5: 5:2 토러스 매듭',T:10*Math.PI}];
   let mi=0,t=0,rot=.3,hold=0,vis=true;
   new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
-  function setMode(i){mi=i;t=0;hold=0;$('#heroCap').textContent=MODES[mi].cap+'. 누르면 다음 진동수 비로 바꿉니다.';}
+  function setMode(i){mi=i;t=0;hold=0;$('#heroCap').innerHTML=MODES[mi].cap+'. 누르면 다음 진동수 비로 바꿉니다.';}
   function draw(){const F=fit(cv);if(!F)return;const{ctx:c,w,h}=F;c.clearRect(0,0,w,h);const P=torusProj(w,h,rot,1.05);drawTorusFrame(c,P);
     const M=MODES[mi];const n=Math.max(2,Math.round(t/.03));const pts=[];for(let i=0;i<=n;i++){const s=t*i/n;pts.push([s,s*M.q]);}drawTorusPath(c,P,pts,C.pink,2.2);
     const L=P(t,t*M.q);c.fillStyle=C.ink;c.beginPath();c.arc(L[0],L[1],4.5,0,7);c.fill();}
@@ -559,8 +565,8 @@ function cpRead(){const L=lockInfo();const ratio=w2/w1;const rat=ratApprox(w1/w2
   const v=$('#cpV');const K=K1+K2;
   if(K===0){if(rat){v.className='verdict ok';v.innerHTML='분리된 시스템, 유리수 비: 모든 궤적이 토러스의 닫힌 궤도입니다. θ₁이 '+rat[0]+'번 도는 동안 θ₂가 '+rat[1]+'번 돕니다'+(rat[0]===3&&rat[1]===2?'(세잎매듭)':'')+'. 모두 닫혀 있어 고립되지 않으니 극한 주기 궤도는 아닙니다.';}
     else{v.className='verdict';v.innerHTML='분리된 시스템, (거의) 무리수 비: 준주기적 흐름입니다. 궤적은 닫히지 않고 토러스를 조밀하게 덮어 갑니다.';}}
-  else if(L){v.className='verdict ok';v.innerHTML='<span class="m">|ω₁ − ω₂| = '+Math.abs(w1-w2).toFixed(3)+' &lt; K₁ + K₂ = '+K.toFixed(3)+'</span>: 위상 고정. 궤적은 기울기 1인 안정적인 고정 해(초록 대각선)로 다가갑니다.';}
-  else{v.className='verdict no';v.innerHTML='<span class="m">|ω₁ − ω₂| = '+Math.abs(w1-w2).toFixed(3)+' &gt; K₁ + K₂ = '+K.toFixed(3)+'</span>: 위상 고정이 순환 궤도의 안장점 갈래치기로 파괴되었습니다. 곡선 궤적의 준주기 또는 유리수 비 흐름입니다.';}}
+  else if(L){v.className='verdict ok';v.innerHTML='<span class="m">|<i>ω</i>₁ − <i>ω</i>₂| = '+Math.abs(w1-w2).toFixed(3)+' &lt; <i>K</i>₁ + <i>K</i>₂ = '+K.toFixed(3)+'</span>: 위상 고정. 궤적은 기울기 1인 안정적인 고정 해(초록 대각선)로 다가갑니다.';}
+  else{v.className='verdict no';v.innerHTML='<span class="m">|<i>ω</i>₁ − <i>ω</i>₂| = '+Math.abs(w1-w2).toFixed(3)+' &gt; <i>K</i>₁ + <i>K</i>₂ = '+K.toFixed(3)+'</span>: 위상 고정이 순환 궤도의 안장점 갈래치기로 파괴되었습니다. 곡선 궤적의 준주기 또는 유리수 비 흐름입니다.';}}
 function cpSync(){$('#w1Out').textContent=w1.toFixed(3);$('#w2Out').textContent=w2.toFixed(3);$('#k1Out').textContent=K1.toFixed(2);$('#k2Out').textContent=K2.toFixed(2);}
 function cpUpdate(reseed){cpSync();cp.renderStatic();if(reseed){cp.clear();cp.ci=0;cp.add(.4,.3);if(K1+K2>0)cp.add(3.5,1.2);}cp.dirty=true;drawCpPhi();cpRead();}
 let cpT0=null;for(const id of['#w1','#w2','#k1','#k2'])$(id).addEventListener('input',()=>{w1=+$('#w1').value;w2=+$('#w2').value;K1=+$('#k1').value;K2=+$('#k2').value;cpSync();clearTimeout(cpT0);cpT0=setTimeout(()=>cpUpdate(true),120);});
@@ -634,7 +640,7 @@ function jDraw(){const F=fit($('#jjC'));if(F){const{ctx:c,w,h}=F;c.fillStyle=C.p
   plot($('#jjS'),{xr:[0,tmax],yr:[0,smax],xl:'t',yl:'퍼짐',series:[{pts:jCont,col:rgba(C.muted,.7),lw:1.2}],
     post:(c,X,Y)=>{c.fillStyle=C.pink;for(const[t,s]of jSamples){c.beginPath();c.arc(X(t),Y(s),4,0,7);c.fill();}}});}
 function jRead(){const ok=Math.abs(jW)>Math.abs(ja+1);const T=ok?TAU/Math.sqrt(jW*jW-(ja+1)**2):NaN;
-  $('#jjRead').innerHTML=(ok?'<span>|Ω| &gt; |a + 1|: 같은 위상 해가 주기적, 주기 T = 2π/√(Ω² − (a + 1)²) = <b>'+T.toFixed(3)+'</b></span>':'<span>|Ω| ≤ |a + 1|: 같은 위상 해가 고정점에 멈춰 주기적이지 않습니다</span>')+
+  $('#jjRead').innerHTML=(ok?'<span>|Ω| &gt; |a + 1|: 같은 위상 해가 주기적, 주기 T = 2π/<span class="sqrt"><span class="rad">√</span><span class="rc">Ω² − (a + 1)²</span></span> = <b>'+T.toFixed(3)+'</b></span>':'<span>|Ω| ≤ |a + 1|: 같은 위상 해가 고정점에 멈춰 주기적이지 않습니다</span>')+
     (jSamples.length>1?'<span>한 주기마다 잰 퍼짐: '+jSamples.slice(-4).map(q=>q[1].toFixed(4)).join(', ')+'</span>':'');}
 new IntersectionObserver(e=>{jvis=e[0].isIntersecting;}).observe($('#jjC'));
 (function jLoop(){requestAnimationFrame(jLoop);if(!jvis||!jphi.length)return;const h=.01;for(let k=0;k<(reduceMotion?40:3);k++){jphi=jRK(jphi,h);jt+=h;

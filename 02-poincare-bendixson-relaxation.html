@@ -153,6 +153,12 @@ footer strong{color:var(--ink);font-weight:500}
 .check li.n span{color:var(--pink)}
 .check li.n{color:var(--pink)}
 @media (max-width:520px){.check{grid-template-columns:1fr}}
+
+/* math typesetting: only variables are italic; radicals get a vinculum */
+.m{font-style:normal}.m i,.eq i{font-style:italic}
+.sqrt{white-space:nowrap}
+.sqrt .rad{font-style:normal}
+.sqrt .rc{display:inline-block;border-top:.065em solid currentColor;padding:.06em .1em 0 .06em;margin-left:-.04em;line-height:1.1}
 </style>
 <script>try { const t = localStorage.getItem("netsci-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
@@ -188,7 +194,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   </div>
   <figure class="hero-fig" style="margin:0">
     <canvas id="hero" aria-label="완화 진동 궤적을 따라 움직이는 입자들의 애니메이션. 클릭하면 입자가 추가됩니다."></canvas>
-    <figcaption><span class="m">ẋ = μ[y − F(x)], ẏ = −x/μ</span>, <span class="m">μ = 6</span>. 입자들은 3차 함수 영점선을 따라 느리게 이동하다가(파랑) 반대편 줄기로 빠르게 점프합니다(분홍). 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
+    <figcaption><span class="m"><i>ẋ</i> = <i>μ</i>[<i>y</i> − <i>F</i>(<i>x</i>)], <i>ẏ</i> = −<i>x</i>/<i>μ</i></span>, <span class="m"><i>μ</i> = 6</span>. 입자들은 3차 함수 영점선을 따라 느리게 이동하다가(파랑) 반대편 줄기로 빠르게 점프합니다(분홍). 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
   </figure>
 </header>
 
@@ -202,25 +208,25 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
     <div class="txt">
       <div class="box pink">
         <p><span class="lbl">푸앵카레-벤딕슨 정리</span>다음 네 가지 조건을 가정하자.</p>
-        <p>(1) <span class="m">R</span>은 평면상의 닫힌 경계를 가진 부분집합이다.<br>
-        (2) <span class="m">ẋ = f(x)</span>는 <span class="m">R</span>을 포함하는 열린 집합에서 연속적으로 미분 가능한 벡터장이다.<br>
-        (3) <span class="m">R</span>은 고정점을 포함하지 않는다.<br>
-        (4) <span class="m">R</span>에 ‘갇힌(confined)’ 궤적 <span class="m">C</span>가 존재한다. 즉, <span class="m">R</span>에서 시작해서 영원히 <span class="m">R</span>에 머무르는 궤도가 있다는 뜻이다.</p>
-        <p>그러면 <span class="m">C</span>는 닫힌 궤도이거나 <span class="m">t → ∞</span>인 극한에서 닫힌 궤도를 향해 나선형으로 접근한다. 어떤 경우든 <span class="m">R</span>은 닫힌 궤도를 포함한다.</p>
+        <p>(1) <span class="m"><i>R</i></span>은 평면상의 닫힌 경계를 가진 부분집합이다.<br>
+        (2) <span class="m"><i>ẋ</i> = <i>f</i>(<i>x</i>)</span>는 <span class="m"><i>R</i></span>을 포함하는 열린 집합에서 연속적으로 미분 가능한 벡터장이다.<br>
+        (3) <span class="m"><i>R</i></span>은 고정점을 포함하지 않는다.<br>
+        (4) <span class="m"><i>R</i></span>에 ‘갇힌(confined)’ 궤적 <span class="m"><i>C</i></span>가 존재한다. 즉, <span class="m"><i>R</i></span>에서 시작해서 영원히 <span class="m"><i>R</i></span>에 머무르는 궤도가 있다는 뜻이다.</p>
+        <p>그러면 <span class="m"><i>C</i></span>는 닫힌 궤도이거나 <span class="m"><i>t</i> → ∞</span>인 극한에서 닫힌 궤도를 향해 나선형으로 접근한다. 어떤 경우든 <span class="m"><i>R</i></span>은 닫힌 궤도를 포함한다.</p>
       </div>
-      <p>증명은 미묘하며 위상수학(topology)의 심화 아이디어가 필요하다([Perko 1991], [Coddington and Levinson 1955], [Hurewicz 1958], [Cesari 1963]). 닫힌 궤도는 고정점을 둘러싸고 있어야 하고 <span class="m">R</span>에는 고정점이 허용되지 않으므로, <span class="m">R</span>은 보통 속이 빈 고리 모양의 영역이 된다.</p>
-      <p>조건 (1)~(3)을 만족시키기는 쉽지만, <span class="hlp">조건 (4)는 까다롭다.</span> 표준적인 기술은 <b>가두는 영역(trapping region)</b> <span class="m">R</span>, 즉 벡터장이 <span class="m">R</span> 경계의 모든 곳에서 ‘내부’로 향하는 닫힌 연결된 집합을 만드는 것이다. 그러면 <span class="m">R</span>에 있는 모든 궤적은 내부에 갇히게 된다. 게다가 <span class="m">R</span>에 고정점이 없다는 걸 알 수 있다면, P-B 정리에 의해 <span class="m">R</span>에 닫힌 궤도가 있는 것이 확실해진다.</p>
+      <p>증명은 미묘하며 위상수학(topology)의 심화 아이디어가 필요하다([Perko 1991], [Coddington and Levinson 1955], [Hurewicz 1958], [Cesari 1963]). 닫힌 궤도는 고정점을 둘러싸고 있어야 하고 <span class="m"><i>R</i></span>에는 고정점이 허용되지 않으므로, <span class="m"><i>R</i></span>은 보통 속이 빈 고리 모양의 영역이 된다.</p>
+      <p>조건 (1)~(3)을 만족시키기는 쉽지만, <span class="hlp">조건 (4)는 까다롭다.</span> 표준적인 기술은 <b>가두는 영역(trapping region)</b> <span class="m"><i>R</i></span>, 즉 벡터장이 <span class="m"><i>R</i></span> 경계의 모든 곳에서 ‘내부’로 향하는 닫힌 연결된 집합을 만드는 것이다. 그러면 <span class="m"><i>R</i></span>에 있는 모든 궤적은 내부에 갇히게 된다. 게다가 <span class="m"><i>R</i></span>에 고정점이 없다는 걸 알 수 있다면, P-B 정리에 의해 <span class="m"><i>R</i></span>에 닫힌 궤도가 있는 것이 확실해진다.</p>
 
       <h3>예제 7.3.1</h3>
-      <div class="eq">ṙ = <i>r</i>(1 − <i>r</i>²) + μ<i>r</i> cos θ,&emsp;θ̇ = 1</div>
-      <p><span class="m">μ = 0</span>이면 예제 7.1.1에서 살펴봤듯이 <span class="m">r = 1</span>에서 안정적인 극한 주기 궤도가 있다. <span class="m">μ</span>가 충분히 작으면 <span class="m">μ &gt; 0</span>일 때도 여전히 닫힌 궤도가 존재함을 보여라.</p>
-      <p><b>풀이.</b> 외부 원에서는 <span class="m">ṙ &lt; 0</span>, 내부 원에서는 <span class="m">ṙ &gt; 0</span>이 되도록 반지름 <span class="m">r<sub>min</sub></span>과 <span class="m">r<sub>max</sub></span>인 2개의 동심원을 찾자. 그러면 그 사이의 고리가 가두는 영역이 된다. <span class="m">θ̇ = 1 &gt; 0</span>이므로 고리 내부에는 고정점이 없다.</p>
+      <div class="eq"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²) + <i>μr</i> cos <i>θ</i>,&emsp;<i>θ̇</i> = 1</div>
+      <p><span class="m"><i>μ</i> = 0</span>이면 예제 7.1.1에서 살펴봤듯이 <span class="m"><i>r</i> = 1</span>에서 안정적인 극한 주기 궤도가 있다. <span class="m"><i>μ</i></span>가 충분히 작으면 <span class="m"><i>μ</i> &gt; 0</span>일 때도 여전히 닫힌 궤도가 존재함을 보여라.</p>
+      <p><b>풀이.</b> 외부 원에서는 <span class="m"><i>ṙ</i> &lt; 0</span>, 내부 원에서는 <span class="m"><i>ṙ</i> &gt; 0</span>이 되도록 반지름 <span class="m"><i>r</i><sub>min</sub></span>과 <span class="m"><i>r</i><sub>max</sub></span>인 2개의 동심원을 찾자. 그러면 그 사이의 고리가 가두는 영역이 된다. <span class="m"><i>θ̇</i> = 1 &gt; 0</span>이므로 고리 내부에는 고정점이 없다.</p>
       <ul>
-        <li><span class="m">r = r<sub>min</sub></span>: <span class="m">cos θ ≥ −1</span>이므로 <span class="m">1 − r² − μ &gt; 0</span>이 충분조건이다. 제곱근이 의미가 있도록 <span class="m">μ &lt; 1</span>일 경우 <span class="m">r<sub>min</sub> &lt; √(1 − μ)</span>.</li>
-        <li><span class="m">r = r<sub>max</sub></span>: <span class="m">cos θ ≤ 1</span>이므로 <span class="m">1 − r² + μ &lt; 0</span>이 충분조건이다. 즉 <span class="m">r<sub>max</sub> &gt; √(1 + μ)</span>.</li>
+        <li><span class="m"><i>r</i> = <i>r</i><sub>min</sub></span>: <span class="m">cos <i>θ</i> ≥ −1</span>이므로 <span class="m">1 − <i>r</i>² − <i>μ</i> &gt; 0</span>이 충분조건이다. 제곱근이 의미가 있도록 <span class="m"><i>μ</i> &lt; 1</span>일 경우 <span class="m"><i>r</i><sub>min</sub> &lt; <span class="sqrt"><span class="rad">√</span><span class="rc">1 − <i>μ</i></span></span></span>.</li>
+        <li><span class="m"><i>r</i> = <i>r</i><sub>max</sub></span>: <span class="m">cos <i>θ</i> ≤ 1</span>이므로 <span class="m">1 − <i>r</i>² + <i>μ</i> &lt; 0</span>이 충분조건이다. 즉 <span class="m"><i>r</i><sub>max</sub> &gt; <span class="sqrt"><span class="rad">√</span><span class="rc">1 + <i>μ</i></span></span></span>.</li>
       </ul>
-      <p>가능한 한 큰 <span class="m">r<sub>min</sub></span>과 가능한 한 작은 <span class="m">r<sub>max</sub></span>를 골라야 극한 주기 궤도를 가능한 한 바짝 가둘 수 있다. 예를 들어 <span class="m">r<sub>min</sub> = 0.999√(1 − μ)</span>, <span class="m">r<sub>max</sub> = 1.001√(1 + μ)</span>로 고르면, <span class="hl"><span class="m">μ &lt; 1</span>인 모든 <span class="m">μ</span>에 대해 닫힌 궤도가 존재하며 그 궤도는 <span class="m">0.999√(1 − μ) &lt; r &lt; 1.001√(1 + μ)</span>가 표현하는 고리 내부 어딘가에 있다.</span></p>
-      <p>이 추정은 보수적으로 잡은 것이다. 사실은 닫힌 궤도가 <span class="m">μ ≥ 1</span>인 경우에도 있을 수 있다. 오른쪽에서 <span class="m">μ = 1</span>로 놓고 확인해 보자.</p>
+      <p>가능한 한 큰 <span class="m"><i>r</i><sub>min</sub></span>과 가능한 한 작은 <span class="m"><i>r</i><sub>max</sub></span>를 골라야 극한 주기 궤도를 가능한 한 바짝 가둘 수 있다. 예를 들어 <span class="m"><i>r</i><sub>min</sub> = 0.999<span class="sqrt"><span class="rad">√</span><span class="rc">1 − <i>μ</i></span></span></span>, <span class="m"><i>r</i><sub>max</sub> = 1.001<span class="sqrt"><span class="rad">√</span><span class="rc">1 + <i>μ</i></span></span></span>로 고르면, <span class="hl"><span class="m"><i>μ</i> &lt; 1</span>인 모든 <span class="m"><i>μ</i></span>에 대해 닫힌 궤도가 존재하며 그 궤도는 <span class="m">0.999<span class="sqrt"><span class="rad">√</span><span class="rc">1 − <i>μ</i></span></span> &lt; <i>r</i> &lt; 1.001<span class="sqrt"><span class="rad">√</span><span class="rc">1 + <i>μ</i></span></span></span>가 표현하는 고리 내부 어딘가에 있다.</span></p>
+      <p>이 추정은 보수적으로 잡은 것이다. 사실은 닫힌 궤도가 <span class="m"><i>μ</i> ≥ 1</span>인 경우에도 있을 수 있다. 오른쪽에서 <span class="m"><i>μ</i> = 1</span>로 놓고 확인해 보자.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -234,7 +240,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <canvas id="pb" class="pp" aria-label="예제 7.3.1의 위상 평면과 가두는 영역 후보"></canvas>
       <div class="legend"><span><i style="background:var(--green)"></i>경계에서 흐름이 고리 안쪽으로 향함</span><span><i style="background:var(--pink)"></i>경계에서 흐름이 고리 밖으로 새어 나감</span><span><i style="background:var(--hl-amber)"></i>고리 영역</span></div>
       <div class="verdict" id="pbV"></div>
-      <p class="hint">두 원의 반지름을 직접 움직여 보세요. 원 위의 색은 그 점에서 <span class="m">ṙ</span>의 부호로 정합니다. 위상 평면을 누르면 궤적이 출발합니다.</p>
+      <p class="hint">두 원의 반지름을 직접 움직여 보세요. 원 위의 색은 그 점에서 <span class="m"><i>ṙ</i></span>의 부호로 정합니다. 위상 평면을 누르면 궤적이 출발합니다.</p>
     </div>
   </div>
 
@@ -242,17 +248,17 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <div class="row flip">
     <div class="txt">
       <p>해당과정이라 불리는 기본적인 생화학적 과정에서 살아있는 세포는 당을 분해하여 에너지를 얻는다. 손상되지 않은 효모(yeast) 세포와 효모 또는 근육 추출물에서, 해당과정은 다양한 중간체(intermediate)의 농도가 몇 분 동안 증가 및 감소하는 진동 형태로 진행될 수 있다. 이러한 진동의 간단한 모형이 셀코프[Sel’kov 1968]에 의해 제안됐다.</p>
-      <div class="eq">ẋ = −<i>x</i> + <i>ay</i> + <i>x</i>²<i>y</i>,&emsp;ẏ = <i>b</i> − <i>ay</i> − <i>x</i>²<i>y</i></div>
-      <p>여기서 <span class="m">x</span>와 <span class="m">y</span>는 각각 ADP와 F6P의 농도이고, <span class="m">a, b &gt; 0</span>은 동역학적 매개변수다. 이 시스템의 궤도를 가두는 영역을 만들어 보자.</p>
-      <p><b>풀이.</b> 먼저 영점선(nullcline)들을 찾는다. <span class="m">ẋ = 0</span>은 곡선 <span class="m">y = x/(a + x²)</span>, <span class="m">ẏ = 0</span>은 곡선 <span class="m">y = b/(a + x²)</span>이다. 점선으로 둘러싼 오각형이 가두는 영역 후보다. 수평, 수직인 경계면에는 문제가 없다. 까다로운 부분은 점 <span class="m">(b, b/a)</span>에서 영점선 <span class="m">y = x/(a + x²)</span>까지 이어지는 <b>기울기 −1의 대각선</b>이다.</p>
-      <p>이것은 어디에서 온 것일까? <span class="m">x</span>가 매우 큰 극한에서 <span class="m">ẋ ≈ x²y</span>, <span class="m">ẏ ≈ −x²y</span>이므로 궤적을 따라 <span class="m">dy/dx ≈ −1</span>이다. 더 정확하게 <span class="m">ẋ − (−ẏ) = ẋ + ẏ = b − x</span>를 보면, <span class="m">x &gt; b</span>일 때 <span class="m">−ẏ &gt; ẋ</span>이고 <span class="m">dy/dx &lt; −1</span>이다. 궤적의 기울기가 대각선보다 더 가파르니, 벡터장은 대각선 위에서 안쪽을 가리킨다. 따라서 이 영역은 가두는 영역이다.</p>
+      <div class="eq"><i>ẋ</i> = −<i>x</i> + <i>ay</i> + <i>x</i>²<i>y</i>,&emsp;<i>ẏ</i> = <i>b</i> − <i>ay</i> − <i>x</i>²<i>y</i></div>
+      <p>여기서 <span class="m"><i>x</i></span>와 <span class="m"><i>y</i></span>는 각각 ADP와 F6P의 농도이고, <span class="m"><i>a</i>, <i>b</i> &gt; 0</span>은 동역학적 매개변수다. 이 시스템의 궤도를 가두는 영역을 만들어 보자.</p>
+      <p><b>풀이.</b> 먼저 영점선(nullcline)들을 찾는다. <span class="m"><i>ẋ</i> = 0</span>은 곡선 <span class="m"><i>y</i> = <i>x</i>/(<i>a</i> + <i>x</i>²)</span>, <span class="m"><i>ẏ</i> = 0</span>은 곡선 <span class="m"><i>y</i> = <i>b</i>/(<i>a</i> + <i>x</i>²)</span>이다. 점선으로 둘러싼 오각형이 가두는 영역 후보다. 수평, 수직인 경계면에는 문제가 없다. 까다로운 부분은 점 <span class="m">(<i>b</i>, <i>b</i>/<i>a</i>)</span>에서 영점선 <span class="m"><i>y</i> = <i>x</i>/(<i>a</i> + <i>x</i>²)</span>까지 이어지는 <b>기울기 −1의 대각선</b>이다.</p>
+      <p>이것은 어디에서 온 것일까? <span class="m"><i>x</i></span>가 매우 큰 극한에서 <span class="m"><i>ẋ</i> ≈ <i>x</i>²<i>y</i></span>, <span class="m"><i>ẏ</i> ≈ −<i>x</i>²<i>y</i></span>이므로 궤적을 따라 <span class="m">d<i>y</i>/d<i>x</i> ≈ −1</span>이다. 더 정확하게 <span class="m"><i>ẋ</i> − (−<i>ẏ</i>) = <i>ẋ</i> + <i>ẏ</i> = <i>b</i> − <i>x</i></span>를 보면, <span class="m"><i>x</i> &gt; <i>b</i></span>일 때 <span class="m">−<i>ẏ</i> &gt; <i>ẋ</i></span>이고 <span class="m">d<i>y</i>/d<i>x</i> &lt; −1</span>이다. 궤적의 기울기가 대각선보다 더 가파르니, 벡터장은 대각선 위에서 안쪽을 가리킨다. 따라서 이 영역은 가두는 영역이다.</p>
       <div class="box amber">
         <p><span class="lbl">그러면 가두는 영역 내부에 닫힌 궤도가 있다고 결론을 내릴 수 있는가?</span>아니다! 두 영점선이 만나는 지점에 고정점이 있으므로 P-B 정리의 조건 (3)을 만족시키지 않는다. 그러나 이 고정점이 <b>밀개(repeller)</b>라면, 고정점 주위에 무한소(infinitesimal) 크기의 구멍을 낸 영역을 생각해 닫힌 궤도의 존재를 증명할 수 있다. 밀개는 인접한 모든 궤적을 구멍 난 영역으로 밀어내고, 그 영역에는 고정점이 없기 때문이다.</p>
       </div>
       <h3 style="margin-top:24px">예제 7.3.3 고정점이 밀개일 조건</h3>
-      <p>고정점은 <span class="m">x* = b</span>, <span class="m">y* = b/(a + b²)</span>이다. 이 점에서 야코비 행렬의 행렬식은 <span class="m">Δ = a + b² &gt; 0</span>이고, 대각합은</p>
-      <div class="eq plain">τ = −[<i>b</i>⁴ + (2<i>a</i> − 1)<i>b</i>² + (<i>a</i> + <i>a</i>²)] / (<i>a</i> + <i>b</i>²)</div>
-      <p>이다. 따라서 이 고정점은 <span class="m">τ &gt; 0</span>일 때 불안정하고 <span class="m">τ &lt; 0</span>일 때 안정하다. 경계 <span class="m">τ = 0</span>은 <span class="m">b² = (1/2)(1 − 2a ± √(1 − 8a))</span>로, <span class="m">(a, b)</span> 공간에서 오른쪽 아래 그림의 곡선이다. <span class="m">τ &gt; 0</span>인 영역에서는 시스템이 닫힌 궤도를 갖고 있음이 보장되며, 수치 적분을 통해 실제로 그것이 극한 주기 궤도임을 알 수 있다.</p>
+      <p>고정점은 <span class="m"><i>x</i>* = <i>b</i></span>, <span class="m"><i>y</i>* = <i>b</i>/(<i>a</i> + <i>b</i>²)</span>이다. 이 점에서 야코비 행렬의 행렬식은 <span class="m">Δ = <i>a</i> + <i>b</i>² &gt; 0</span>이고, 대각합은</p>
+      <div class="eq plain"><i>τ</i> = −[<i>b</i>⁴ + (2<i>a</i> − 1)<i>b</i>² + (<i>a</i> + <i>a</i>²)] / (<i>a</i> + <i>b</i>²)</div>
+      <p>이다. 따라서 이 고정점은 <span class="m"><i>τ</i> &gt; 0</span>일 때 불안정하고 <span class="m"><i>τ</i> &lt; 0</span>일 때 안정하다. 경계 <span class="m"><i>τ</i> = 0</span>은 <span class="m"><i>b</i>² = (1/2)(1 − 2<i>a</i> ± <span class="sqrt"><span class="rad">√</span><span class="rc">1 − 8<i>a</i></span></span>)</span>로, <span class="m">(<i>a</i>, <i>b</i>)</span> 공간에서 오른쪽 아래 그림의 곡선이다. <span class="m"><i>τ</i> &gt; 0</span>인 영역에서는 시스템이 닫힌 궤도를 갖고 있음이 보장되며, 수치 적분을 통해 실제로 그것이 극한 주기 궤도임을 알 수 있다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -270,7 +276,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <div class="legend"><span><i style="background:var(--cyan)"></i>ẋ = 0 영점선</span><span><i style="background:var(--amber)"></i>ẏ = 0 영점선</span><span><i style="background:var(--green)"></i>경계에서 안쪽으로 향함</span></div>
       <div class="read"><span>고정점 <b id="glyFP"></b></span><span><b id="glyTau"></b></span></div>
       <div class="verdict" id="glyV"></div>
-      <p class="sub">매개변수 공간 <span class="m">(a, b)</span>: 누르면 그 값으로 바뀝니다</p>
+      <p class="sub">매개변수 공간 <span class="m">(<i>a</i>, <i>b</i>)</span>: 누르면 그 값으로 바뀝니다</p>
       <canvas id="glyab" class="pp" aria-label="a, b 매개변수 공간에서 극한 주기 궤도가 생기는 영역"></canvas>
     </div>
   </div>
@@ -282,7 +288,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <p>이 결과는 결정적으로 평면이 2차원이라는 사실 때문에 생긴다. 닫힌 궤적, 곧 1차원의 닫힌 곡선이 평면을 ‘안’과 ‘밖’으로 완벽하게 나누기 때문이다.</p>
     </div>
     <div class="txt">
-      <p>고차원(<span class="m">n ≥ 3</span>) 시스템에서는 P-B 정리가 더 이상 적용되지 않으며, 완전히 새로운 현상이 일어날 수 있다. 궤적이 고정점이나 닫힌 궤도에 정착하지 못하고 제한된 영역 내부에서 영원히 돌아다닐 수 있게 된다. 경우에 따라 궤적은 움직임이 비주기적이고 초기 조건의 작은 변화에 민감한 프랙탈(fractal) 집합인 <b>이상한 끌개(strange attractor)</b>로 끌려갈 수 있다. 이 민감성은 장기적인 움직임을 예측할 수 없게 만든다. 이것이 바로 <b>카오스(chaos)</b>다.</p>
+      <p>고차원(<span class="m"><i>n</i> ≥ 3</span>) 시스템에서는 P-B 정리가 더 이상 적용되지 않으며, 완전히 새로운 현상이 일어날 수 있다. 궤적이 고정점이나 닫힌 궤도에 정착하지 못하고 제한된 영역 내부에서 영원히 돌아다닐 수 있게 된다. 경우에 따라 궤적은 움직임이 비주기적이고 초기 조건의 작은 변화에 민감한 프랙탈(fractal) 집합인 <b>이상한 끌개(strange attractor)</b>로 끌려갈 수 있다. 이 민감성은 장기적인 움직임을 예측할 수 없게 만든다. 이것이 바로 <b>카오스(chaos)</b>다.</p>
       <div class="box pink"><p><span class="lbl">P-B 정리의 의미</span>위상 평면에서 카오스는 절대 발생할 수 없다.</p></div>
     </div>
   </div>
@@ -294,30 +300,30 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <p class="intro">비선형 동역학의 태동기라고 할 수 있는 1920년에서 1950년 사이에 비선형 진동에 대한 많은 연구가 있었다. 초기에는 라디오 및 진공관 기술의 발전이 동기가 되었다. 많은 진동하는 회로를 다음 형식의 2차 미분 방정식으로 모형화할 수 있음이 밝혀졌다.</p>
   <div class="row">
     <div class="txt">
-      <div class="eq">ẍ + <i>f</i>(<i>x</i>)ẋ + <i>g</i>(<i>x</i>) = 0</div>
-      <p>이것이 <b>리에나르 방정식(Liénard's equation)</b>이다. <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이면 반 데르 폴 진동자이니, 이를 일반화한 것이다. 역학적으로는 비선형 감쇠력 <span class="m">−f(x)ẋ</span>와 비선형 복원력 <span class="m">−g(x)</span>를 받는 단위 질량에 대한 운동 방정식(<span class="m">F = ma = mẍ</span>에서 <span class="m">m = 1</span>)으로 해석할 수 있다. 속도 변수 <span class="m">y = ẋ</span>를 도입하면 다음 시스템과 같다.</p>
-      <div class="eq plain">ẋ = <i>y</i>,&emsp;ẏ = −<i>g</i>(<i>x</i>) − <i>f</i>(<i>x</i>)<i>y</i></div>
+      <div class="eq"><i>ẍ</i> + <i>f</i>(<i>x</i>)<i>ẋ</i> + <i>g</i>(<i>x</i>) = 0</div>
+      <p>이것이 <b>리에나르 방정식(Liénard's equation)</b>이다. <span class="m"><i>f</i>(<i>x</i>) = <i>μ</i>(<i>x</i>² − 1)</span>, <span class="m"><i>g</i>(<i>x</i>) = <i>x</i></span>이면 반 데르 폴 진동자이니, 이를 일반화한 것이다. 역학적으로는 비선형 감쇠력 <span class="m">−<i>f</i>(<i>x</i>)<i>ẋ</i></span>와 비선형 복원력 <span class="m">−<i>g</i>(<i>x</i>)</span>를 받는 단위 질량에 대한 운동 방정식(<span class="m"><i>F</i> = <i>ma</i> = <i>mẍ</i></span>에서 <span class="m"><i>m</i> = 1</span>)으로 해석할 수 있다. 속도 변수 <span class="m"><i>y</i> = <i>ẋ</i></span>를 도입하면 다음 시스템과 같다.</p>
+      <div class="eq plain"><i>ẋ</i> = <i>y</i>,&emsp;<i>ẏ</i> = −<i>g</i>(<i>x</i>) − <i>f</i>(<i>x</i>)<i>y</i></div>
       <div class="box pink">
-        <p><span class="lbl">리에나르의 정리</span><span class="m">f(x)</span>와 <span class="m">g(x)</span>가 다음 조건들을 만족시킨다고 가정하자.</p>
-        <p>(1) <span class="m">f(x)</span>와 <span class="m">g(x)</span>는 모든 <span class="m">x</span>에 대해 연속적으로 미분 가능하다.<br>
-        (2) 모든 <span class="m">x</span>에 대해 <span class="m">g(−x) = −g(x)</span>, 즉 <span class="m">g(x)</span>는 기함수(odd function)이다.<br>
-        (3) <span class="m">x &gt; 0</span>이면 <span class="m">g(x) &gt; 0</span>이다.<br>
-        (4) 모든 <span class="m">x</span>에 대해 <span class="m">f(−x) = f(x)</span>, 즉 <span class="m">f(x)</span>는 우함수(even function)다.<br>
-        (5) 기함수 <span class="m">F(x) = ∫₀ˣ f(u) du</span>는 <span class="m">x = a</span>에서 정확히 하나의 양의 근을 갖고 있고, <span class="m">0 &lt; x &lt; a</span>인 <span class="m">x</span>에서는 음수인 값을 갖고 있으며 <span class="m">x &gt; a</span>에서는 감소하지 않고, <span class="m">x → ∞</span>인 극한에서 <span class="m">F(x) → ∞</span>로 발산한다.</p>
+        <p><span class="lbl">리에나르의 정리</span><span class="m"><i>f</i>(<i>x</i>)</span>와 <span class="m"><i>g</i>(<i>x</i>)</span>가 다음 조건들을 만족시킨다고 가정하자.</p>
+        <p>(1) <span class="m"><i>f</i>(<i>x</i>)</span>와 <span class="m"><i>g</i>(<i>x</i>)</span>는 모든 <span class="m"><i>x</i></span>에 대해 연속적으로 미분 가능하다.<br>
+        (2) 모든 <span class="m"><i>x</i></span>에 대해 <span class="m"><i>g</i>(−<i>x</i>) = −<i>g</i>(<i>x</i>)</span>, 즉 <span class="m"><i>g</i>(<i>x</i>)</span>는 기함수(odd function)이다.<br>
+        (3) <span class="m"><i>x</i> &gt; 0</span>이면 <span class="m"><i>g</i>(<i>x</i>) &gt; 0</span>이다.<br>
+        (4) 모든 <span class="m"><i>x</i></span>에 대해 <span class="m"><i>f</i>(−<i>x</i>) = <i>f</i>(<i>x</i>)</span>, 즉 <span class="m"><i>f</i>(<i>x</i>)</span>는 우함수(even function)다.<br>
+        (5) 기함수 <span class="m"><i>F</i>(<i>x</i>) = ∫₀ˣ <i>f</i>(<i>u</i>) d<i>u</i></span>는 <span class="m"><i>x</i> = <i>a</i></span>에서 정확히 하나의 양의 근을 갖고 있고, <span class="m">0 &lt; <i>x</i> &lt; <i>a</i></span>인 <span class="m"><i>x</i></span>에서는 음수인 값을 갖고 있으며 <span class="m"><i>x</i> &gt; <i>a</i></span>에서는 감소하지 않고, <span class="m"><i>x</i> → ∞</span>인 극한에서 <span class="m"><i>F</i>(<i>x</i>) → ∞</span>로 발산한다.</p>
         <p>그러면 이 시스템은 위상 평면의 원점을 둘러싼 유일하고 안정적인 극한 주기 궤도를 갖고 있다.</p>
       </div>
-      <p>이 결과는 그럴듯해 보인다. <span class="m">g(x)</span>에 대한 가정은 복원력이 보통의 용수철처럼 작용하고 변위(displacement)를 줄이는 경향이 있다는 뜻이다. <span class="m">g(0) = 0</span>이니 원점은 항상 고정점이다. <span class="m">f(x)</span>에 대한 가정은 작은 <span class="m">|x|</span>에서 감쇠가 음수(증폭)이며 큰 <span class="m">|x|</span>에서는 감쇠가 양수라는 뜻이다. 작은 진동은 증폭되고 큰 진동은 감쇠되니, 시스템이 스스로 지속 가능한 중간 정도의 진폭을 가진 진동으로 정착되는 경향이 있다는 것은 놀랍지 않다.</p>
-      <p><b>예제 7.4.1</b>&ensp;반 데르 폴 방정식은 <span class="m">f(x) = μ(x² − 1)</span>, <span class="m">g(x) = x</span>이므로 조건 (1)~(4)를 확실히 만족시킨다. 또 <span class="m">F(x) = μ((1/3)x³ − x) = (1/3)μx(x² − 3)</span>이니 <span class="m">a = √3</span>에서 (5)번 조건이 만족된다. 따라서 반 데르 폴 방정식은 유일하고 안정적인 극한 주기 궤도를 갖는다.</p>
+      <p>이 결과는 그럴듯해 보인다. <span class="m"><i>g</i>(<i>x</i>)</span>에 대한 가정은 복원력이 보통의 용수철처럼 작용하고 변위(displacement)를 줄이는 경향이 있다는 뜻이다. <span class="m"><i>g</i>(0) = 0</span>이니 원점은 항상 고정점이다. <span class="m"><i>f</i>(<i>x</i>)</span>에 대한 가정은 작은 <span class="m">|<i>x</i>|</span>에서 감쇠가 음수(증폭)이며 큰 <span class="m">|<i>x</i>|</span>에서는 감쇠가 양수라는 뜻이다. 작은 진동은 증폭되고 큰 진동은 감쇠되니, 시스템이 스스로 지속 가능한 중간 정도의 진폭을 가진 진동으로 정착되는 경향이 있다는 것은 놀랍지 않다.</p>
+      <p><b>예제 7.4.1</b>&ensp;반 데르 폴 방정식은 <span class="m"><i>f</i>(<i>x</i>) = <i>μ</i>(<i>x</i>² − 1)</span>, <span class="m"><i>g</i>(<i>x</i>) = <i>x</i></span>이므로 조건 (1)~(4)를 확실히 만족시킨다. 또 <span class="m"><i>F</i>(<i>x</i>) = <i>μ</i>((1/3)<i>x</i>³ − <i>x</i>) = (1/3)<i>μx</i>(<i>x</i>² − 3)</span>이니 <span class="m"><i>a</i> = <span class="sqrt"><span class="rad">√</span><span class="rc">3</span></span></span>에서 (5)번 조건이 만족된다. 따라서 반 데르 폴 방정식은 유일하고 안정적인 극한 주기 궤도를 갖는다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
-        <label><span class="m">f(x)</span>&ensp;<select id="lf" aria-label="감쇠 함수 f 선택">
+        <label><span class="m"><i>f</i>(<i>x</i>)</span>&ensp;<select id="lf" aria-label="감쇠 함수 f 선택">
           <option value="vdp" selected>μ(x² − 1)</option>
           <option value="quart">μ(x⁴ − 1)</option>
           <option value="rev">μ(1 − x²)</option>
           <option value="odd">μ(x² − 1) + 0.5x</option>
         </select></label>
-        <label><span class="m">g(x)</span>&ensp;<select id="lg" aria-label="복원력 함수 g 선택">
+        <label><span class="m"><i>g</i>(<i>x</i>)</span>&ensp;<select id="lg" aria-label="복원력 함수 g 선택">
           <option value="lin" selected>x</option>
           <option value="hard">x + x³</option>
           <option value="cub">x³</option>
@@ -329,7 +335,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
         <button class="btn" id="lienClear">지우기</button>
       </div>
       <canvas id="lien" class="pp" aria-label="리에나르 시스템의 위상 평면"></canvas>
-      <p class="sub"><span class="m">F(x) = ∫₀ˣ f(u) du</span> (<span class="m">x ≥ 0</span>)</p>
+      <p class="sub"><span class="m"><i>F</i>(<i>x</i>) = ∫₀ˣ <i>f</i>(<i>u</i>) d<i>u</i></span> (<span class="m"><i>x</i> ≥ 0</span>)</p>
       <canvas id="lienF" aria-label="F(x)의 그래프"></canvas>
       <ul class="check" id="lienCk"></ul>
       <div class="verdict" id="lienV"></div>
@@ -341,18 +347,18 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
 <!-- ============ 7.5 ============ -->
 <section class="sec" id="s75">
   <div class="sec-h"><span class="no">7.5</span><h2>완화 진동<span>relaxation oscillation</span></h2></div>
-  <p class="intro">지금까지는 주기적 해가 있는가와 같은 정성적인 질문에 집중했다. 이제 닫힌 궤도가 존재한다면 그 모양과 주기에 대해 무엇을 말할 수 있는지에 대한 정량적(quantitative) 질문을 해보자. 반 데르 폴 방정식 <span class="m">ẍ + μ(x² − 1)ẋ + x = 0</span>에서 <span class="m">μ ≫ 1</span>인, 강한 비선형 극한을 다룬다.</p>
+  <p class="intro">지금까지는 주기적 해가 있는가와 같은 정성적인 질문에 집중했다. 이제 닫힌 궤도가 존재한다면 그 모양과 주기에 대해 무엇을 말할 수 있는지에 대한 정량적(quantitative) 질문을 해보자. 반 데르 폴 방정식 <span class="m"><i>ẍ</i> + <i>μ</i>(<i>x</i>² − 1)<i>ẋ</i> + <i>x</i> = 0</span>에서 <span class="m"><i>μ</i> ≫ 1</span>인, 강한 비선형 극한을 다룬다.</p>
   <div class="row">
     <div class="txt">
-      <p>이 극한에서는 <span class="m">x</span>의 변화가 매우 천천히 쌓였다가 갑작스럽게 사라지고, 다시 천천히 쌓이는 식으로 반복되는 극한 주기 궤도를 볼 수 있다. 느리게 쌓이는 중에 축적된 ‘변형(stress)’이 급격하게 사라지는 과정에서 ‘완화(relax)’되기 때문에 이를 <b>완화 진동(relaxation oscillation)</b>이라고 한다. 휘어진 바이올린 현의 습동(stick-slip) 진동에서부터 일정한 전류에 의해 동작하는 신경세포의 주기적인 발화에 이르기까지 수많은 과학적 상황에서 발생한다.</p>
+      <p>이 극한에서는 <span class="m"><i>x</i></span>의 변화가 매우 천천히 쌓였다가 갑작스럽게 사라지고, 다시 천천히 쌓이는 식으로 반복되는 극한 주기 궤도를 볼 수 있다. 느리게 쌓이는 중에 축적된 ‘변형(stress)’이 급격하게 사라지는 과정에서 ‘완화(relax)’되기 때문에 이를 <b>완화 진동(relaxation oscillation)</b>이라고 한다. 휘어진 바이올린 현의 습동(stick-slip) 진동에서부터 일정한 전류에 의해 동작하는 신경세포의 주기적인 발화에 이르기까지 수많은 과학적 상황에서 발생한다.</p>
       <h3>예제 7.5.1 <span class="en">μ ≫ 1에서의 위상 평면</span></h3>
-      <p>일반적인 ‘<span class="m">ẋ = y, ẏ = …</span>’과는 다른 위상 평면 변수를 도입하는 것이 편리하다. <span class="m">F(x) = (1/3)x³ − x</span>로 두면</p>
-      <div class="eq plain">ẍ + μẋ(<i>x</i>² − 1) = d/d<i>t</i> [ẋ + μ<i>F</i>(<i>x</i>)]</div>
-      <p>이므로 <span class="m">w = ẋ + μF(x)</span>로 두면 <span class="m">ẇ = −x</span>, <span class="m">ẋ = w − μF(x)</span>이다. 변수를 한 번 더 치환해 <span class="m">y = w/μ</span>로 두면</p>
-      <div class="eq">ẋ = μ[<i>y</i> − <i>F</i>(<i>x</i>)],&emsp;ẏ = −<i>x</i>/μ</div>
-      <p>영점선들이 이 움직임을 이해하기 위한 열쇠다. 초기 조건이 3차 함수 영점선(cubic nullcline) <span class="m">y = F(x)</span>에 너무 가깝지 않으면, 즉 <span class="m">y − F(x) ~ O(1)</span>이면 <span class="m">|ẋ| ~ O(μ) ≫ 1</span>, <span class="m">|ẏ| ~ O(μ⁻¹) ≪ 1</span>이다. 속도가 수평 방향으로 매우 크고 수직 방향으로는 매우 작으니 <span class="hlp">궤적은 사실상 수평으로 이동한다.</span></p>
-      <p>궤적이 영점선에 너무 가까워져서 <span class="m">y − F(x) ~ O(μ⁻²)</span>에 도달하면 <span class="m">ẋ</span>과 <span class="m">ẏ</span>은 둘 다 <span class="m">O(μ⁻¹)</span>이 된다. 궤적은 영점선을 수직으로 가로지른 다음, 3차 함수의 ‘무릎’에 도달해서 다시 옆으로 점프할 수 있을 때까지 <span class="hlc">영점선의 해당 줄기를 따라 천천히 이동한다.</span> 무릎 <span class="m">B(1, −2/3)</span>에 도달하면 <span class="m">C(−2, −2/3)</span>로 점프하고, 다시 무릎 <span class="m">D(−1, 2/3)</span>까지 천천히 올라가 <span class="m">A(2, 2/3)</span>로 점프한다.</p>
-      <p>이 극한 주기 궤도에는 <b>크게 분리된 2개의 시간 척도(time scale)</b>가 있다. 천천히 기어가는 움직임에는 <span class="m">Δt ~ O(μ)</span>, 점프에는 <span class="m">Δt ~ O(μ⁻¹)</span>만큼의 시간이 걸린다.</p>
+      <p>일반적인 ‘<span class="m"><i>ẋ</i> = <i>y</i>, <i>ẏ</i> = …</span>’과는 다른 위상 평면 변수를 도입하는 것이 편리하다. <span class="m"><i>F</i>(<i>x</i>) = (1/3)<i>x</i>³ − <i>x</i></span>로 두면</p>
+      <div class="eq plain"><i>ẍ</i> + <i>μẋ</i>(<i>x</i>² − 1) = <i>d</i>/<i>dt</i> [<i>ẋ</i> + <i>μF</i>(<i>x</i>)]</div>
+      <p>이므로 <span class="m"><i>w</i> = <i>ẋ</i> + <i>μF</i>(<i>x</i>)</span>로 두면 <span class="m"><i>ẇ</i> = −<i>x</i></span>, <span class="m"><i>ẋ</i> = <i>w</i> − <i>μF</i>(<i>x</i>)</span>이다. 변수를 한 번 더 치환해 <span class="m"><i>y</i> = <i>w</i>/<i>μ</i></span>로 두면</p>
+      <div class="eq"><i>ẋ</i> = <i>μ</i>[<i>y</i> − <i>F</i>(<i>x</i>)],&emsp;<i>ẏ</i> = −<i>x</i>/<i>μ</i></div>
+      <p>영점선들이 이 움직임을 이해하기 위한 열쇠다. 초기 조건이 3차 함수 영점선(cubic nullcline) <span class="m"><i>y</i> = <i>F</i>(<i>x</i>)</span>에 너무 가깝지 않으면, 즉 <span class="m"><i>y</i> − <i>F</i>(<i>x</i>) ~ <i>O</i>(1)</span>이면 <span class="m">|<i>ẋ</i>| ~ <i>O</i>(<i>μ</i>) ≫ 1</span>, <span class="m">|<i>ẏ</i>| ~ <i>O</i>(<i>μ</i>⁻¹) ≪ 1</span>이다. 속도가 수평 방향으로 매우 크고 수직 방향으로는 매우 작으니 <span class="hlp">궤적은 사실상 수평으로 이동한다.</span></p>
+      <p>궤적이 영점선에 너무 가까워져서 <span class="m"><i>y</i> − <i>F</i>(<i>x</i>) ~ <i>O</i>(<i>μ</i>⁻²)</span>에 도달하면 <span class="m"><i>ẋ</i></span>과 <span class="m"><i>ẏ</i></span>은 둘 다 <span class="m"><i>O</i>(<i>μ</i>⁻¹)</span>이 된다. 궤적은 영점선을 수직으로 가로지른 다음, 3차 함수의 ‘무릎’에 도달해서 다시 옆으로 점프할 수 있을 때까지 <span class="hlc">영점선의 해당 줄기를 따라 천천히 이동한다.</span> 무릎 <span class="m"><i>B</i>(1, −2/3)</span>에 도달하면 <span class="m"><i>C</i>(−2, −2/3)</span>로 점프하고, 다시 무릎 <span class="m"><i>D</i>(−1, 2/3)</span>까지 천천히 올라가 <span class="m"><i>A</i>(2, 2/3)</span>로 점프한다.</p>
+      <p>이 극한 주기 궤도에는 <b>크게 분리된 2개의 시간 척도(time scale)</b>가 있다. 천천히 기어가는 움직임에는 <span class="m">Δ<i>t</i> ~ <i>O</i>(<i>μ</i>)</span>, 점프에는 <span class="m">Δ<i>t</i> ~ <i>O</i>(<i>μ</i>⁻¹)</span>만큼의 시간이 걸린다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -361,24 +367,24 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       </div>
       <canvas id="rel" class="pp" aria-label="리에나르 평면에서 본 반 데르 폴 방정식의 위상 평면"></canvas>
       <div class="legend"><span><i style="background:var(--pink)"></i>빠른 이동(|ẋ| &gt; 1)</span><span><i style="background:var(--cyan)"></i>느린 이동</span><span><i style="background:var(--amber)"></i>3차 함수 영점선 y = F(x)</span></div>
-      <p class="sub">시계열 <span class="m">x(t)</span></p>
+      <p class="sub">시계열 <span class="m"><i>x</i>(<i>t</i>)</span></p>
       <canvas id="relx" aria-label="완화 진동의 x(t)"></canvas>
       <div class="read"><span>수치 주기 <b id="relTn">–</b></span><span>μ(3 − 2 ln 2) <b id="relTa">–</b></span></div>
-      <p class="hint">교재 그림 7.5.2처럼 <span class="m">μ = 10</span>, 초기 조건 <span class="m">(x₀, y₀) = (2, 0)</span>에서 시작합니다. μ를 줄이면 두 시간 척도의 구분이 흐려집니다.</p>
+      <p class="hint">교재 그림 7.5.2처럼 <span class="m"><i>μ</i> = 10</span>, 초기 조건 <span class="m">(<i>x</i>₀, <i>y</i>₀) = (2, 0)</span>에서 시작합니다. μ를 줄이면 두 시간 척도의 구분이 흐려집니다.</p>
     </div>
   </div>
 
   <h3>예제 7.5.2 <span class="en">μ ≫ 1일 때 극한 주기 궤도의 주기</span></h3>
   <div class="row flip">
     <div class="txt">
-      <p>점프에 걸리는 시간 <span class="m">Δt ~ O(μ⁻¹)</span>은 무시할 만하므로, 주기는 2개의 느린 줄기를 따라 이동하는 데 필요한 시간이다. 대칭에 의해 각 줄기에서 소요되는 시간은 동일하므로 <span class="hl">느린 이동에 걸리는 시간의 2배를 주기로 추정할 수 있다.</span></p>
-      <p>느린 줄기에서는 <span class="m">y ≈ F(x)</span>이므로 <span class="m">dy/dt ≈ F′(x) dx/dt = (x² − 1) dx/dt</span>이다. 한편 <span class="m">dy/dt = −x/μ</span>이므로 <span class="m">dx/dt ≈ −x/[μ(x² − 1)]</span>, 즉 <span class="m">dt ≈ −μ(x² − 1)/x dx</span>이다. <span class="m">x</span>가 양수인 줄기는 <span class="m">x<sub>A</sub> = 2</span>에서 시작해 <span class="m">x<sub>B</sub> = 1</span>에서 끝나므로</p>
-      <div class="eq">T ≈ 2∫₂¹ −(μ/<i>x</i>)(<i>x</i>² − 1) d<i>x</i> = 2μ[(1/2)<i>x</i>² − ln <i>x</i>]₁² = μ(3 − 2 ln 2)</div>
-      <p>이며, 예상대로 <span class="m">O(μ)</span>이다(<span class="m">3 − 2 ln 2 ≈ 1.614</span>). 훨씬 많은 과정을 거치면 <span class="m">T ≈ μ[3 − 2 ln 2] + 2αμ<sup>−1/3</sup> + …</span>임을 보일 수 있다. 여기서 <span class="m">α ≈ 2.338</span>은 <span class="m">Ai(−α) = 0</span>의 가장 작은 해이고, <span class="m">Ai(x)</span>는 에어리(Airy) 함수라 불리는 특수 함수다. 보정 항은 점프와 느린 움직임 사이에서 영점선의 구석을 도는 데 필요한 시간에서 나온다(메리 캣라이트(Mary Cartwright, 1952); [Grimshaw 1990]).</p>
+      <p>점프에 걸리는 시간 <span class="m">Δ<i>t</i> ~ <i>O</i>(<i>μ</i>⁻¹)</span>은 무시할 만하므로, 주기는 2개의 느린 줄기를 따라 이동하는 데 필요한 시간이다. 대칭에 의해 각 줄기에서 소요되는 시간은 동일하므로 <span class="hl">느린 이동에 걸리는 시간의 2배를 주기로 추정할 수 있다.</span></p>
+      <p>느린 줄기에서는 <span class="m"><i>y</i> ≈ <i>F</i>(<i>x</i>)</span>이므로 <span class="m">d<i>y</i>/d<i>t</i> ≈ <i>F</i>′(<i>x</i>) d<i>x</i>/d<i>t</i> = (<i>x</i>² − 1) d<i>x</i>/d<i>t</i></span>이다. 한편 <span class="m">d<i>y</i>/d<i>t</i> = −<i>x</i>/<i>μ</i></span>이므로 <span class="m">d<i>x</i>/d<i>t</i> ≈ −<i>x</i>/[<i>μ</i>(<i>x</i>² − 1)]</span>, 즉 <span class="m">d<i>t</i> ≈ −<i>μ</i>(<i>x</i>² − 1)/<i>x</i> d<i>x</i></span>이다. <span class="m"><i>x</i></span>가 양수인 줄기는 <span class="m"><i>x</i><sub>A</sub> = 2</span>에서 시작해 <span class="m"><i>x</i><sub>B</sub> = 1</span>에서 끝나므로</p>
+      <div class="eq"><i>T</i> ≈ 2∫₂¹ −(<i>μ</i>/<i>x</i>)(<i>x</i>² − 1) <i>dx</i> = 2<i>μ</i>[(1/2)<i>x</i>² − ln <i>x</i>]₁² = <i>μ</i>(3 − 2 ln 2)</div>
+      <p>이며, 예상대로 <span class="m"><i>O</i>(<i>μ</i>)</span>이다(<span class="m">3 − 2 ln 2 ≈ 1.614</span>). 훨씬 많은 과정을 거치면 <span class="m"><i>T</i> ≈ <i>μ</i>[3 − 2 ln 2] + 2<i>αμ</i><sup>−1/3</sup> + …</span>임을 보일 수 있다. 여기서 <span class="m"><i>α</i> ≈ 2.338</span>은 <span class="m">Ai(−<i>α</i>) = 0</span>의 가장 작은 해이고, <span class="m">Ai(<i>x</i>)</span>는 에어리(Airy) 함수라 불리는 특수 함수다. 보정 항은 점프와 느린 움직임 사이에서 영점선의 구석을 도는 데 필요한 시간에서 나온다(메리 캣라이트(Mary Cartwright, 1952); [Grimshaw 1990]).</p>
       <p>마지막 한마디: 완화 진동에서는 두 가지 시간 척도가 <b>순차적으로</b> 작동한다. 다음 절에서는 2개의 시간 척도가 <b>동시에</b> 작동하는 문제를 만나게 된다.</p>
     </div>
     <div class="demo">
-      <p class="sub" style="margin-top:0">주기 <span class="m">T</span>와 <span class="m">μ</span>: 점은 브라우저에서 수치 적분으로 구한 값</p>
+      <p class="sub" style="margin-top:0">주기 <span class="m"><i>T</i></span>와 <span class="m"><i>μ</i></span>: 점은 브라우저에서 수치 적분으로 구한 값</p>
       <canvas id="relT" aria-label="주기의 수치값과 두 근사식의 비교 그래프"></canvas>
       <div class="legend"><span><i style="background:var(--ink)"></i>수치 적분</span><span><i style="background:var(--pink)"></i>μ(3 − 2 ln 2)</span><span><i style="background:var(--green)"></i>μ(3 − 2 ln 2) + 2αμ<sup>−1/3</sup></span></div>
       <p class="hint">μ가 커질수록 수치값과 첫 번째 근사의 비율은 1에 다가가고, 두 번째 근사는 작은 μ에서도 훨씬 잘 맞습니다. 세로 점선은 위 데모의 현재 μ입니다.</p>

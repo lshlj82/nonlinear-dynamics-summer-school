@@ -142,6 +142,12 @@ footer strong{color:var(--ink);font-weight:500}
   .two{grid-template-columns:1fr}
   .bar-in .t{display:none}
 }
+
+/* math typesetting: only variables are italic; radicals get a vinculum */
+.m{font-style:normal}.m i,.eq i{font-style:italic}
+.sqrt{white-space:nowrap}
+.sqrt .rad{font-style:normal}
+.sqrt .rc{display:inline-block;border-top:.065em solid currentColor;padding:.06em .1em 0 .06em;margin-left:-.04em;line-height:1.1}
 </style>
 <script>try { const t = localStorage.getItem("netsci-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
@@ -176,7 +182,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   </div>
   <figure class="hero-fig" style="margin:0">
     <canvas id="hero" aria-label="단위 원으로 모여드는 입자들의 애니메이션. 클릭하면 입자가 추가됩니다."></canvas>
-    <figcaption><span class="m">ṙ = r(1 − r²), θ̇ = 1</span>. 안쪽(파랑)과 바깥쪽(분홍)에서 출발한 입자가 모두 같은 원으로 모입니다. 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
+    <figcaption><span class="m"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²), <i>θ̇</i> = 1</span>. 안쪽(파랑)과 바깥쪽(분홍)에서 출발한 입자가 모두 같은 원으로 모입니다. 아무 곳이나 눌러 입자를 뿌려 보세요.</figcaption>
   </figure>
 </header>
 
@@ -217,7 +223,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <p>심장박동, 박동원 신경세포(pacemaker neuron)의 주기적 발화, 인체의 온도 및 호르몬 분비에 대한 일일 리듬, 자발적으로 진동하는 화학반응은 모두 생명 유지에 필수인 극한 주기 궤도의 예다. 반대로 다리(bridge)나 비행기 날개의 자려(self-exciting) 진동은 생기면 위험한 예다.</p>
       <p>이런 진동이 지속 가능하려면 약간의 교란(perturbation)을 받아도 항상 <b>표준 주기로 돌아가야</b> 한다. 시스템이 선호하는 주기, 파형, 진폭이 있고, 이것은 <span class="hlp">초기 조건보다는 시스템 자체의 구조에 의해 결정된다.</span></p>
       <div class="box amber">
-        <p><span class="lbl">극한 주기 궤도는 본질적으로 비선형(nonlinear) 현상이다.</span> 선형 시스템 <span class="m">ẋ = A x</span>에 닫힌 궤도 <span class="m">x(t)</span>가 있으면, 임의의 상수 <span class="m">c ≠ 0</span>에 대해 <span class="m">c x(t)</span>도 주기해다. 닫힌 궤도는 동심원의 무리로 둘러싸여 있으니 고립될 수 없다.</p>
+        <p><span class="lbl">극한 주기 궤도는 본질적으로 비선형(nonlinear) 현상이다.</span> 선형 시스템 <span class="m"><i>ẋ</i> = <i>A</i> <i>x</i></span>에 닫힌 궤도 <span class="m"><i>x</i>(<i>t</i>)</span>가 있으면, 임의의 상수 <span class="m"><i>c</i> ≠ 0</span>에 대해 <span class="m"><i>c</i> <i>x</i>(<i>t</i>)</span>도 주기해다. 닫힌 궤도는 동심원의 무리로 둘러싸여 있으니 고립될 수 없다.</p>
       </div>
       <p>선형 쪽에서는 진폭이 전적으로 초기 조건으로 정해지고, 교란으로 생긴 변화가 <b>영원히 지속된다</b>. 왼쪽 데모에서 “교란 가하기”를 여러 번 눌러 두 시스템의 진폭을 비교해 보자.</p>
     </div>
@@ -229,11 +235,11 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <div class="two">
         <div>
           <canvas id="lin" aria-label="선형 중심의 궤적"></canvas>
-          <p class="cap">선형 중심(center) <span class="m">ẍ + x = 0</span><br>진폭 <span class="amp" id="linAmp">1.00</span></p>
+          <p class="cap">선형 중심(center) <span class="m"><i>ẍ</i> + <i>x</i> = 0</span><br>진폭 <span class="amp" id="linAmp">1.00</span></p>
         </div>
         <div>
           <canvas id="lc" aria-label="안정적인 극한 주기 궤도의 궤적"></canvas>
-          <p class="cap">극한 주기 궤도 <span class="m">ṙ = r(1 − r²)</span><br>진폭 <span class="amp" id="lcAmp">1.00</span></p>
+          <p class="cap">극한 주기 궤도 <span class="m"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²)</span><br>진폭 <span class="amp" id="lcAmp">1.00</span></p>
         </div>
       </div>
       <p class="hint">두 시스템에 같은 크기와 방향의 교란을 동시에 가합니다. 왼쪽은 새 진폭에 머무르고, 오른쪽은 다시 반지름 1로 돌아옵니다.</p>
@@ -249,17 +255,17 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>예제 7.1.1 간단한 극한 주기 궤도</h3>
   <div class="row">
     <div class="txt">
-      <div class="eq">ṙ = <i>r</i>(1 − <i>r</i>²),&emsp;θ̇ = 1</div>
-      <p>여기서 <span class="m">r ≥ 0</span>는 원점에서의 거리이고, 각속도는 1 rad/시간단위로 일정하다(반시계 방향). <span class="m">r</span>과 <span class="m">θ</span>는 완전히 분리(decouple)되어 있으니 <span class="m">r</span>만 따로 보면 1차원 흐름이다.</p>
-      <p><span class="m">ṙ = r(1 − r²) = 0</span>에서 고정점은 <span class="m">r* = 0</span>(불안정한 고정점)과 <span class="m">r* = 1</span>(안정된 고정점)이다. <span class="m">r</span>만 생각하면 “점”이지만 <span class="m">θ̇ = 1</span>로 돌고 있으니, 평면에서는 <span class="hl">단위 원(unit circle) 궤도로 접근</span>하게 된다.</p>
-      <p>극한 주기 궤도 위에서는 <span class="m">x*(t) = r* cos θ(t) = cos(t + θ₀)</span>, 즉 일정한 진폭의 사인꼴(sinusoidal) 진동이다. 아래 그래프의 점선이 <span class="m">x*(t)</span>다.</p>
+      <div class="eq"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²),&emsp;<i>θ̇</i> = 1</div>
+      <p>여기서 <span class="m"><i>r</i> ≥ 0</span>는 원점에서의 거리이고, 각속도는 1 rad/시간단위로 일정하다(반시계 방향). <span class="m"><i>r</i></span>과 <span class="m"><i>θ</i></span>는 완전히 분리(decouple)되어 있으니 <span class="m"><i>r</i></span>만 따로 보면 1차원 흐름이다.</p>
+      <p><span class="m"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²) = 0</span>에서 고정점은 <span class="m"><i>r</i>* = 0</span>(불안정한 고정점)과 <span class="m"><i>r</i>* = 1</span>(안정된 고정점)이다. <span class="m"><i>r</i></span>만 생각하면 “점”이지만 <span class="m"><i>θ̇</i> = 1</span>로 돌고 있으니, 평면에서는 <span class="hl">단위 원(unit circle) 궤도로 접근</span>하게 된다.</p>
+      <p>극한 주기 궤도 위에서는 <span class="m"><i>x</i>*(<i>t</i>) = <i>r</i>* cos <i>θ</i>(<i>t</i>) = cos(<i>t</i> + <i>θ</i>₀)</span>, 즉 일정한 진폭의 사인꼴(sinusoidal) 진동이다. 아래 그래프의 점선이 <span class="m"><i>x</i>*(<i>t</i>)</span>다.</p>
       <span class="pen">x(t)가 x*(t)로 접근</span>
     </div>
     <div class="demo">
       <canvas id="ex1" class="pp" aria-label="예제 7.1.1의 위상 평면"></canvas>
-      <p class="sub">1차원 흐름 <span class="m">ṙ = r(1 − r²)</span> 위의 현재 위치</p>
+      <p class="sub">1차원 흐름 <span class="m"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²)</span> 위의 현재 위치</p>
       <canvas id="ex1r" aria-label="r에 대한 1차원 흐름"></canvas>
-      <p class="sub">시계열 <span class="m">x(t)</span>와 극한 주기 궤도 위의 해 <span class="m">x*(t) = cos(t + θ₀)</span></p>
+      <p class="sub">시계열 <span class="m"><i>x</i>(<i>t</i>)</span>와 극한 주기 궤도 위의 해 <span class="m"><i>x</i>*(<i>t</i>) = cos(<i>t</i> + <i>θ</i>₀)</span></p>
       <canvas id="ex1x" aria-label="x(t) 시계열"></canvas>
       <p class="hint">위상 평면을 누르면 그 점이 새 초기 조건이 됩니다. 원점 근처나 아주 바깥에서 출발해 보세요.</p>
     </div>
@@ -268,15 +274,15 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>예제 7.1.2 반 데르 폴 진동자 <span class="en">(van der Pol oscillator)</span></h3>
   <div class="row flip">
     <div class="txt">
-      <div class="eq">ẍ + μ(<i>x</i>² − 1)ẋ + <i>x</i> = 0,&emsp;μ ≥ 0</div>
-      <p>최초의 라디오에 사용된 비선형 전기 회로와 관련해서 나타난 방정식으로, 비선형 동역학의 발전에서 중심적인 역할을 했다. <span class="m">μ(x² − 1)ẋ</span> 항이 없으면 감쇠 없는 단순 조화 진동자 <span class="m">ẍ + x = 0</span>이다.</p>
+      <div class="eq"><i>ẍ</i> + <i>μ</i>(<i>x</i>² − 1)<i>ẋ</i> + <i>x</i> = 0,&emsp;<i>μ</i> ≥ 0</div>
+      <p>최초의 라디오에 사용된 비선형 전기 회로와 관련해서 나타난 방정식으로, 비선형 동역학의 발전에서 중심적인 역할을 했다. <span class="m"><i>μ</i>(<i>x</i>² − 1)<i>ẋ</i></span> 항이 없으면 감쇠 없는 단순 조화 진동자 <span class="m"><i>ẍ</i> + <i>x</i> = 0</span>이다.</p>
       <p>이 항은 <b>비선형 감쇠(nonlinear damping)</b>로, 사실은 감쇠와 증폭이 모두 일어난다.</p>
       <ul>
-        <li><span class="m">|x| &gt; 1</span>: <span class="m">μ(x² − 1) &gt; 0</span>이니 양의 감쇠. <span class="hlp">진폭이 크면 줄인다.</span></li>
-        <li><span class="m">|x| &lt; 1</span>: <span class="m">μ(x² − 1) &lt; 0</span>이니 음의 감쇠. <span class="hl">진폭이 작으면 키운다.</span></li>
+        <li><span class="m">|<i>x</i>| &gt; 1</span>: <span class="m"><i>μ</i>(<i>x</i>² − 1) &gt; 0</span>이니 양의 감쇠. <span class="hlp">진폭이 크면 줄인다.</span></li>
+        <li><span class="m">|<i>x</i>| &lt; 1</span>: <span class="m"><i>μ</i>(<i>x</i>² − 1) &lt; 0</span>이니 음의 감쇠. <span class="hl">진폭이 작으면 키운다.</span></li>
       </ul>
-      <p>그래서 한 주기 동안 소실된 에너지와 공급된 에너지가 균형을 이루는 곳에서 스스로 지속 가능한 진동으로 자리 잡는다. 각각의 <span class="m">μ &gt; 0</span>에 대해 고유한 안정적인 극한 주기 궤도를 갖는다(7.4절에서 살펴볼 더 일반적인 정리, 리에나르의 정리를 따른다).</p>
-      <p>강의노트의 예시는 <span class="m">μ = 1.5</span>, 초기 조건 <span class="m">(x, ẋ) = (0.5, 0)</span>이다. <span class="m">μ</span>를 키우면 궤도는 찌그러지고, <span class="m">x(t)</span>는 더는 깔끔한 사인꼴 진동이 아니게 된다.</p>
+      <p>그래서 한 주기 동안 소실된 에너지와 공급된 에너지가 균형을 이루는 곳에서 스스로 지속 가능한 진동으로 자리 잡는다. 각각의 <span class="m"><i>μ</i> &gt; 0</span>에 대해 고유한 안정적인 극한 주기 궤도를 갖는다(7.4절에서 살펴볼 더 일반적인 정리, 리에나르의 정리를 따른다).</p>
+      <p>강의노트의 예시는 <span class="m"><i>μ</i> = 1.5</span>, 초기 조건 <span class="m">(<i>x</i>, <i>ẋ</i>) = (0.5, 0)</span>이다. <span class="m"><i>μ</i></span>를 키우면 궤도는 찌그러지고, <span class="m"><i>x</i>(<i>t</i>)</span>는 더는 깔끔한 사인꼴 진동이 아니게 된다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -285,7 +291,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       </div>
       <canvas id="vdp" class="pp" aria-label="반 데르 폴 진동자의 위상 평면"></canvas>
       <div class="legend"><span><i style="background:var(--hl-green)"></i>|x| &lt; 1: 음의 감쇠(에너지 공급)</span><span><i style="background:var(--hl-pink)"></i>|x| &gt; 1: 양의 감쇠(에너지 소실)</span></div>
-      <p class="sub">시계열 <span class="m">x(t)</span></p>
+      <p class="sub">시계열 <span class="m"><i>x</i>(<i>t</i>)</span></p>
       <canvas id="vdpx" aria-label="반 데르 폴 진동자의 x(t)"></canvas>
       <div class="read"><span>추정 주기 <b id="vdpT">–</b></span><span>최대 진폭 <b id="vdpA">–</b></span></div>
       <p class="hint" id="vdpHint">위상 평면을 눌러 다른 초기 조건에서도 같은 궤도로 모이는지 확인해 보세요.</p>
@@ -301,38 +307,38 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>방법 1. 기울기 시스템 <span class="en">(gradient system)</span></h3>
   <div class="row">
     <div class="txt">
-      <div class="eq plain">ẋ = −∇<i>V</i></div>
-      <p>로 쓸 수 있는 시스템을 기울기 시스템이라 한다. 여기서 <span class="m">V(x)</span>는 연속적으로 미분 가능한 일가(single-valued) 스칼라 함수, 즉 퍼텐셜(potential)이다.</p>
+      <div class="eq plain"><i>ẋ</i> = −∇<i>V</i></div>
+      <p>로 쓸 수 있는 시스템을 기울기 시스템이라 한다. 여기서 <span class="m"><i>V</i>(<i>x</i>)</span>는 연속적으로 미분 가능한 일가(single-valued) 스칼라 함수, 즉 퍼텐셜(potential)이다.</p>
       <div class="box pink"><p><span class="lbl">정리 7.2.1</span>기울기 시스템에서는 닫힌 궤도가 있을 수 없다.</p></div>
-      <p><b>증명.</b> 닫힌 궤도가 있다고 가정하고, 한 바퀴(<span class="m">t = 0 → T</span>)를 돌았다고 하자. <span class="m">V</span>는 일가 함수이니 같은 점으로 돌아오면 <span class="m">ΔV = 0</span>이어야 한다. 한편</p>
-      <div class="eq plain">Δ<i>V</i> = ∫₀ᵀ (∇<i>V</i> · ẋ) d<i>t</i> = −∫₀ᵀ ‖ẋ‖² d<i>t</i> &lt; 0</div>
-      <p>이다(모든 순간 <span class="m">ẋ ≡ 0</span>인 경우, 즉 닫힌 궤도가 아니라 고정점인 경우를 제외하면). <b style="color:var(--pink)">모순이다.</b></p>
+      <p><b>증명.</b> 닫힌 궤도가 있다고 가정하고, 한 바퀴(<span class="m"><i>t</i> = 0 → <i>T</i></span>)를 돌았다고 하자. <span class="m"><i>V</i></span>는 일가 함수이니 같은 점으로 돌아오면 <span class="m">Δ<i>V</i> = 0</span>이어야 한다. 한편</p>
+      <div class="eq plain">Δ<i>V</i> = ∫₀ᵀ (∇<i>V</i> · <i>ẋ</i>) <i>dt</i> = −∫₀ᵀ ‖<i>ẋ</i>‖² <i>dt</i> &lt; 0</div>
+      <p>이다(모든 순간 <span class="m"><i>ẋ</i> ≡ 0</span>인 경우, 즉 닫힌 궤도가 아니라 고정점인 경우를 제외하면). <b style="color:var(--pink)">모순이다.</b></p>
       <p>문제점은 대부분의 2차원 시스템이 기울기 시스템이 아니라는 것이다. 다만 1차원 직선상의 모든 벡터장은 기울기 시스템이고, 이것이 2.6절과 2.7절에서 본 “선 위의 흐름”이 진동할 수 없는 이유다.</p>
-      <p><b>예제 7.2.1</b>&ensp;<span class="m">ẋ = sin y, ẏ = x cos y</span>. 퍼텐셜 <span class="m">V(x, y) = −x sin y</span>를 생각하면 <span class="m">−∇V = (sin y, x cos y)</span>이므로 기울기 시스템이고, 닫힌 궤도가 없다.</p>
+      <p><b>예제 7.2.1</b>&ensp;<span class="m"><i>ẋ</i> = sin <i>y</i>, <i>ẏ</i> = <i>x</i> cos <i>y</i></span>. 퍼텐셜 <span class="m"><i>V</i>(<i>x</i>, <i>y</i>) = −<i>x</i> sin <i>y</i></span>를 생각하면 <span class="m">−∇<i>V</i> = (sin <i>y</i>, <i>x</i> cos <i>y</i>)</span>이므로 기울기 시스템이고, 닫힌 궤도가 없다.</p>
       <span class="pen c">y는 각도 변수(angular variable)이므로 주기적 경계조건(periodic boundary condition, PBC)을 적용</span>
     </div>
     <div class="demo">
       <canvas id="grad" class="pp" aria-label="예제 7.2.1 기울기 시스템의 위상 평면과 퍼텐셜"></canvas>
-      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V &gt; 0(높은 곳)</span><span><i style="background:var(--hl-cyan)"></i>V &lt; 0(낮은 곳)</span><span>배경: <span class="m">V = −x sin y</span></span></div>
-      <p class="sub">궤적을 따라 잰 퍼텐셜 <span class="m">V(x(t), y(t))</span></p>
+      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V &gt; 0(높은 곳)</span><span><i style="background:var(--hl-cyan)"></i>V &lt; 0(낮은 곳)</span><span>배경: <span class="m"><i>V</i> = −<i>x</i> sin <i>y</i></span></span></div>
+      <p class="sub">궤적을 따라 잰 퍼텐셜 <span class="m"><i>V</i>(<i>x</i>(<i>t</i>), <i>y</i>(<i>t</i>))</span></p>
       <canvas id="gradv" aria-label="궤적을 따라 측정한 퍼텐셜의 시간 변화"></canvas>
-      <p class="hint">어디서 출발하든 <span class="m">V</span>는 줄어들기만 합니다. 같은 점으로 돌아올 수 없다는 뜻입니다. 위아래 경계는 이어져 있습니다(<span class="m">y</span>는 주기 2π).</p>
+      <p class="hint">어디서 출발하든 <span class="m"><i>V</i></span>는 줄어들기만 합니다. 같은 점으로 돌아올 수 없다는 뜻입니다. 위아래 경계는 이어져 있습니다(<span class="m"><i>y</i></span>는 주기 2π).</p>
     </div>
   </div>
 
   <h3>예제 7.2.2 비선형 감쇠 진동자와 “에너지 같은” 함수</h3>
   <div class="row flip">
     <div class="txt">
-      <div class="eq">ẍ + (ẋ)³ + <i>x</i> = 0</div>
-      <p>기울기 시스템은 아니지만 비슷한 기술을 쓴다. “에너지 같은” 함수 <span class="m">E(x, ẋ) = (1/2)(x² + ẋ²)</span>를 도입하자. <span class="m">E</span>는 일가 함수이므로, 주기해가 있다면 한 주기 동안 <span class="m">ΔE = 0</span>이어야 한다. 그런데</p>
-      <div class="eq plain">d<i>E</i>/d<i>t</i> = <i>x</i>ẋ + ẋẍ = ẋ(<i>x</i> + ẍ) = −(ẋ)⁴ ≤ 0</div>
-      <p>이므로 <span class="m">ẋ ≡ 0</span>(고정점)이 아니라면 <span class="m">ΔE &lt; 0</span>이다. 모순이므로 주기해는 없다.</p>
+      <div class="eq"><i>ẍ</i> + (<i>ẋ</i>)³ + <i>x</i> = 0</div>
+      <p>기울기 시스템은 아니지만 비슷한 기술을 쓴다. “에너지 같은” 함수 <span class="m"><i>E</i>(<i>x</i>, <i>ẋ</i>) = (1/2)(<i>x</i>² + <i>ẋ</i>²)</span>를 도입하자. <span class="m"><i>E</i></span>는 일가 함수이므로, 주기해가 있다면 한 주기 동안 <span class="m">Δ<i>E</i> = 0</span>이어야 한다. 그런데</p>
+      <div class="eq plain"><i>dE</i>/<i>dt</i> = <i>xẋ</i> + <i>ẋẍ</i> = <i>ẋ</i>(<i>x</i> + <i>ẍ</i>) = −(<i>ẋ</i>)⁴ ≤ 0</div>
+      <p>이므로 <span class="m"><i>ẋ</i> ≡ 0</span>(고정점)이 아니라면 <span class="m">Δ<i>E</i> &lt; 0</span>이다. 모순이므로 주기해는 없다.</p>
       <span class="pen">(ẋ)³ 항에 의해 매우, 매우 천천히 원점으로 수렴</span>
-      <p>오른쪽 <span class="m">E(t)</span> 그래프에서 감소 속도가 지수적이 아니라 점점 느려지는 것을 확인할 수 있다. 원점 근처에서는 감쇠가 <span class="m">ẋ³</span>으로 매우 약하기 때문이다.</p>
+      <p>오른쪽 <span class="m"><i>E</i>(<i>t</i>)</span> 그래프에서 감소 속도가 지수적이 아니라 점점 느려지는 것을 확인할 수 있다. 원점 근처에서는 감쇠가 <span class="m"><i>ẋ</i>³</span>으로 매우 약하기 때문이다.</p>
     </div>
     <div class="demo">
       <canvas id="en" class="pp" aria-label="비선형 감쇠 진동자의 위상 평면"></canvas>
-      <p class="sub">에너지 같은 함수 <span class="m">E(t) = (1/2)(x² + ẋ²)</span>, 원은 <span class="m">E</span>의 등고선</p>
+      <p class="sub">에너지 같은 함수 <span class="m"><i>E</i>(<i>t</i>) = (1/2)(<i>x</i>² + <i>ẋ</i>²)</span>, 원은 <span class="m"><i>E</i></span>의 등고선</p>
       <canvas id="ent" aria-label="에너지 함수의 시간 변화"></canvas>
       <div class="ctl" style="margin-top:8px"><button class="btn" id="enClear">지우기</button></div>
     </div>
@@ -341,16 +347,16 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>방법 2. 리아푸노프 함수 <span class="en">(Liapunov function)</span></h3>
   <div class="row">
     <div class="txt">
-      <p>“에너지 같은 함수”를 일반화한 것이다. <span class="m">ẋ = f(x)</span>가 <span class="m">x*</span>에 고정점을 갖는다고 가정하자. 이때 다음 성질을 가진, 연속적으로 미분 가능한 실숫값(real-valued) 함수 <span class="m">V(x)</span>를 찾을 수 있다고 하자.</p>
+      <p>“에너지 같은 함수”를 일반화한 것이다. <span class="m"><i>ẋ</i> = <i>f</i>(<i>x</i>)</span>가 <span class="m"><i>x</i>*</span>에 고정점을 갖는다고 가정하자. 이때 다음 성질을 가진, 연속적으로 미분 가능한 실숫값(real-valued) 함수 <span class="m"><i>V</i>(<i>x</i>)</span>를 찾을 수 있다고 하자.</p>
       <div class="box pink">
-        <p>(1) 모든 <span class="m">x ≠ x*</span>에 대해 <span class="m">V(x) &gt; 0</span>이고, <span class="m">V(x*) = 0</span>이다. (양의 정부호(positive definite))</p>
-        <p>(2) 모든 <span class="m">x ≠ x*</span>에 대해 <span class="m">V̇ &lt; 0</span>이다. (모든 궤적이 <span class="m">x*</span>를 향해 “내리막”으로 흘러간다)</p>
+        <p>(1) 모든 <span class="m"><i>x</i> ≠ <i>x</i>*</span>에 대해 <span class="m"><i>V</i>(<i>x</i>) &gt; 0</span>이고, <span class="m"><i>V</i>(<i>x</i>*) = 0</span>이다. (양의 정부호(positive definite))</p>
+        <p>(2) 모든 <span class="m"><i>x</i> ≠ <i>x</i>*</span>에 대해 <span class="m"><i>V̇</i> &lt; 0</span>이다. (모든 궤적이 <span class="m"><i>x</i>*</span>를 향해 “내리막”으로 흘러간다)</p>
       </div>
-      <p>그러면 <span class="m">x*</span>는 모든 초기 조건에 대해 <span class="m">t → ∞</span>일 때 <span class="m">x(t) → x*</span>가 되는, 즉 전 구간에서 점근적으로 안정된 고정점이다. 특히 이런 시스템에는 <span class="hl">닫힌 궤도가 없다</span>(증명: Jordan &amp; Smith, 1987).</p>
-      <p><span class="m">V</span>를 찾는 체계적인 방법은 없다. 감? 신성한 영감(divine inspiration)? 다만 “제곱한 것들을 더하는 방식”이 종종 작동한다.</p>
-      <p><b>예제 7.2.3</b>&ensp;<span class="m">ẋ = −x + 4y, ẏ = −x − y³</span>. 신성한 영감으로 <span class="m">V = x² + ay²</span>을 시도하면</p>
-      <div class="eq plain">V̇ = −2<i>x</i>² + (8 − 2<i>a</i>)<i>xy</i> − 2<i>a</i><i>y</i>⁴</div>
-      <p>이다. 오른쪽에서 <span class="m">a</span>를 움직여 분홍 영역(<span class="m">V̇ &gt; 0</span>)이 사라지는 값을 찾아보자.</p>
+      <p>그러면 <span class="m"><i>x</i>*</span>는 모든 초기 조건에 대해 <span class="m"><i>t</i> → ∞</span>일 때 <span class="m"><i>x</i>(<i>t</i>) → <i>x</i>*</span>가 되는, 즉 전 구간에서 점근적으로 안정된 고정점이다. 특히 이런 시스템에는 <span class="hl">닫힌 궤도가 없다</span>(증명: Jordan &amp; Smith, 1987).</p>
+      <p><span class="m"><i>V</i></span>를 찾는 체계적인 방법은 없다. 감? 신성한 영감(divine inspiration)? 다만 “제곱한 것들을 더하는 방식”이 종종 작동한다.</p>
+      <p><b>예제 7.2.3</b>&ensp;<span class="m"><i>ẋ</i> = −<i>x</i> + 4<i>y</i>, <i>ẏ</i> = −<i>x</i> − <i>y</i>³</span>. 신성한 영감으로 <span class="m"><i>V</i> = <i>x</i>² + <i>ay</i>²</span>을 시도하면</p>
+      <div class="eq plain"><i>V̇</i> = −2<i>x</i>² + (8 − 2<i>a</i>)<i>xy</i> − 2<i>ay</i>⁴</div>
+      <p>이다. 오른쪽에서 <span class="m"><i>a</i></span>를 움직여 분홍 영역(<span class="m"><i>V̇</i> &gt; 0</span>)이 사라지는 값을 찾아보자.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -358,30 +364,30 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
         <button class="btn" id="aa4">a = 4로 맞추기</button>
       </div>
       <canvas id="lia" class="pp" aria-label="예제 7.2.3의 위상 평면과 V-dot 부호 지도"></canvas>
-      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V̇ &gt; 0(오르막: 조건 위반)</span><span><i style="background:var(--hl-green)"></i>V̇ &lt; 0(내리막)</span><span>타원: <span class="m">V</span>의 등고선</span></div>
+      <div class="legend"><span><i style="background:var(--hl-pink)"></i>V̇ &gt; 0(오르막: 조건 위반)</span><span><i style="background:var(--hl-green)"></i>V̇ &lt; 0(내리막)</span><span>타원: <span class="m"><i>V</i></span>의 등고선</span></div>
       <div class="read"><span>현재 <b id="liaF"></b></span></div>
       <div class="verdict" id="liaV"></div>
-      <p class="hint">궤적은 항상 원점으로 나선을 그리며 들어갑니다. 원점의 야코비 행렬(Jacobian)은 <span class="m">A = [[−1, 4], [−1, 0]]</span>, <span class="m">λ² + λ + 4 = 0</span>이니 <span class="m">λ = −1/2 ± (√15/2) i</span>: 안정한 나선(stable spiral)이자 끌개(attractor)입니다. 하지만 이 국소 분석만으로는 닫힌 궤도가 없다는 결론을 낼 수 없습니다.</p>
+      <p class="hint">궤적은 항상 원점으로 나선을 그리며 들어갑니다. 원점의 야코비 행렬(Jacobian)은 <span class="m"><i>A</i> = [[−1, 4], [−1, 0]]</span>, <span class="m"><i>λ</i>² + <i>λ</i> + 4 = 0</span>이니 <span class="m"><i>λ</i> = −1/2 ± (<span class="sqrt"><span class="rad">√</span><span class="rc">15</span></span>/2) i</span>: 안정한 나선(stable spiral)이자 끌개(attractor)입니다. 하지만 이 국소 분석만으로는 닫힌 궤도가 없다는 결론을 낼 수 없습니다.</p>
     </div>
   </div>
 
   <h3>방법 3. 둘락 기준 <span class="en">(Dulac's criterion)</span></h3>
   <div class="row flip">
     <div class="txt">
-      <p>그린 정리(Green's theorem)를 기반으로 한다. 사실상 2차원 발산 정리(divergence theorem)이며, <span class="m">(dx, dy) → (dy, −dx)</span>로 바꾸면 둘은 동등(equivalent)하다.</p>
+      <p>그린 정리(Green's theorem)를 기반으로 한다. 사실상 2차원 발산 정리(divergence theorem)이며, <span class="m">(d<i>x</i>, d<i>y</i>) → (d<i>y</i>, −d<i>x</i>)</span>로 바꾸면 둘은 동등(equivalent)하다.</p>
       <div class="box pink">
-        <p><span class="m">ẋ = f(x)</span>가 평면의 단순하게 연결된(simply connected) 부분집합 <span class="m">R</span>에서 정의된 연속적으로 미분 가능한 벡터장이라 하자. <span class="m">∇·(g ẋ)</span>가 <span class="m">R</span>에서 <b>하나의 부호만</b> 갖는 연속적으로 미분 가능한 실숫값 함수 <span class="m">g(x)</span>가 존재하면, <span class="m">R</span>에 완전히 포함된 닫힌 궤도는 없다.</p>
+        <p><span class="m"><i>ẋ</i> = <i>f</i>(<i>x</i>)</span>가 평면의 단순하게 연결된(simply connected) 부분집합 <span class="m"><i>R</i></span>에서 정의된 연속적으로 미분 가능한 벡터장이라 하자. <span class="m">∇·(<i>g</i> <i>ẋ</i>)</span>가 <span class="m"><i>R</i></span>에서 <b>하나의 부호만</b> 갖는 연속적으로 미분 가능한 실숫값 함수 <span class="m"><i>g</i>(<i>x</i>)</span>가 존재하면, <span class="m"><i>R</i></span>에 완전히 포함된 닫힌 궤도는 없다.</p>
       </div>
       <p>단순하게 연결되었다는 것은 공간 내부에 공간에 속하지 않는 구멍(hole)이 없다는 뜻이다.</p>
-      <p><b>증명.</b> <span class="m">R</span> 안에 닫힌 궤도 <span class="m">C</span>가 있다고 가정하고, 그 내부 영역을 <span class="m">A</span>라 하자. 발산 정리에 의해</p>
-      <div class="eq plain">∬<sub>A</sub> ∇·(<i>g</i>ẋ) d<i>A</i> = ∮<sub>C</sub> <i>g</i> ẋ·<i>n̂</i> d<i>l</i> = 0</div>
-      <p>이다. <span class="m">C</span>가 궤적이므로 정의상 <span class="m">ẋ</span>는 바깥 법선(normal) <span class="m">n̂</span>에 수직이라 우변은 0이다. 그런데 좌변의 피적분 함수는 하나의 부호만 가지니 0이 될 수 없다. 모순이므로 <span class="m">C</span>는 있을 수 없다.</p>
-      <p>리아푸노프 방법처럼 <span class="m">g</span>를 찾는 알고리듬은 없다. 종종 쓸 만한 후보는 <span class="m">g = 1, 1/(x<sup>a</sup>y<sup>b</sup>), e<sup>ax</sup>, e<sup>ay</sup></span> 등이다.</p>
-      <p><b>예제 7.2.4</b>&ensp;<span class="m">ẋ = x(2 − x − y), ẏ = y(4x − x² − 3)</span>에 대해 <span class="m">x, y &gt; 0</span>인 양의 사분면에 닫힌 궤도가 없음을 보이자. 신성한 영감으로 <span class="m">g = 1/(xy)</span>를 고르면 <span class="m">∇·(g ẋ) = −1/y &lt; 0</span>이다.</p>
+      <p><b>증명.</b> <span class="m"><i>R</i></span> 안에 닫힌 궤도 <span class="m"><i>C</i></span>가 있다고 가정하고, 그 내부 영역을 <span class="m"><i>A</i></span>라 하자. 발산 정리에 의해</p>
+      <div class="eq plain">∬<sub>A</sub> ∇·(<i>gẋ</i>) <i>dA</i> = ∮<sub>C</sub> <i>g</i> <i>ẋ</i>·<i>n̂</i> <i>dl</i> = 0</div>
+      <p>이다. <span class="m"><i>C</i></span>가 궤적이므로 정의상 <span class="m"><i>ẋ</i></span>는 바깥 법선(normal) <span class="m"><i>n̂</i></span>에 수직이라 우변은 0이다. 그런데 좌변의 피적분 함수는 하나의 부호만 가지니 0이 될 수 없다. 모순이므로 <span class="m"><i>C</i></span>는 있을 수 없다.</p>
+      <p>리아푸노프 방법처럼 <span class="m"><i>g</i></span>를 찾는 알고리듬은 없다. 종종 쓸 만한 후보는 <span class="m"><i>g</i> = 1, 1/(<i>x</i><sup><i>a</i></sup><i>y</i><sup><i>b</i></sup>), e<sup><i>ax</i></sup>, e<sup><i>ay</i></sup></span> 등이다.</p>
+      <p><b>예제 7.2.4</b>&ensp;<span class="m"><i>ẋ</i> = <i>x</i>(2 − <i>x</i> − <i>y</i>), <i>ẏ</i> = <i>y</i>(4<i>x</i> − <i>x</i>² − 3)</span>에 대해 <span class="m"><i>x</i>, <i>y</i> &gt; 0</span>인 양의 사분면에 닫힌 궤도가 없음을 보이자. 신성한 영감으로 <span class="m"><i>g</i> = 1/(<i>xy</i>)</span>를 고르면 <span class="m">∇·(<i>g</i> <i>ẋ</i>) = −1/<i>y</i> &lt; 0</span>이다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
-        <label>가중치 함수 <span class="m">g</span>&ensp;<select id="gsel" aria-label="가중치 함수 g 선택">
+        <label>가중치 함수 <span class="m"><i>g</i></span>&ensp;<select id="gsel" aria-label="가중치 함수 g 선택">
           <option value="ixy" selected>g = 1/(xy)</option>
           <option value="one">g = 1</option>
           <option value="x">g = x</option>
@@ -393,7 +399,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <div class="legend"><span><i style="background:var(--hl-cyan)"></i>∇·(gẋ) &lt; 0</span><span><i style="background:var(--hl-pink)"></i>∇·(gẋ) &gt; 0</span><span>영역 R: 양의 사분면</span></div>
       <div class="read"><span><b id="dulF"></b></span></div>
       <div class="verdict" id="dulV"></div>
-      <p class="hint">부호가 섞인 <span class="m">g</span>를 고르면 둘락 기준은 아무 결론도 내리지 못합니다. 닫힌 궤도가 있다는 뜻은 아닙니다. 궤적은 모두 <span class="m">(1, 1)</span>의 안정한 나선으로 들어갑니다.</p>
+      <p class="hint">부호가 섞인 <span class="m"><i>g</i></span>를 고르면 둘락 기준은 아무 결론도 내리지 못합니다. 닫힌 궤도가 있다는 뜻은 아닙니다. 궤적은 모두 <span class="m">(1, 1)</span>의 안정한 나선으로 들어갑니다.</p>
     </div>
   </div>
 </section>

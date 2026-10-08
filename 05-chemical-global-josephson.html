@@ -161,6 +161,12 @@ footer strong{color:var(--ink);font-weight:500}
 .tbl th,.tbl td{border-bottom:1px solid var(--rule);padding:6px 12px;text-align:left}
 .tbl th{font-weight:500;color:var(--muted)}
 .tbl td.m{white-space:nowrap}
+
+/* math typesetting: only variables are italic; radicals get a vinculum */
+.m{font-style:normal}.m i,.eq i{font-style:italic}
+.sqrt{white-space:nowrap}
+.sqrt .rad{font-style:normal}
+.sqrt .rc{display:inline-block;border-top:.065em solid currentColor;padding:.06em .1em 0 .06em;margin-left:-.04em;line-height:1.1}
 </style>
 <script>try { const t = localStorage.getItem("netsci-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
@@ -211,15 +217,15 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <span class="pen">BZ 반응 영상: Shane Ross 교수의 강의 영상에서 소개</span>
       <h3>이산화염소-아이오딘-말론산 반응</h3>
       <p>BZ 반응은 20개 이상의 기본 반응 단계를 포함하지만, 많은 단계는 빠르게 평형을 이룬다. 렝곌 등[Lengyel et al. 1990]은 이산화염소(chlorine dioxide)-아이오딘(iodine)-말론산(malonic acid) 반응에서 느린 반응물의 농도를 상수로 근사해 2변수 모형으로 축약했다.</p>
-      <div class="eq">ẋ = <i>a</i> − <i>x</i> − 4<i>xy</i>/(1 + <i>x</i>²),&emsp;ẏ = <i>bx</i>[1 − <i>y</i>/(1 + <i>x</i>²)]</div>
-      <p><span class="m">x</span>와 <span class="m">y</span>는 각각 I⁻와 ClO₂⁻의 차원 없는 농도이고, <span class="m">a, b &gt; 0</span>이다.</p>
-      <p><b>예제 8.3.1.</b> 영점선은 <span class="m">ẋ = 0</span>: <span class="m">y = (a − x)(1 + x²)/(4x)</span>, <span class="m">ẏ = 0</span>: <span class="m">y</span>축과 포물선 <span class="m">y = 1 + x²</span>이다. 네모칸 <span class="m">0 ≤ x ≤ a</span>, <span class="m">0 ≤ y ≤ 1 + a²</span>의 경계 위 모든 벡터가 안쪽을 가리키니 가두는 영역이다. 하지만 내부에 고정점 <span class="m">x* = a/5</span>, <span class="m">y* = 1 + (a/5)²</span>가 있다. 이 점에서</p>
-      <div class="eq plain">Δ = 5<i>bx</i>*/(1 + <i>x</i>*²) &gt; 0,&emsp;τ = [3<i>x</i>*² − 5 − <i>bx</i>*]/(1 + <i>x</i>*²)</div>
-      <p>이다. <span class="m">Δ &gt; 0</span>이니 안장점일 수 없고, <span class="m">τ &gt; 0</span>이면 밀개다. 곧 <span class="hl"><span class="m">b &lt; b<sub>c</sub> = 3a/5 − 25/a</span>이면 구멍 난 네모칸 어딘가에 닫힌 궤도가 있어야 한다.</span></p>
-      <p><b>예제 8.3.2.</b> <span class="m">b</span>가 <span class="m">b<sub>c</sub></span>를 통과하며 감소하면 고정점이 안정적인 나선에서 불안정한 나선으로 변하고, 안정적인 극한 주기 궤도에 둘러싸인다. <b>초임계</b> 호프 갈래치기다.</p>
-      <p><b>예제 8.3.3.</b> 진동수는 갈래치기점에서 고윳값의 허수 부분으로 근사할 수 있다. <span class="m">b = b<sub>c</sub></span>에서 <span class="m">τ = 0</span>이니 <span class="m">λ = ±i√Δ</span>이고</p>
-      <div class="eq"><i>T</i> ≈ 2π/ω = 2π √[(<i>a</i>² + 25)/(15<i>a</i>² − 625)]</div>
-      <p>이다. <span class="m">a → ∞</span>일 때 <span class="m">T → 2π/√15 ≈ 1.62</span>가 된다.</p>
+      <div class="eq"><i>ẋ</i> = <i>a</i> − <i>x</i> − 4<i>xy</i>/(1 + <i>x</i>²),&emsp;<i>ẏ</i> = <i>bx</i>[1 − <i>y</i>/(1 + <i>x</i>²)]</div>
+      <p><span class="m"><i>x</i></span>와 <span class="m"><i>y</i></span>는 각각 I⁻와 ClO₂⁻의 차원 없는 농도이고, <span class="m"><i>a</i>, <i>b</i> &gt; 0</span>이다.</p>
+      <p><b>예제 8.3.1.</b> 영점선은 <span class="m"><i>ẋ</i> = 0</span>: <span class="m"><i>y</i> = (<i>a</i> − <i>x</i>)(1 + <i>x</i>²)/(4<i>x</i>)</span>, <span class="m"><i>ẏ</i> = 0</span>: <span class="m"><i>y</i></span>축과 포물선 <span class="m"><i>y</i> = 1 + <i>x</i>²</span>이다. 네모칸 <span class="m">0 ≤ <i>x</i> ≤ <i>a</i></span>, <span class="m">0 ≤ <i>y</i> ≤ 1 + <i>a</i>²</span>의 경계 위 모든 벡터가 안쪽을 가리키니 가두는 영역이다. 하지만 내부에 고정점 <span class="m"><i>x</i>* = <i>a</i>/5</span>, <span class="m"><i>y</i>* = 1 + (<i>a</i>/5)²</span>가 있다. 이 점에서</p>
+      <div class="eq plain">Δ = 5<i>bx</i>*/(1 + <i>x</i>*²) &gt; 0,&emsp;<i>τ</i> = [3<i>x</i>*² − 5 − <i>bx</i>*]/(1 + <i>x</i>*²)</div>
+      <p>이다. <span class="m">Δ &gt; 0</span>이니 안장점일 수 없고, <span class="m"><i>τ</i> &gt; 0</span>이면 밀개다. 곧 <span class="hl"><span class="m"><i>b</i> &lt; <i>b</i><sub>c</sub> = 3<i>a</i>/5 − 25/<i>a</i></span>이면 구멍 난 네모칸 어딘가에 닫힌 궤도가 있어야 한다.</span></p>
+      <p><b>예제 8.3.2.</b> <span class="m"><i>b</i></span>가 <span class="m"><i>b</i><sub>c</sub></span>를 통과하며 감소하면 고정점이 안정적인 나선에서 불안정한 나선으로 변하고, 안정적인 극한 주기 궤도에 둘러싸인다. <b>초임계</b> 호프 갈래치기다.</p>
+      <p><b>예제 8.3.3.</b> 진동수는 갈래치기점에서 고윳값의 허수 부분으로 근사할 수 있다. <span class="m"><i>b</i> = <i>b</i><sub>c</sub></span>에서 <span class="m"><i>τ</i> = 0</span>이니 <span class="m"><i>λ</i> = ±i<span class="sqrt"><span class="rad">√</span><span class="rc">Δ</span></span></span>이고</p>
+      <div class="eq"><i>T</i> ≈ 2π/<i>ω</i> = 2π <span class="sqrt"><span class="rad">√</span><span class="rc">(<i>a</i>² + 25)/(15<i>a</i>² − 625)</span></span></div>
+      <p>이다. <span class="m"><i>a</i> → ∞</span>일 때 <span class="m"><i>T</i> → 2π/<span class="sqrt"><span class="rad">√</span><span class="rc">15</span></span> ≈ 1.62</span>가 된다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -237,7 +243,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <div class="legend"><span><i style="background:var(--cyan)"></i>ẋ = 0 영점선</span><span><i style="background:var(--amber)"></i>ẏ = 0: y = 1 + x²</span><span><i style="background:var(--green)"></i>경계에서 안쪽으로 향함</span></div>
       <div class="read" id="chRead"></div>
       <div class="verdict" id="chV"></div>
-      <p class="sub">안정성 다이어그램 <span class="m">(a, b)</span>: 누르면 그 값으로 바뀝니다</p>
+      <p class="sub">안정성 다이어그램 <span class="m">(<i>a</i>, <i>b</i>)</span>: 누르면 그 값으로 바뀝니다</p>
       <canvas id="chAB" class="pp" aria-label="화학 진동자의 안정성 다이어그램"></canvas>
     </div>
   </div>
@@ -250,14 +256,14 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <div class="row flip">
     <div class="txt">
       <h3 style="margin-top:8px">순환 궤도의 안장점 갈래치기</h3>
-      <p>2개의 극한 주기 궤도가 합쳐지고 사라지는 갈래치기로, <b>순환 궤도의 접힘 또는 안장점 갈래치기</b>라고 한다. 예시는 8.2절의 <span class="m">ṙ = μr + r³ − r⁵</span>에서 <span class="m">μ &lt; 0</span>일 때의 동역학이다. 반지름 방향 방정식(radial equation)을 1차원 시스템으로 보면 <span class="m">μ<sub>c</sub> = −1/4</span>에서 고정점이 안장점 갈래치기를 거치고, 2차원으로 돌아오면 이 고정점들은 원형의 극한 주기 궤도다. <span class="m">μ<sub>c</sub></span>에서 반쯤 안정한 주기가 난데없이 생기고, <span class="m">μ</span>가 증가하면 안정적인 것과 불안정한 것 한 쌍으로 쪼개진다. 원점은 언제나 안정적이며 이 갈래치기에 참여하지 않는다. 생겨날 때 이미 <span class="m">O(1)</span>인 진폭이 있다는 점이 호프 갈래치기와 다르다.</p>
+      <p>2개의 극한 주기 궤도가 합쳐지고 사라지는 갈래치기로, <b>순환 궤도의 접힘 또는 안장점 갈래치기</b>라고 한다. 예시는 8.2절의 <span class="m"><i>ṙ</i> = <i>μr</i> + <i>r</i>³ − <i>r</i>⁵</span>에서 <span class="m"><i>μ</i> &lt; 0</span>일 때의 동역학이다. 반지름 방향 방정식(radial equation)을 1차원 시스템으로 보면 <span class="m"><i>μ</i><sub>c</sub> = −1/4</span>에서 고정점이 안장점 갈래치기를 거치고, 2차원으로 돌아오면 이 고정점들은 원형의 극한 주기 궤도다. <span class="m"><i>μ</i><sub>c</sub></span>에서 반쯤 안정한 주기가 난데없이 생기고, <span class="m"><i>μ</i></span>가 증가하면 안정적인 것과 불안정한 것 한 쌍으로 쪼개진다. 원점은 언제나 안정적이며 이 갈래치기에 참여하지 않는다. 생겨날 때 이미 <span class="m"><i>O</i>(1)</span>인 진폭이 있다는 점이 호프 갈래치기와 다르다.</p>
       <h3>무한 주기 갈래치기 <span class="en">(infinite-period bifurcation)</span></h3>
-      <div class="eq plain">ṙ = <i>r</i>(1 − <i>r</i>²),&emsp;θ̇ = μ − sin θ,&emsp;μ ≥ 0</div>
-      <p>반지름 방향에서는 모든 궤적(<span class="m">r* = 0</span> 제외)이 단위 원에 접근한다. <span class="m">μ &gt; 1</span>이면 모든 곳에서 반시계 방향으로 움직이고, <span class="m">μ &lt; 1</span>이면 <span class="m">sin θ = μ</span>로 정의되는 2개의 불변 반직선(ray)이 있다. <span class="m">μ → 1⁺</span>이면 <span class="m">θ = π/2</span>에서 병목현상이 점점 심각해져 주기가 길어지고, <span class="m">μ<sub>c</sub> = 1</span>에서 무한대가 된다. 진폭은 <span class="m">O(1)</span>로 유지되지만 주기는 <span class="m">(μ − μ<sub>c</sub>)<sup>−1/2</sup></span>처럼 증가한다. 이 경우 정확한 주기는 <span class="m">T = 2π/√(μ² − 1)</span>이다(예제 4.3.2).</p>
+      <div class="eq plain"><i>ṙ</i> = <i>r</i>(1 − <i>r</i>²),&emsp;<i>θ̇</i> = <i>μ</i> − sin <i>θ</i>,&emsp;<i>μ</i> ≥ 0</div>
+      <p>반지름 방향에서는 모든 궤적(<span class="m"><i>r</i>* = 0</span> 제외)이 단위 원에 접근한다. <span class="m"><i>μ</i> &gt; 1</span>이면 모든 곳에서 반시계 방향으로 움직이고, <span class="m"><i>μ</i> &lt; 1</span>이면 <span class="m">sin <i>θ</i> = <i>μ</i></span>로 정의되는 2개의 불변 반직선(ray)이 있다. <span class="m"><i>μ</i> → 1⁺</span>이면 <span class="m"><i>θ</i> = π/2</span>에서 병목현상이 점점 심각해져 주기가 길어지고, <span class="m"><i>μ</i><sub>c</sub> = 1</span>에서 무한대가 된다. 진폭은 <span class="m"><i>O</i>(1)</span>로 유지되지만 주기는 <span class="m">(<i>μ</i> − <i>μ</i><sub>c</sub>)<sup>−1/2</sup></span>처럼 증가한다. 이 경우 정확한 주기는 <span class="m"><i>T</i> = 2π/<span class="sqrt"><span class="rad">√</span><span class="rc"><i>μ</i>² − 1</span></span></span>이다(예제 4.3.2).</p>
       <h3>같은 모임 갈래치기 <span class="en">(homoclinic bifurcation)</span></h3>
       <p>극한 주기 궤도의 일부가 안장점에 점점 더 가까워지다가, 갈래치기가 일어나는 지점에서 안장점에 닿아 <b>같은 모임 궤도(homoclinic orbit)</b>가 된다. 또 다른 종류의 무한 주기 갈래치기이며, 혼동을 피하기 위해 안장 고리(saddle-loop) 또는 같은 모임 갈래치기라고 한다. 해석적으로 다루기 쉬운 예시가 드물어 컴퓨터에 의존한다.</p>
-      <div class="eq plain">ẋ = <i>y</i>,&emsp;ẏ = μ<i>y</i> + <i>x</i> − <i>x</i>² + <i>xy</i></div>
-      <p>수치적으로 갈래치기는 <span class="m">μ<sub>c</sub> ≈ −0.8645</span>에서 일어난다. <span class="m">μ &lt; μ<sub>c</sub></span>이면 안정적인 극한 주기 궤도가 원점의 안장점 근처를 지나가고, <span class="m">μ</span>가 커지면 극한 주기 궤도가 부풀어 오르다가 안장점에 충돌해 같은 모임 궤도를 이룬다. <span class="m">μ &gt; μ<sub>c</sub></span>이면 고리가 사라진다. <span class="hlp">핵심은 원점을 북동쪽으로 떠나는 안장점의 불안정한 다양체의 행동이다.</span></p>
+      <div class="eq plain"><i>ẋ</i> = <i>y</i>,&emsp;<i>ẏ</i> = <i>μy</i> + <i>x</i> − <i>x</i>² + <i>xy</i></div>
+      <p>수치적으로 갈래치기는 <span class="m"><i>μ</i><sub>c</sub> ≈ −0.8645</span>에서 일어난다. <span class="m"><i>μ</i> &lt; <i>μ</i><sub>c</sub></span>이면 안정적인 극한 주기 궤도가 원점의 안장점 근처를 지나가고, <span class="m"><i>μ</i></span>가 커지면 극한 주기 궤도가 부풀어 오르다가 안장점에 충돌해 같은 모임 궤도를 이룬다. <span class="m"><i>μ</i> &gt; <i>μ</i><sub>c</sub></span>이면 고리가 사라진다. <span class="hlp">핵심은 원점을 북동쪽으로 떠나는 안장점의 불안정한 다양체의 행동이다.</span></p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -282,22 +288,22 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>척도 조정 법칙 <span class="en">(scaling law)</span></h3>
   <div class="row">
     <div class="txt">
-      <p>각 갈래치기에는 갈래치기에 접근함에 따라 극한 주기 궤도의 진폭과 주기를 결정하는 특징적인 척도 조정 법칙이 있다. 갈래치기 지점으로부터의 거리를 나타내는 차원 없는 양을 <span class="m">μ ≪ 1</span>이라 하면(표 8.4.1):</p>
+      <p>각 갈래치기에는 갈래치기에 접근함에 따라 극한 주기 궤도의 진폭과 주기를 결정하는 특징적인 척도 조정 법칙이 있다. 갈래치기 지점으로부터의 거리를 나타내는 차원 없는 양을 <span class="m"><i>μ</i> ≪ 1</span>이라 하면(표 8.4.1):</p>
       <div style="overflow-x:auto"><table class="tbl">
         <thead><tr><th></th><th>안정적인 극한 주기 궤도의 진폭</th><th>주기</th></tr></thead>
         <tbody>
-          <tr><td>초임계 호프</td><td class="m">O(μ<sup>1/2</sup>)</td><td class="m">O(1)</td></tr>
-          <tr><td>궤도의 안장점 갈래치기</td><td class="m">O(1)</td><td class="m">O(1)</td></tr>
-          <tr><td>무한 주기</td><td class="m">O(1)</td><td class="m">O(μ<sup>−1/2</sup>)</td></tr>
-          <tr><td>같은 모임</td><td class="m">O(1)</td><td class="m">O(ln μ)</td></tr>
+          <tr><td>초임계 호프</td><td class="m"><i>O</i>(<i>μ</i><sup>1/2</sup>)</td><td class="m"><i>O</i>(1)</td></tr>
+          <tr><td>궤도의 안장점 갈래치기</td><td class="m"><i>O</i>(1)</td><td class="m"><i>O</i>(1)</td></tr>
+          <tr><td>무한 주기</td><td class="m"><i>O</i>(1)</td><td class="m"><i>O</i>(<i>μ</i><sup>−1/2</sup>)</td></tr>
+          <tr><td>같은 모임</td><td class="m"><i>O</i>(1)</td><td class="m"><i>O</i>(ln <i>μ</i>)</td></tr>
         </tbody>
       </table></div>
       <p>실험 과학자라면, 조절 매개변수를 바꿔 진동이 멈출 때 갈래치기점 근처의 주기와 진폭의 척도 조정을 살펴서 (정확히 알려지지 않은) 시스템의 동역학에 대해 배울 수 있다. 가능한 모형을 소거하거나 추천할 수 있는 것이다.</p>
     </div>
     <div class="txt">
       <h3 style="margin-top:8px">예제 8.4.1 표에 맞지 않는 반 데르 폴 진동자?</h3>
-      <p><span class="m">ẍ + εẋ(x² − 1) + x = 0</span>에서 원점의 야코비 행렬은 <span class="m">[[0, 1], [−1, ε]]</span>이니 <span class="m">ε = 0</span>에서 고윳값이 순허수 <span class="m">λ = ±i</span>이고, 호프 갈래치기가 일어난다. 그런데 7.6절에서 배웠듯이 <span class="m">0 &lt; ε ≪ 1</span>이면 진폭 <span class="m">r ≈ 2</span>의 극한 주기 궤도가 있다. 척도 조정 법칙이 예측하는 <span class="m">O(ε<sup>1/2</sup>)</span>가 아니라 ‘다 자란’ 상태로 태어난다. 왜일까?</p>
-      <p><b>풀이.</b> <span class="m">ε = 0</span>에서의 갈래치기는 <b>겹쳐져(degenerate) 있다.</b> 비선형 항 <span class="m">εẋx²</span>이 고윳값이 허수 축을 지나가는 순간과 정확히 동일한 매개변숫값에서 사라진다. 참으로 일반적이지 않은 우연의 일치다! <span class="m">u = ε<sup>1/2</sup>x</span>로 크기를 재조정하면 <span class="m">ü + u + u²u̇ − εu̇ = 0</span>이 되어 비선형 항이 더 이상 사라지지 않는다. 그러면 <span class="m">u(t, ε) ≈ 2ε<sup>1/2</sup> cos t</span>이니, 호프 갈래치기에 대해 예상되는 것처럼 진폭이 <span class="m">ε<sup>1/2</sup></span>로 커진다.</p>
+      <p><span class="m"><i>ẍ</i> + <i>εẋ</i>(<i>x</i>² − 1) + <i>x</i> = 0</span>에서 원점의 야코비 행렬은 <span class="m">[[0, 1], [−1, <i>ε</i>]]</span>이니 <span class="m"><i>ε</i> = 0</span>에서 고윳값이 순허수 <span class="m"><i>λ</i> = ±i</span>이고, 호프 갈래치기가 일어난다. 그런데 7.6절에서 배웠듯이 <span class="m">0 &lt; <i>ε</i> ≪ 1</span>이면 진폭 <span class="m"><i>r</i> ≈ 2</span>의 극한 주기 궤도가 있다. 척도 조정 법칙이 예측하는 <span class="m"><i>O</i>(<i>ε</i><sup>1/2</sup>)</span>가 아니라 ‘다 자란’ 상태로 태어난다. 왜일까?</p>
+      <p><b>풀이.</b> <span class="m"><i>ε</i> = 0</span>에서의 갈래치기는 <b>겹쳐져(degenerate) 있다.</b> 비선형 항 <span class="m"><i>εẋx</i>²</span>이 고윳값이 허수 축을 지나가는 순간과 정확히 동일한 매개변숫값에서 사라진다. 참으로 일반적이지 않은 우연의 일치다! <span class="m"><i>u</i> = <i>ε</i><sup>1/2</sup><i>x</i></span>로 크기를 재조정하면 <span class="m"><i>ü</i> + <i>u</i> + <i>u</i>²<i>u̇</i> − <i>εu̇</i> = 0</span>이 되어 비선형 항이 더 이상 사라지지 않는다. 그러면 <span class="m"><i>u</i>(<i>t</i>, <i>ε</i>) ≈ 2<i>ε</i><sup>1/2</sup> cos <i>t</i></span>이니, 호프 갈래치기에 대해 예상되는 것처럼 진폭이 <span class="m"><i>ε</i><sup>1/2</sup></span>로 커진다.</p>
     </div>
   </div>
 </section>
@@ -309,17 +315,17 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <div class="row">
     <div class="txt">
       <h3 style="margin-top:8px">지배 방정식</h3>
-      <p>조지프슨 접합의 지배 방정식 <span class="m">(ℏC/2e)φ̈ + (ℏ/2eR)φ̇ + I<sub>c</sub> sin φ = I<sub>B</sub></span>를 감쇠의 역할이 드러나도록 무차원화하면</p>
-      <div class="eq">φ″ + αφ′ + sin φ = <i>I</i></div>
-      <p>이다. <span class="m">α &gt; 0</span>은 무차원의 감쇠, <span class="m">I ≥ 0</span>은 인가된 전류다. <span class="m">y = φ′</span>로 두면 <span class="m">φ′ = y</span>, <span class="m">y′ = I − sin φ − αy</span>이다. <span class="m">φ</span>는 각도 변수, <span class="m">y</span>는 실변수(각속도)이니 <b>위상 공간은 원통(cylinder)</b>이다. 오른쪽 데모의 좌우 경계는 이어져 있다.</p>
-      <p><b>고정점.</b> <span class="m">y* = 0</span>, <span class="m">sin φ* = I</span>이니 <span class="m">I &lt; 1</span>이면 2개, <span class="m">I &gt; 1</span>이면 없다. 야코비 행렬의 <span class="m">τ = −α &lt; 0</span>, <span class="m">Δ = cos φ* = ±√(1 − I²)</span>이니 하나는 안장점, 다른 하나는 싱크다. <span class="m">I = 1</span>에서 안장점 갈래치기가 일어나 둘이 합쳐진다.</p>
+      <p>조지프슨 접합의 지배 방정식 <span class="m">(ℏ<i>C</i>/2<i>e</i>)<i>φ̈</i> + (ℏ/2<i>eR</i>)<i>φ̇</i> + <i>I</i><sub>c</sub> sin <i>φ</i> = <i>I</i><sub>B</sub></span>를 감쇠의 역할이 드러나도록 무차원화하면</p>
+      <div class="eq"><i>φ</i>″ + <i>αφ</i>′ + sin <i>φ</i> = <i>I</i></div>
+      <p>이다. <span class="m"><i>α</i> &gt; 0</span>은 무차원의 감쇠, <span class="m"><i>I</i> ≥ 0</span>은 인가된 전류다. <span class="m"><i>y</i> = <i>φ</i>′</span>로 두면 <span class="m"><i>φ</i>′ = <i>y</i></span>, <span class="m"><i>y</i>′ = <i>I</i> − sin <i>φ</i> − <i>αy</i></span>이다. <span class="m"><i>φ</i></span>는 각도 변수, <span class="m"><i>y</i></span>는 실변수(각속도)이니 <b>위상 공간은 원통(cylinder)</b>이다. 오른쪽 데모의 좌우 경계는 이어져 있다.</p>
+      <p><b>고정점.</b> <span class="m"><i>y</i>* = 0</span>, <span class="m">sin <i>φ</i>* = <i>I</i></span>이니 <span class="m"><i>I</i> &lt; 1</span>이면 2개, <span class="m"><i>I</i> &gt; 1</span>이면 없다. 야코비 행렬의 <span class="m"><i>τ</i> = −<i>α</i> &lt; 0</span>, <span class="m">Δ = cos <i>φ</i>* = ±<span class="sqrt"><span class="rad">√</span><span class="rc">1 − <i>I</i>²</span></span></span>이니 하나는 안장점, 다른 하나는 싱크다. <span class="m"><i>I</i> = 1</span>에서 안장점 갈래치기가 일어나 둘이 합쳐진다.</p>
       <h3>닫힌 궤도의 존재: 푸앵카레 사상</h3>
-      <p><span class="m">I &gt; 1</span>이면 고정점이 없다. 영점선 <span class="m">y = α⁻¹(I − sin φ)</span>보다 위에서는 흐름이 아래로, 아래에서는 위로 향하니 모든 궤적은 띠 <span class="m">y₁ ≤ y ≤ y₂</span>(<span class="m">0 &lt; y₁ &lt; (I − 1)/α</span>, <span class="m">y₂ &gt; (I + 1)/α</span>)로 들어가 영원히 머문다. 띠 안에서는 <span class="m">y &gt; 0</span>이니 흐름은 늘 오른쪽이다.</p>
-      <p>높이 <span class="m">y</span>에서 출발해 원통을 한 바퀴 돌고 처음 돌아온 높이를 <span class="m">P(y)</span>라 하자. 이것이 <b>푸앵카레 사상(Poincaré map)</b> 또는 <b>첫 반환 사상(first-return map)</b>이다. <span class="hlp"><span class="m">P(y*) = y*</span>인 <span class="m">y*</span>가 있으면 그 궤적은 닫힌 궤도다.</span> <span class="m">P(y₁) &gt; y₁</span>, <span class="m">P(y₂) &lt; y₂</span>이고, <span class="m">P</span>는 연속(continuous)이며 단조(monotonic)다(단조가 아니면 두 궤적이 교차해야 한다). 따라서 중간 값 정리(intermediate value theorem), 또는 상식에 의해 <span class="m">P(y)</span>의 그래프는 어딘가에서 45° 대각선을 가로지른다.</p>
+      <p><span class="m"><i>I</i> &gt; 1</span>이면 고정점이 없다. 영점선 <span class="m"><i>y</i> = <i>α</i>⁻¹(<i>I</i> − sin <i>φ</i>)</span>보다 위에서는 흐름이 아래로, 아래에서는 위로 향하니 모든 궤적은 띠 <span class="m"><i>y</i>₁ ≤ <i>y</i> ≤ <i>y</i>₂</span>(<span class="m">0 &lt; <i>y</i>₁ &lt; (<i>I</i> − 1)/<i>α</i></span>, <span class="m"><i>y</i>₂ &gt; (<i>I</i> + 1)/<i>α</i></span>)로 들어가 영원히 머문다. 띠 안에서는 <span class="m"><i>y</i> &gt; 0</span>이니 흐름은 늘 오른쪽이다.</p>
+      <p>높이 <span class="m"><i>y</i></span>에서 출발해 원통을 한 바퀴 돌고 처음 돌아온 높이를 <span class="m"><i>P</i>(<i>y</i>)</span>라 하자. 이것이 <b>푸앵카레 사상(Poincaré map)</b> 또는 <b>첫 반환 사상(first-return map)</b>이다. <span class="hlp"><span class="m"><i>P</i>(<i>y</i>*) = <i>y</i>*</span>인 <span class="m"><i>y</i>*</span>가 있으면 그 궤적은 닫힌 궤도다.</span> <span class="m"><i>P</i>(<i>y</i>₁) &gt; <i>y</i>₁</span>, <span class="m"><i>P</i>(<i>y</i>₂) &lt; <i>y</i>₂</span>이고, <span class="m"><i>P</i></span>는 연속(continuous)이며 단조(monotonic)다(단조가 아니면 두 궤적이 교차해야 한다). 따라서 중간 값 정리(intermediate value theorem), 또는 상식에 의해 <span class="m"><i>P</i>(<i>y</i>)</span>의 그래프는 어딘가에서 45° 대각선을 가로지른다.</p>
       <h3>극한 주기 궤도의 고유성</h3>
-      <p>원통에는 위상적으로 다른 두 종류의 주기적 궤도, 칭동(libration)과 회전(rotation)이 있다. <span class="m">I &gt; 1</span>이면 고정점이 없어 지표 이론에 의해 칭동은 불가능하다. 서로 다른 두 회전 <span class="m">y<sub>U</sub>(φ) &gt; y<sub>L</sub>(φ)</span>가 있다고 하자. “에너지” <span class="m">E = ½y² − cos φ</span>는 한 바퀴 돌면 변하지 않아야 하는데 <span class="m">dE/dφ = I − αy</span>이니</p>
-      <div class="eq plain">∫₀<sup>2π</sup> <i>y</i>(φ) dφ = 2π<i>I</i>/α</div>
-      <p>가 모든 회전에 대해 성립해야 한다. 그러나 <span class="m">y<sub>U</sub> &gt; y<sub>L</sub></span>이니 두 적분이 같을 수 없다. 모순이다. <span class="hl"><span class="m">I &gt; 1</span>에 대한 회전은 고유하다.</span> 오른쪽 데모에서 이 적분값을 직접 확인할 수 있다.</p>
+      <p>원통에는 위상적으로 다른 두 종류의 주기적 궤도, 칭동(libration)과 회전(rotation)이 있다. <span class="m"><i>I</i> &gt; 1</span>이면 고정점이 없어 지표 이론에 의해 칭동은 불가능하다. 서로 다른 두 회전 <span class="m"><i>y</i><sub>U</sub>(<i>φ</i>) &gt; <i>y</i><sub>L</sub>(<i>φ</i>)</span>가 있다고 하자. “에너지” <span class="m"><i>E</i> = ½<i>y</i>² − cos <i>φ</i></span>는 한 바퀴 돌면 변하지 않아야 하는데 <span class="m">d<i>E</i>/d<i>φ</i> = <i>I</i> − <i>αy</i></span>이니</p>
+      <div class="eq plain">∫₀<sup>2π</sup> <i>y</i>(<i>φ</i>) d<i>φ</i> = 2π<i>I</i>/<i>α</i></div>
+      <p>가 모든 회전에 대해 성립해야 한다. 그러나 <span class="m"><i>y</i><sub>U</sub> &gt; <i>y</i><sub>L</sub></span>이니 두 적분이 같을 수 없다. 모순이다. <span class="hl"><span class="m"><i>I</i> &gt; 1</span>에 대한 회전은 고유하다.</span> 오른쪽 데모에서 이 적분값을 직접 확인할 수 있다.</p>
     </div>
     <div class="demo">
       <div class="ctl">
@@ -329,7 +335,7 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
       <div class="ctl"><button class="btn" id="jClear">지우기</button></div>
       <canvas id="jj" class="pp" aria-label="원통 위상 공간에서 본 조지프슨 접합의 위상 그림"></canvas>
       <div class="legend"><span><i style="background:var(--cyan)"></i>y′ = 0 영점선</span><span>좌우 경계 φ = 0과 2π는 같은 점(원통)</span></div>
-      <p class="sub">푸앵카레 사상 <span class="m">P(y)</span>와 45° 대각선</p>
+      <p class="sub">푸앵카레 사상 <span class="m"><i>P</i>(<i>y</i>)</span>와 45° 대각선</p>
       <canvas id="jP" aria-label="푸앵카레 사상의 그래프"></canvas>
       <div class="read" id="jRead"></div>
     </div>
@@ -338,24 +344,24 @@ button.theme-btn svg{width:20px; height:20px; fill:none; stroke:currentColor; st
   <h3>같은 모임 갈래치기와 전류-전압 다른길오고감 곡선</h3>
   <div class="row flip">
     <div class="txt">
-      <p><span class="m">I &gt; 1</span>에서 시작해 <span class="m">I</span>를 천천히 줄이자. 진자를 생각하면, 구동 토크가 감소함에 따라 가장 높은 점에 도달하기가 점점 더 힘들어진다. 어느 임곗값 <span class="m">I<sub>c</sub> &lt; 1</span>에서 토크는 더 이상 중력과 감쇠를 극복하지 못하고, 회전이 사라져 모든 해는 멈춘 상태로 감쇠된다.</p>
+      <p><span class="m"><i>I</i> &gt; 1</span>에서 시작해 <span class="m"><i>I</i></span>를 천천히 줄이자. 진자를 생각하면, 구동 토크가 감소함에 따라 가장 높은 점에 도달하기가 점점 더 힘들어진다. 어느 임곗값 <span class="m"><i>I</i><sub>c</sub> &lt; 1</span>에서 토크는 더 이상 중력과 감쇠를 극복하지 못하고, 회전이 사라져 모든 해는 멈춘 상태로 감쇠된다.</p>
       <ul>
-        <li><span class="m">I<sub>c</sub> &lt; I &lt; 1</span>: 쌍안정 상태. 싱크가 안정적인 극한 주기 궤도와 공존한다. 안장점의 불안정한 다양체의 한 줄기 <span class="m">U</span>는 극한 주기 궤도에 점근적으로 접근한다.</li>
-        <li><span class="m">I = I<sub>c</sub></span>: 극한 주기 궤도가 <span class="m">U</span>와 합쳐져 안장점에 스스로 연결된 같은 모임 궤도가 된다.</li>
-        <li><span class="m">I &lt; I<sub>c</sub></span>: 안장점 연결이 끊어지고 <span class="m">U</span>는 나선형으로 싱크로 빨려 들어간다.</li>
+        <li><span class="m"><i>I</i><sub>c</sub> &lt; <i>I</i> &lt; 1</span>: 쌍안정 상태. 싱크가 안정적인 극한 주기 궤도와 공존한다. 안장점의 불안정한 다양체의 한 줄기 <span class="m"><i>U</i></span>는 극한 주기 궤도에 점근적으로 접근한다.</li>
+        <li><span class="m"><i>I</i> = <i>I</i><sub>c</sub></span>: 극한 주기 궤도가 <span class="m"><i>U</i></span>와 합쳐져 안장점에 스스로 연결된 같은 모임 궤도가 된다.</li>
+        <li><span class="m"><i>I</i> &lt; <i>I</i><sub>c</sub></span>: 안장점 연결이 끊어지고 <span class="m"><i>U</i></span>는 나선형으로 싱크로 빨려 들어간다.</li>
       </ul>
-      <p>이 시나리오는 <span class="m">α</span>가 충분히 작을 때만 유효하다. <span class="m">α</span>가 크면 4장의 과감쇠 극한처럼 주기적 해가 <b>무한 주기 갈래치기</b>로 파괴된다. 종합하면 세 가지 갈래치기가 나타난다. 주기적 궤도의 같은 모임 갈래치기와 무한 주기 갈래치기, 그리고 고정점의 안장점 갈래치기다. 멜니코프(Melnikov)의 방법을 쓰면 <span class="m">α ≪ 1</span>일 때 같은 모임 갈래치기 곡선이 직선 <span class="m">I = 4α/π</span>에 접한다는 것을 보일 수 있다.</p>
-      <p><b>전류-전압 곡선.</b> 접합의 dc 전압은 평균 각속도 <span class="m">〈φ′〉</span>에 비례한다. <span class="m">I</span>를 0에서 올리면 1을 넘을 때까지 전압이 0인 상태(안정된 고정점)에 머물다가, 안장점 갈래치기에서 전압이 0이 아닌 상태(극한 주기 궤도)로 점프한다. <span class="m">I</span>를 다시 낮추면 극한 주기 궤도는 <span class="m">I = 1</span> 아래로도 지속되고, 진동수는 <span class="m">[ln(I − I<sub>c</sub>)]⁻¹</span>처럼 0으로 접근한다. 실제로는 불연속적으로 점프하는 것처럼 보이지만, 이 함수는 <span class="m">I<sub>c</sub></span>에서 모든 미분값이 무한대가 되어 그렇게 보일 뿐이다.</p>
+      <p>이 시나리오는 <span class="m"><i>α</i></span>가 충분히 작을 때만 유효하다. <span class="m"><i>α</i></span>가 크면 4장의 과감쇠 극한처럼 주기적 해가 <b>무한 주기 갈래치기</b>로 파괴된다. 종합하면 세 가지 갈래치기가 나타난다. 주기적 궤도의 같은 모임 갈래치기와 무한 주기 갈래치기, 그리고 고정점의 안장점 갈래치기다. 멜니코프(Melnikov)의 방법을 쓰면 <span class="m"><i>α</i> ≪ 1</span>일 때 같은 모임 갈래치기 곡선이 직선 <span class="m"><i>I</i> = 4<i>α</i>/π</span>에 접한다는 것을 보일 수 있다.</p>
+      <p><b>전류-전압 곡선.</b> 접합의 dc 전압은 평균 각속도 <span class="m">〈<i>φ</i>′〉</span>에 비례한다. <span class="m"><i>I</i></span>를 0에서 올리면 1을 넘을 때까지 전압이 0인 상태(안정된 고정점)에 머물다가, 안장점 갈래치기에서 전압이 0이 아닌 상태(극한 주기 궤도)로 점프한다. <span class="m"><i>I</i></span>를 다시 낮추면 극한 주기 궤도는 <span class="m"><i>I</i> = 1</span> 아래로도 지속되고, 진동수는 <span class="m">[ln(<i>I</i> − <i>I</i><sub>c</sub>)]⁻¹</span>처럼 0으로 접근한다. 실제로는 불연속적으로 점프하는 것처럼 보이지만, 이 함수는 <span class="m"><i>I</i><sub>c</sub></span>에서 모든 미분값이 무한대가 되어 그렇게 보일 뿐이다.</p>
     </div>
     <div class="demo">
-      <p class="sub" style="margin-top:0">안정성 그림 <span class="m">(α, I)</span>: 누르면 그 값으로 바뀝니다. 굵은 선은 수치로 찾은 같은 모임 갈래치기 곡선</p>
+      <p class="sub" style="margin-top:0">안정성 그림 <span class="m">(<i>α</i>, <i>I</i>)</span>: 누르면 그 값으로 바뀝니다. 굵은 선은 수치로 찾은 같은 모임 갈래치기 곡선</p>
       <canvas id="jST" class="pp" aria-label="조지프슨 접합의 안정성 그림"></canvas>
       <div class="legend"><span><i style="background:var(--ink)"></i>같은 모임 갈래치기(수치)</span><span><i style="background:var(--pink)"></i>근사 I = 4α/π</span><span><i style="background:var(--muted)"></i>I = 1: 안장점 갈래치기</span></div>
       <div class="ctl" style="margin-top:12px">
         <button class="btn primary" id="ivPlay">I 쓸기 시작</button>
         <button class="btn" id="ivReset">처음으로</button>
       </div>
-      <p class="sub">전류-전압 곡선: <span class="m">I</span>를 0 → 2 → 0으로 천천히 바꿀 때의 <span class="m">〈φ′〉</span> (현재 α 사용)</p>
+      <p class="sub">전류-전압 곡선: <span class="m"><i>I</i></span>를 0 → 2 → 0으로 천천히 바꿀 때의 <span class="m">〈<i>φ</i>′〉</span> (현재 α 사용)</p>
       <canvas id="jIV" aria-label="전류-전압 다른길오고감 곡선"></canvas>
       <div class="read"><span>I = <b id="ivI">–</b></span><span>〈φ′〉 = <b id="ivV">–</b></span><span id="ivDir"></span></div>
     </div>
@@ -570,7 +576,7 @@ function chPeriod(tok){const fp=chFP();if(fp.tau<=0){$('#chT').textContent='극�
 function chUpdate(reseed){$('#caOut').textContent=cA.toFixed(1);$('#cbOut').textContent=cB.toFixed(1);const fp=chFP();const bc=3*cA/5-25/cA;
   ch.o.dom=chDom();ch.o.fixed=[{x:fp.x,y:fp.y,k:fp.cls.k}];ch.renderStatic();
   const Tap=15*cA*cA>625?TAU*Math.sqrt((cA*cA+25)/(15*cA*cA-625)):NaN;
-  $('#chRead').innerHTML='<span>고정점 (a/5, 1 + (a/5)²) = ('+fp.x.toFixed(2)+', '+fp.y.toFixed(2)+')</span><span>τ = '+fmtS(fp.tau,3)+', Δ = '+fp.det.toFixed(3)+'</span><span>b<sub>c</sub> = 3a/5 − 25/a = <b>'+bc.toFixed(3)+'</b></span><span>수치 주기 <b id="chT">–</b>, 근사 2π/√Δ<sub>c</sub> = '+(isFinite(Tap)?Tap.toFixed(3):'–')+'</span>';
+  $('#chRead').innerHTML='<span>고정점 (a/5, 1 + (a/5)²) = ('+fp.x.toFixed(2)+', '+fp.y.toFixed(2)+')</span><span>τ = '+fmtS(fp.tau,3)+', Δ = '+fp.det.toFixed(3)+'</span><span>b<sub>c</sub> = 3a/5 − 25/a = <b>'+bc.toFixed(3)+'</b></span><span>수치 주기 <b id="chT">–</b>, 근사 2π/<span class="sqrt"><span class="rad">√</span><span class="rc">Δ<sub>c</sub></span></span> = '+(isFinite(Tap)?Tap.toFixed(3):'–')+'</span>';
   const v=$('#chV');if(fp.tau>0){v.className='verdict ok';v.innerHTML='<span class="m">b &lt; b<sub>c</sub></span>: 고정점은 '+fp.cls.name+', 곧 밀개입니다. 구멍 난 네모칸에 P-B 정리를 적용하면 닫힌 궤도가 있어야 합니다. 궤적은 안정적인 극한 주기 궤도로 끌려갑니다.';}
   else{v.className='verdict no';v.innerHTML='<span class="m">b &gt; b<sub>c</sub></span>: 고정점은 '+fp.cls.name+'입니다. 모든 궤적이 고정점으로 나선형으로 빨려 듭니다.';}
   if(reseed){ch.clear();ch.ci=0;const d=ch.o.dom;for(const[fx,fy]of[[.1,.1],[.9,.85],[.15,.9],[fp.x/d.x1+.03,fp.y/d.y1]])ch.add(fx*d.x1,fy*d.y1);}ch.dirty=true;
@@ -595,9 +601,9 @@ const GB={
   snc:{eq:'ṙ = μr + r³ − r⁵,  θ̇ = 1',mu:[-.4,0,-.2,.005],dom:{x0:-1.5,x1:1.5,y0:-1.5,y1:1.5},
     f:m=>(x,y)=>{const r=Math.hypot(x,y);const g=r>1e-12?(m*r+r**3-r**5)/r:0;return[g*x-y,g*y+x];},seeds:[[.3,0],[.75,0],[1.45,.3],[-.6,-.2]],aux:'반지름 방향 위상 그림 ṙ = μr + r³ − r⁵'},
   inf:{eq:'ṙ = r(1 − r²),  θ̇ = μ − sin θ',mu:[.5,1.5,1.1,.005],dom:{x0:-1.5,x1:1.5,y0:-1.5,y1:1.5},
-    f:m=>(x,y)=>{const r=Math.hypot(x,y);if(r<1e-12)return[0,0];const c=x/r,s=y/r;const rd=r*(1-r*r),td=m-s;return[rd*c-r*td*s,rd*s+r*td*c];},seeds:[[.2,0],[1.4,.4],[-.3,1.2]],aux:'주기 T와 μ: T = 2π/√(μ² − 1)'},
+    f:m=>(x,y)=>{const r=Math.hypot(x,y);if(r<1e-12)return[0,0];const c=x/r,s=y/r;const rd=r*(1-r*r),td=m-s;return[rd*c-r*td*s,rd*s+r*td*c];},seeds:[[.2,0],[1.4,.4],[-.3,1.2]],aux:'주기 T와 μ: T = 2π/<span class="sqrt"><span class="rad">√</span><span class="rc">μ² − 1</span></span>'},
   hom:{eq:'ẋ = y,  ẏ = μy + x − x² + xy',mu:[-1.05,-.75,-.92,.005],dom:{x0:-1.5,x1:2.5,y0:-2,y1:2},
-    f:m=>(x,y)=>[y,m*y+x-x*x+x*y],seeds:[[1.15,0],[.5,-1.2]],aux:'극한 주기 궤도의 주기와 μ (수치), 세로선 μ_c ≈ −0.8645'}
+    f:m=>(x,y)=>[y,m*y+x-x*x+x*y],seeds:[[1.15,0],[.5,-1.2]],aux:'극한 주기 궤도의 주기와 μ (수치), 세로선 μ<sub>c</sub> ≈ −0.8645'}
 };
 let gbK='snc',gbMu=-.2,homPeriods=null;
 const gb=new Plane($('#gb'),{dom:GB.snc.dom,f:GB.snc.f(-.2),tmax:60,maxTraj:6,sub:4,dt:.01,
@@ -627,13 +633,13 @@ function drawGbAux(){const cv=$('#gbAux');
       post:(c,X,Y)=>{c.fillStyle=C.ink;for(const[m,T]of dots){c.beginPath();c.arc(X(m),Y(Math.min(T,40)),4,0,7);c.fill();}}});}}
 function gbRead(){let h='';
   if(gbK==='snc'){h=gbMu<-.25?'<span>μ &lt; −1/4: 극한 주기 궤도 없음. 원점이 유일한 끌개</span>':Math.abs(gbMu+.25)<.003?'<span>μ ≈ −1/4: 반쯤 안정한 주기가 난데없이 생김</span>':'<span>안정적인 궤도 r = '+Math.sqrt((1+Math.sqrt(1+4*gbMu))/2).toFixed(3)+', 불안정한 궤도 r = '+Math.sqrt((1-Math.sqrt(1+4*gbMu))/2).toFixed(3)+' (원점은 늘 안정)</span>';}
-  else if(gbK==='inf'){h=gbMu>1?'<span>극한 주기 궤도 r = 1, 주기 T = 2π/√(μ² − 1) = <b>'+(TAU/Math.sqrt(gbMu*gbMu-1)).toFixed(2)+'</b></span>':'<span>μ ≤ 1: 단위 원 위에 고정점 2개(안정점과 안장점). sin θ = μ인 두 불변 반직선</span>';}
+  else if(gbK==='inf'){h=gbMu>1?'<span>극한 주기 궤도 r = 1, 주기 T = 2π/<span class="sqrt"><span class="rad">√</span><span class="rc">μ² − 1</span></span> = <b>'+(TAU/Math.sqrt(gbMu*gbMu-1)).toFixed(2)+'</b></span>':'<span>μ ≤ 1: 단위 원 위에 고정점 2개(안정점과 안장점). sin θ = μ인 두 불변 반직선</span>';}
   else{h=gbMu<-1?'<span>μ &lt; −1: (1, 0)이 안정적인 나선. 극한 주기 궤도 없음</span>':gbMu<MUC_HOM?'<span>안정적인 극한 주기 궤도가 (1, 0)을 둘러쌈. 불안정한 다양체 U가 궤도로 감김</span>':'<span>μ &gt; μ<sub>c</sub>: 안장점 연결이 끊어지고 고리가 사라짐</span>';}
   $('#gbRead').innerHTML=h;}
 function gbFixed(){if(gbK==='snc')return[{x:0,y:0,k:'s'}];
   if(gbK==='inf'){if(gbMu>1)return[{x:0,y:0,k:'u'}];const t1=Math.asin(Math.min(1,gbMu)),t2=Math.PI-t1;return[{x:0,y:0,k:'u'},{x:Math.cos(t1),y:Math.sin(t1),k:'s'},{x:Math.cos(t2),y:Math.sin(t2),k:'saddle'}];}
   const c=classify(gbMu+1,1);return[{x:0,y:0,k:'saddle'},{x:1,y:0,k:c.k}];}
-function gbUpdate(reseed){const K=GB[gbK];$('#gbMuOut').textContent=fmtS(gbMu,3);$('#gbEq').textContent=K.eq;$('#gbAuxCap').textContent=K.aux;gb.o.dom=K.dom;gb.o.f=K.f(gbMu);gb.o.fixed=gbFixed();
+function gbUpdate(reseed){const K=GB[gbK];$('#gbMuOut').textContent=fmtS(gbMu,3);$('#gbEq').textContent=K.eq;$('#gbAuxCap').innerHTML=K.aux;gb.o.dom=K.dom;gb.o.f=K.f(gbMu);gb.o.fixed=gbFixed();
   gb.o.tmax=gbK==='inf'?80:60;gb.renderStatic();if(reseed){gb.clear();gb.ci=0;for(const[x,y]of K.seeds)gb.add(x,y);}gb.dirty=true;drawGbAux();gbRead();}
 function gbMode(k){gbK=k;const K=GB[k];const s=$('#gbMu');s.min=K.mu[0];s.max=K.mu[1];s.step=K.mu[3];s.value=K.mu[2];gbMu=K.mu[2];
   document.querySelectorAll('.seg[aria-label="전역적 갈래치기 종류"] button').forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===k));gbUpdate(true);}
