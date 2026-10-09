@@ -670,7 +670,7 @@ function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const xl=o.xl=
       c.strokeStyle=rgba(fast?C.pink:C.cyan,.8);c.lineWidth=1.4;c.beginPath();c.moveTo(cx+x*S,cy-y*S);c.lineTo(cx+nx*S,cy-ny*S);c.stroke();x=nx;y=ny;}}}
   if(reduceMotion){setTimeout(staticDraw,50);new ResizeObserver(()=>staticDraw()).observe(cv);return;}
   function frame(){requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
-    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.06)';c.fillRect(0,0,W,H);c.globalCompositeOperation='source-over';
+    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.06)';c.fillRect(0,0,W,H);if((window.__fadeTick=(window.__fadeTick||0)+1)%15===0){c.fillStyle='rgba(0,0,0,0.35)';c.fillRect(0,0,W,H);}c.globalCompositeOperation='source-over';
     nullcline(c,.05);
     c.lineWidth=1.4;c.lineCap='round';const pf=new Path2D(),ps=new Path2D();
     for(const p of P){const x0=p.x,y0=p.y;for(let k=0;k<4;k++){[p.x,p.y]=rk4(f,p.x,p.y,.005);}p.age+=.02;

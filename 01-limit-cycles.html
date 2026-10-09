@@ -600,7 +600,7 @@ function plot(cv,o){const F=fit(cv);if(!F)return;const{ctx,w,h}=F;const xl=o.xl=
       c.strokeStyle=rgba(inner?C.cyan:C.pink,.7);c.lineWidth=1.2;c.beginPath();c.moveTo(cx+x*S,cy-y*S);for(let i=0;i<900;i++){[x,y]=rk4(f,x,y,.015);c.lineTo(cx+x*S,cy-y*S);}c.stroke();}}
   if(reduceMotion){setTimeout(staticDraw,50);new ResizeObserver(()=>staticDraw()).observe(cv);return;}
   function frame(){requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
-    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.05)';c.fillRect(0,0,W,H);c.globalCompositeOperation='source-over';
+    c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.05)';c.fillRect(0,0,W,H);if((window.__fadeTick=(window.__fadeTick||0)+1)%15===0){c.fillStyle='rgba(0,0,0,0.35)';c.fillRect(0,0,W,H);}c.globalCompositeOperation='source-over';
     c.lineWidth=1.3;c.lineCap='round';const ci=rgba(C.cyan,.85),co=rgba(C.pink,.85);
     c.strokeStyle=ci;c.beginPath();for(const p of P)if(p.inner)mv(c,p);c.stroke();
     c.strokeStyle=co;c.beginPath();for(const p of P)if(!p.inner)mv(c,p);c.stroke();
