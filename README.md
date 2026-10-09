@@ -2,7 +2,7 @@
 
 스티븐 스트로가츠(Steven H. Strogatz)의 『[비선형 동역학과 카오스 2/e](https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/)』(에이콘출판사, 2025) 7장 **극한 주기 궤도(limit cycles)** 와 8장 **갈래치기 다시 보기(bifurcations revisited)** 를 위상 평면(phase plane) 위에서 직접 궤적을 그려 보며 배우는 웹 데모 모음입니다.
 
-경상국립대학교 물리학과 이상훈 교수가 [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365)에서 진행한 7~8장 강의의 강의노트를 기반으로, Claude Opus 5.5(Anthropic)가 제작했습니다.
+경상국립대학교 물리학과 [이상훈](https://sites.google.com/view/netscilab/principal-investigator) 교수가 [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365)에서 진행한 7~8장 강의의 강의노트를 기반으로, Claude Opus 5.5(Anthropic)가 제작했습니다.
 
 **데모 바로가기:** `https://lshlj82.github.io/nonlinear-dynamics-summer-school/`
 
@@ -28,7 +28,7 @@
 - **갈래치기 도표와 고윳값**: 매개변수를 움직이면 고정점과 극한 주기 궤도의 갈래치기 도표, 원점 고윳값의 복소평면 위치가 함께 바뀝니다. 준임계 호프 갈래치기에서는 μ를 천천히 오르내리며 다른길오고감을 직접 관찰할 수 있습니다.
 - **근사와 수치 해의 비교**: 정규 섭동 이론, 두 타이밍, 평균 방정식으로 얻은 근사식을 같은 화면에서 수치 적분 결과와 겹쳐 보고 최대 오차를 확인할 수 있습니다.
 - **한국어 본문, 영어 원어 병기**: 용어와 예제 번호는 번역서 『비선형 동역학과 카오스 2/e』를 따르고, 중요한 용어는 괄호 안에 영어 원어를 함께 적었습니다.
-- **반응형, 다크 모드, 동작 줄이기 설정 지원**: 휴대폰에서도 사용할 수 있고, 운영체제의 다크 모드와 "동작 줄이기(reduced motion)" 설정을 따릅니다. 오른쪽 위의 해/달 버튼으로 밝은 화면과 어두운 화면을 직접 바꿀 수 있으며, 고른 설정은 모든 페이지에 함께 적용됩니다.
+- **반응형, 화면 모드 전환, 동작 줄이기 설정 지원**: 휴대폰에서도 사용할 수 있습니다. 처음에는 운영체제 설정에 맞춰 열리고, 오른쪽 위 버튼으로 라이트와 다크 모드를 바꿀 수 있으며 선택은 브라우저에 저장됩니다. "동작 줄이기(reduced motion)" 설정도 따릅니다.
 
 ## 저장소 구조
 
@@ -44,7 +44,7 @@
 └── README.md
 ```
 
-각 HTML 파일은 CSS와 JavaScript를 모두 안에 담은 독립된 단일 파일입니다. 빌드 과정이나 외부 라이브러리가 없으며, 외부에서 불러오는 것은 Google Fonts(Noto Serif KR, Noto Sans KR, STIX Two Text)뿐입니다. 글꼴을 불러오지 못해도 시스템 글꼴로 정상 동작합니다.
+각 HTML 파일은 CSS와 JavaScript를 모두 안에 담은 독립된 단일 파일입니다. 수식은 [KaTeX](https://katex.org/)로 미리 조판해 HTML에 넣어 두었기 때문에 실행 중에 수식 라이브러리를 불러오지 않습니다. 외부에서 불러오는 것은 KaTeX의 스타일시트와 수식 글꼴(jsDelivr CDN, 버전 0.16.9 고정, 무결성 해시 포함), 그리고 Google Fonts(Noto Serif KR, Noto Sans KR, STIX Two Text)뿐입니다.
 
 ## 로컬에서 실행하기
 
@@ -84,5 +84,5 @@ python3 -m http.server 8000
 
 ## 제작
 
-- **내용**: 이상훈 (경상국립대학교 물리학과), [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365) 7~8장 강의노트
+- **내용**: [이상훈](https://sites.google.com/view/netscilab/principal-investigator) (경상국립대학교 물리학과), [2026 복잡계 여름학교](https://www.complexity.kr/?p=1365) 7~8장 강의노트
 - **제작**: Claude Opus 5.5 (Anthropic)
