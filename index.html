@@ -17,6 +17,7 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
   --paper:#EEF2F5; --panel:#FFFFFF; --ink:#16233A; --muted:#5A6779; --rule:#D3DAE3;
   --pink:#D12F78; --green:#23914A; --cyan:#1A86B0; --amber:#C97A10;
+  --cyan-t:#146E93;
   --serif:'Noto Serif KR','Nanum Myeongjo','AppleMyungjo','Batang',serif;
   --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   --math:'STIX Two Text','Times New Roman',serif;
@@ -25,16 +26,16 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
-    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A; color-scheme:dark;
+    --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A; --cyan-t:#4DC3EC; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --paper:#0F151D; --panel:#151D28; --ink:#E5EBF3; --muted:#98A5B6; --rule:#283445;
-  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A; color-scheme:dark;
+  --pink:#FF6FAE; --green:#5BD27D; --cyan:#4DC3EC; --amber:#F2B04A; --cyan-t:#4DC3EC; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
-a{color:var(--cyan)}
+a{color:var(--cyan-t)}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:center;padding:28px 0 40px}
@@ -183,7 +184,7 @@ footer strong{color:var(--ink);font-weight:500}
 <section aria-labelledby="how-h">
   <h2 id="how-h">사용법<span>how to use</span></h2>
   <div class="howto">
-    <div><h3>궤적 그리기</h3><p>위상 평면을 클릭하거나 탭하면 그 점을 초기 조건으로 하는 궤적이 실시간으로 그려집니다.</p></div>
+    <div><h3>궤적 그리기</h3><p>위상 평면을 클릭하거나 탭하면, 또는 그래프 아래 칸에 좌표를 입력하고 ‘궤적 추가’를 누르면 그 점을 초기 조건으로 하는 궤적이 실시간으로 그려집니다.</p></div>
     <div><h3>매개변수 바꾸기</h3><p>슬라이더와 선택 상자로 매개변수나 시험 함수를 바꾸면 벡터장과 배경 지도가 즉시 다시 계산됩니다.</p></div>
     <div><h3>글과 함께 읽기</h3><p>각 데모 옆의 설명은 강의의 흐름을 따릅니다. 중요한 용어에는 괄호 안에 영어 원어를 함께 적었습니다.</p></div>
   </div>
@@ -195,13 +196,13 @@ footer strong{color:var(--ink);font-weight:500}
     <li>스티븐 스트로가츠, 『<a href="https://www.acornpub.co.kr/product/%EB%B9%84%EC%84%A0%ED%98%95-%EB%8F%99%EC%97%AD%ED%95%99%EA%B3%BC-%EC%B9%B4%EC%98%A4%EC%8A%A4-2e/6061/category/25/display/1/" target="_blank" rel="noopener">비선형 동역학과 카오스 2/e</a>』 (에이콘출판사, 2025). 7장 「극한 주기 궤도」, 8장 「갈래치기 다시 보기」. 데모의 용어와 예제 번호는 이 번역서를 따랐습니다.</li>
     <li><a href="https://scholar.google.com/citations?user=FxyRWlcAAAAJ" target="_blank" rel="noopener">Steven H. Strogatz</a>, <i><a href="https://www.amazon.com/Nonlinear-Dynamics-Student-Solutions-Manual/dp/0813349109" target="_blank" rel="noopener">Nonlinear Dynamics and Chaos: 2nd Edition</a></i> (Westview Press, 2014). 원서.</li>
     <li>D. W. Jordan and P. Smith, <i>Nonlinear Ordinary Differential Equations</i>, 2nd ed. (Oxford University Press, 1987).</li>
-    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 소개한 위상 평면 도구.</li>
+    <li>Phase Plane Plotter, <a href="https://aeb019.hosted.uark.edu/pplane.html" target="_blank" rel="noopener">aeb019.hosted.uark.edu/pplane.html</a>. 강의에서 소개한 위상 평면 도구. (외부 사이트라 환경에 따라 접속이 거부(HTTP 403)될 수 있습니다. 열리지 않으면 이 페이지의 위상 평면 데모를 쓰거나 나중에 다시 시도해 주세요.)</li>
   </ol>
 </section>
 
 <footer>
   <p>제작: <strong>Claude Opus 5.5</strong>(Anthropic). 내용: <strong>경상국립대학교 물리학과 <a href="https://lshlj82.github.io/pi.html" target="_blank" rel="noopener">이상훈</a> 교수</strong> 강의노트 기반.</p>
-  <p>모든 계산은 브라우저에서 4차 룽게-쿠타(Runge–Kutta) 방법으로 이루어지며, 외부 라이브러리 없이 HTML, CSS, JavaScript만으로 작성되었습니다.</p>
+  <p>모든 계산은 브라우저에서 4차 룽게-쿠타(Runge–Kutta) 방법(위상 평면의 궤적은 오차를 제어하는 적응형 도르만-프린스 5(4) 방법)으로 이루어지며, 외부 라이브러리 없이 HTML, CSS, JavaScript만으로 작성되었습니다.</p>
 </footer>
 
 </div>
@@ -211,11 +212,16 @@ function cur(){return document.documentElement.getAttribute('data-theme')==='dar
 function show(){var m=cur();b.textContent=lab[m];b.setAttribute('aria-label','화면 모드: '+(m==='dark'?'다크':'라이트')+'. 누르면 '+(m==='dark'?'라이트':'다크')+' 모드로 바뀝니다.');}
 b.addEventListener('click',function(){var m=cur()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',m);try{localStorage.setItem('nld-theme',m);}catch(e){}show();});show();})();
 
+(function(){function mark(){document.querySelectorAll('.eq').forEach(function(el){var o=el.scrollWidth>el.clientWidth+1;
+  if(o){if(!el.hasAttribute('tabindex')){el.setAttribute('tabindex','0');el.setAttribute('role','region');el.setAttribute('aria-label','수식 (가로로 스크롤)');el.dataset.scrollFocus='1';}}
+  else if(el.dataset.scrollFocus){el.removeAttribute('tabindex');el.removeAttribute('role');el.removeAttribute('aria-label');delete el.dataset.scrollFocus;}});}
+var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(mark,150);});if(document.fonts&&document.fonts.ready)document.fonts.ready.then(mark);mark();})();
+
 </script>
 <script>
 /* cover: relaxation oscillation particles (same as the 7.3–7.5 demo) */
 (function(){'use strict';
-  const cv=document.getElementById('cover');if(!cv)return;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv=document.getElementById('cover');if(!cv)return;const RM=matchMedia('(prefers-reduced-motion: reduce)');let reduce=RM.matches;
   let C={};const hex=h=>{h=(h||'#000').trim().replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255];};
   const rgba=(h,a)=>{const[r,g,b]=hex(h);return`rgba(${r},${g},${b},${a})`;};
   function readTheme(){const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();C={pink:g('--pink'),cyan:g('--cyan'),amber:g('--amber')};}
@@ -233,13 +239,15 @@ b.addEventListener('click',function(){var m=cur()==='dark'?'light':'dark';docume
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',re);new MutationObserver(re).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   let vis=true;new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(cv);
   cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect(),x=(e.clientX-r.left-cx)/S,y=-(e.clientY-r.top-cy)/S;for(let i=0;i<60;i++)P.push(spawn(x+(Math.random()-.5)*.3,y+(Math.random()-.5)*.3));if(P.length>N+500)P.splice(0,P.length-(N+500));});
-  if(reduce)return;
-  (function frame(){requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+  let anim=false;function frame(){if(!anim)return;requestAnimationFrame(frame);if(!vis||!W)return;const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
     c.globalCompositeOperation='destination-out';c.fillStyle='rgba(0,0,0,0.06)';c.fillRect(0,0,W,H);if((window.__fadeTick=(window.__fadeTick||0)+1)%15===0){c.fillStyle='rgba(0,0,0,0.35)';c.fillRect(0,0,W,H);}c.globalCompositeOperation='source-over';nullcline(c,.05);
     c.lineWidth=1.4;c.lineCap='round';const pf=new Path2D(),ps=new Path2D();
     for(const p of P){const x0=p.x,y0=p.y;for(let k=0;k<4;k++)[p.x,p.y]=rk4(f,p.x,p.y,.005);p.age+=.02;(Math.abs(MU*(y0-Fc(x0)))>1?pf:ps).moveTo(cx+x0*S,cy-y0*S);(Math.abs(MU*(y0-Fc(x0)))>1?pf:ps).lineTo(cx+p.x*S,cy-p.y*S);}
     c.strokeStyle=rgba(C.pink,.85);c.stroke(pf);c.strokeStyle=rgba(C.cyan,.9);c.stroke(ps);
-    for(let i=0;i<P.length;i++){const p=P[i];if(p.age>p.life||Math.abs(p.x)>R*1.6||Math.abs(p.y)>R*1.6)P[i]=i<N?rand():null;}P=P.filter(Boolean);})();
+    for(let i=0;i<P.length;i++){const p=P[i];if(p.age>p.life||Math.abs(p.x)>R*1.6||Math.abs(p.y)>R*1.6)P[i]=i<N?rand():null;}P=P.filter(Boolean);}
+  /* follow the reduced-motion setting live: static picture when on, animation when off */
+  function go(){if(reduce){anim=false;if(W)staticDraw();}else if(!anim){if(W)cv.getContext('2d').clearRect(0,0,W,H);anim=true;frame();}}
+  if(RM.addEventListener)RM.addEventListener('change',e=>{reduce=e.matches;go();});go();
 })();
 </script>
 </body>
